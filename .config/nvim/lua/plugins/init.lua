@@ -36,4 +36,9 @@ require("lazy").setup("plugins.modules", {
     },
 })
 --theme
-vim.cmd[[colorscheme gruvbox-material]]
+-- vim.cmd[[colorscheme catppuccin  ]]
+-- vim.cmd[[colorscheme zengarden  ]]
+-- vim.cmd[[colorscheme pompeii  ]]
+-- vim.cmd[[colorscheme mellow  ]]
+-- Define a function to execute a random command
+

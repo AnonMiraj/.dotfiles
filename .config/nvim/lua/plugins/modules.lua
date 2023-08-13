@@ -3,24 +3,26 @@
 --
 -- See the kickstart.nvim README for more information
 return {
--- NOTE: First, some plugins that don't require any configuration
+  -- NOTE: First, some plugins that don't require any configuration
 
   -- Git related plugins
-  {'tpope/vim-fugitive',cmd = "Git"},
-  {'tpope/vim-rhubarb',cmd = "HBrowse"},
+  { 'tpope/vim-fugitive', cmd = "Git" },
+  { 'tpope/vim-rhubarb',  cmd = "HBrowse" },
 
   -- Detect tabstop and shiftwidth automatically
-  {'tpope/vim-sleuth',event = "BufRead"},
+  { 'tpope/vim-sleuth',   event = "BufRead" },
 
   -- Useful plugin to show you pending keybinds.
-  { 'folke/which-key.nvim',
+  {
+    'folke/which-key.nvim',
 
-    lazy=false,
-  opts = {} },
+    lazy = false,
+    opts = {}
+  },
   {
     -- Adds git related signs to the gutter, as well as utilities for managing changes
     'lewis6991/gitsigns.nvim',
-    ft ={ "gitcommit","diff"},
+    ft = { "gitcommit", "diff" },
     opts = {
       -- See `:help gitsigns.txt`
       signs = {
@@ -31,7 +33,8 @@ return {
         changedelete = { text = '~' },
       },
       on_attach = function(bufnr)
-        vim.keymap.set('n', '<leader>gp', require('gitsigns').prev_hunk, { buffer = bufnr, desc = '[G]o to [P]revious Hunk' })
+        vim.keymap.set('n', '<leader>gp', require('gitsigns').prev_hunk,
+          { buffer = bufnr, desc = '[G]o to [P]revious Hunk' })
         vim.keymap.set('n', '<leader>gn', require('gitsigns').next_hunk, { buffer = bufnr, desc = '[G]o to [N]ext Hunk' })
         vim.keymap.set('n', '<leader>ph', require('gitsigns').preview_hunk, { buffer = bufnr, desc = '[P]review [H]unk' })
       end,
@@ -42,7 +45,7 @@ return {
   {
     -- Set lualine as statusline
     'nvim-lualine/lualine.nvim',
-    lazy=false,
+    lazy = false,
     -- See `:help lualine.txt`
     opts = {
       options = {
@@ -68,10 +71,12 @@ return {
   },
 
   -- "gc" to comment visual regions/lines
-  { 'numToStr/Comment.nvim',
+  {
+    'numToStr/Comment.nvim',
 
     event = "BufRead",
-  opts = {} },
+    opts = {}
+  },
   {
     'mbbill/undotree',
     cmd = 'UndotreeToggle',
@@ -79,14 +84,20 @@ return {
       vim.opt.undodir = os.getenv('HOME') .. '/.vim/undodir'
     end
   },
-    {
+  {
     "alec-gibson/nvim-tetris",
     cmd = { "Tetris" },
   },
 
 
-    --themes 
-  { "sainnhe/gruvbox-material", lazy = false,  priority = 1000 },
-  { "folke/tokyonight.nvim", lazy = false,  priority = 1000 }
+  --themes
+  { "sainnhe/gruvbox-material", lazy = false, priority = 1000 },
+  { "folke/tokyonight.nvim",    lazy = false, priority = 1000 },
+  { "adigitoleo/vim-mellow",    lazy = false, priority = 1000 },
+  { "rose-pine/neovim",    lazy = false, priority = 1000 },
+  { "catppuccin/nvim",    lazy = false, priority = 1000 },
+  { "ivanhernandez/pompeii",    lazy = false, priority = 1000 },
+  { "tobi-wan-kenobi/zengarden",    lazy = false, priority = 1000 },
+  { "maxmx03/solarized.nvim",    lazy = false, priority = 1000 },
 
 }
