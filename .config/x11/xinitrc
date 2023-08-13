@@ -1,0 +1,41 @@
+#!/bin/sh
+
+# xinitrc runs automatically when you run startx.
+
+# There are some small but important commands that need to be run when we start
+# the graphical environment. There is a link to this file in ~/.xprofile
+# because that file is run automatically if someone uses a display manager
+# (login screen) and so they are needed there. To prevent doubling up commands,
+# I source them here with the line below.
+
+if [ -f "${XDG_CONFIG_HOME:-$HOME/.config}/x11/xprofile" ]; then
+	. "${XDG_CONFIG_HOME:-$HOME/.config}/x11/xprofile"
+else
+	. "$HOME/.xprofile"
+fi
+# Fcitx
+# https://wiki.archlinux.org/index.php/Fcitx
+find_fcitx() {
+	for cmd in fcitx5 fcitx; do
+		command -v "$cmd" && return
+	done
+}
+if [ -n "${fcitx:=$(find_fcitx)}" ]; then
+	# Define the environment variables to register the input method modules.
+	export GTK_IM_MODULE=fcitx
+	export QT_IM_MODULE=fcitx
+	export XMODIFIERS=@im=fcitx
+	setxkbmap -model pc104 \
+		  -layout us \
+		  -variant altgr-intl \
+		  -option terminate:ctrl_alt_bksp,caps:escape
+	"$fcitx" -dr &
+else
+	setxkbmap -model pc104 \
+		  -layout us,ar \
+		  -variant altgr-intl,winkeys \
+		  -option terminate:ctrl_alt_bksp,caps:escape,grp:win_space_toggle
+fi
+
+
+ssh-agent dwm
