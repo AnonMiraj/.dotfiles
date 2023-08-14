@@ -1,4 +1,4 @@
-# Dotfiles for ajatters
+# Dotfiles
 
 
 Configuration files and scripts I use in my computing.
