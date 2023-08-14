@@ -85,24 +85,7 @@ function M.options()
     pattern = '*',
   })
   vim.o.background = "light"
--- Execute the random command function when Neovim starts
--- Function to get a random element from a table
 
--- List of available color schemes
-local color_schemes = {
-      "catppuccin",
-      "zengarden",
-      "pompeii",
-      "mellow",
-      "rose-pine"
-
-   -- Add more color schemes here
-}
-
--- Set the chosen color scheme
--- print("colorscheme " .. random_color_scheme)
-
--- vim.cmd[[colorscheme rose-pine  ]]
 end
 
 function M.commands()

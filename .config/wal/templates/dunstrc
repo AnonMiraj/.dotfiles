@@ -28,8 +28,8 @@
 
     # The geometry of the window:
     # Notice: default height of the i3bar is 21 pixels.
-    width = 320
-    height = 1000
+    width = 370
+    height = 350
     origin = top-right
     offset = 0x21
 
@@ -41,7 +41,7 @@
     shrink = no
 
     # The transparency of the window.  Range: [0; 100].
-    transparency = 0
+    transparency = 25
 
     # The height of the entire notification.  If the height is smaller
     # than the font height and padding combined, it will be raised
@@ -214,19 +214,19 @@
 [urgency_low]
     background = "{color0}" # color0
     foreground = "{color8}" # color8
-    frame_color = "#222d32"
+    frame_color = "{color15}" # color15
     timeout = 5
 
 [urgency_normal]
     foreground = "{color15}" # color15
     background = "{color4}" # color4
-    frame_color = "#75dbe1"
+    frame_color = "{color0}" # color0
     timeout = 10
 
 [urgency_critical]
     background = "{color1}" # color1
     foreground = "{color15}" # color15
-    frame_color = "#d64e4e"
+    frame_color = "{color8}" # color8
     timeout = 0
     icon = /usr/share/icons/Papirus/16x16/emblems/emblem-error.svg
 

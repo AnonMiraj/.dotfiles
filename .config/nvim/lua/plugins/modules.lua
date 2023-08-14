@@ -99,5 +99,13 @@ return {
   { "ivanhernandez/pompeii",    lazy = false, priority = 1000 },
   { "tobi-wan-kenobi/zengarden",    lazy = false, priority = 1000 },
   { "maxmx03/solarized.nvim",    lazy = false, priority = 1000 },
+  { "sainnhe/everforest",    lazy = false, priority = 1000 },
+  { "olimorris/onedarkpro.nvim",    lazy = false, priority = 1000 },
+  { "rebelot/kanagawa.nvim",    lazy = false, priority = 1000 },
+  { "rafi/awesome-vim-colorschemes",    lazy = false, priority = 1000 },
+  { "savq/melange-nvim",    lazy = false, priority = 1000 },
+  { "nlknguyen/papercolor-theme",    lazy = false, priority = 1000 },
+  { "sainnhe/edge",    lazy = false, priority = 1000 },
+  { "mofiqul/vscode.nvim",    lazy = false, priority = 1000 },
 
 }
