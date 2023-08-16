@@ -324,7 +324,7 @@ myanimelist() {
 	"$BROWSER" "https://myanimelist.net/search/all?q=$*"
 }
 transmission(){
-  transmission-remote -a "$*" && notify-send "🔽 Torrent added."
+  transadd "$*" 
 }
 
 # Download a streamable video through Tor

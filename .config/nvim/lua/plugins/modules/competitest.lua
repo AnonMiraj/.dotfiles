@@ -5,6 +5,13 @@ local M =
   ft = "cpp",
   -- cmd = "Competitest",
   -- key = "<leader>cr",
+  keys={
+  {'n', 'crc', '<cmd>CompetiTest receive contest <CR>', { desc = 'receive contest' }},
+  {'n', 'crp', '<cmd>CompetiTest receive problem <CR>', { desc = 'receive problem' }},
+  {'n', 'cra', '<cmd>CompetiTest add_testcase <CR>', { desc = 'add testcase' }},
+  {'n', 'cre', '<cmd>CompetiTest edit_testcase <CR>', { desc = 'edit testcase' }},
+  {'n', 'crr', '<cmd>CompetiTest run <CR>', { desc = 'run code' }}
+  },
   dependencies = {
     -- format & linting
     {
@@ -19,11 +26,6 @@ local M =
 }
 
 function M.init()
-  vim.keymap.set('n', '<leader>crc', '<cmd>CompetiTest receive contest <CR>', { desc = 'receive contest' })
-  vim.keymap.set('n', '<leader>crp', '<cmd>CompetiTest receive problem <CR>', { desc = 'receive problem' })
-  vim.keymap.set('n', '<leader>cra', '<cmd>CompetiTest add_testcase <CR>', { desc = 'add testcase' })
-  vim.keymap.set('n', '<leader>cre', '<cmd>CompetiTest edit_testcase <CR>', { desc = 'edit testcase' })
-  vim.keymap.set('n', '<leader>crr', '<cmd>CompetiTest run <CR>', { desc = 'run code' })
   -- judge="$(JUDGE)",
 end
 
