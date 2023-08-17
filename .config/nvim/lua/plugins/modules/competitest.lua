@@ -6,11 +6,11 @@ local M =
   -- cmd = "Competitest",
   -- key = "<leader>cr",
   keys={
-  {'n', 'crc', '<cmd>CompetiTest receive contest <CR>', { desc = 'receive contest' }},
-  {'n', 'crp', '<cmd>CompetiTest receive problem <CR>', { desc = 'receive problem' }},
-  {'n', 'cra', '<cmd>CompetiTest add_testcase <CR>', { desc = 'add testcase' }},
-  {'n', 'cre', '<cmd>CompetiTest edit_testcase <CR>', { desc = 'edit testcase' }},
-  {'n', 'crr', '<cmd>CompetiTest run <CR>', { desc = 'run code' }}
+  { 'crc', '<cmd>CompetiTest receive contest <CR>', { desc = 'receive contest' }},
+  { 'crp', '<cmd>CompetiTest receive problem <CR>', { desc = 'receive problem' }},
+  { 'cra', '<cmd>CompetiTest add_testcase <CR>', { desc = 'add testcase' }},
+  { 'cre', '<cmd>CompetiTest edit_testcase <CR>', { desc = 'edit testcase' }},
+  { 'crr', '<cmd>CompetiTest run <CR>', { desc = 'run code' }}
   },
   dependencies = {
     -- format & linting

@@ -3,7 +3,7 @@ function M.init()
   vim.keymap.set('n', '<leader>b', '<CMD>tabnew<CR>', { desc = "New buffer" })
   vim.keymap.set('n', '<tab>', '<CMD>BufferLineCycleNext<CR>', {})
   vim.keymap.set('n', '<S-tab>', '<CMD>BufferLineCyclePrev<CR>', {})
-  vim.keymap.set('n', '<leader>x', '<CMD>BufferLineCloseOthers<CR>', { desc = "Close buffer" })
+  vim.keymap.set('n', '<leader>x', '<CMD>BufferLinePickClose<CR>', { desc = "Close buffer" })
   vim.keymap.set('n', '<leader>p', '<CMD>BufferLinePick<CR>', { desc = "pick buffer" })
 end
 

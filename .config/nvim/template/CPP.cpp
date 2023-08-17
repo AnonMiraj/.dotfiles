@@ -1,4 +1,3 @@
-// Problem: $(PROBLEM)
 // Contest: $(CONTEST)
 // Judge: $(JUDGE)
 // URL: $(URL)
