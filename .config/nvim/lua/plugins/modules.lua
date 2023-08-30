@@ -77,6 +77,7 @@ return {
     event = "BufRead",
     opts = {}
   },
+ 
   {
     'mbbill/undotree',
     cmd = 'UndotreeToggle',
@@ -87,6 +88,16 @@ return {
   {
     "alec-gibson/nvim-tetris",
     cmd = { "Tetris" },
+  },
+
+  {
+    'iamcco/markdown-preview.nvim',
+    build = function() vim.fn['mkdp#util#install']() end,
+    config = function() vim.g.mkdp_filetypes = { 'markdown' } end,
+    ft = { 'markdown' },
+    keys = {
+      { '<leader>P', '<Plug>MarkdownPreviewToggle', desc = '[P]review markdown in the browser' }
+    }
   },
 
 

@@ -9,7 +9,7 @@ xbacklight -set 10
 
 setbg Downloads/Wallpaper/    # set the background with the `setbg` script
 
-autostart="mpd xcompmgr dunst unclutter pipewire remapd"
+autostart="mpd xcompmgr dunst unclutter pipewire remapd safeeyes"
 
 for program in $autostart; do
 	pidof -s "$program" || "$program" &
