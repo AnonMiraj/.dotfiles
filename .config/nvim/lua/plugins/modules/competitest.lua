@@ -1,6 +1,6 @@
 local M =
 {
-  "AnonMiraj/competitest.nvim",
+  "xeluxee/competitest.nvim",
   --a Neovim plugin to automate testcases management and checking for Competitive Programming
   ft = "cpp",
   -- cmd = "Competitest",
@@ -31,9 +31,8 @@ end
 
 function M.config()
   require('competitest').setup {
-    received_problems_path = "$(HOME)/library/Competitive Programming/$(JUDGE)/$(CONTEST)/$(PROBLEM).$(FEXT)",
-
-    received_contests_directory = "$(HOME)/library/Competitive Programming/$(JUDGE)/$(CONTEST)",
+    received_problems_path = "$(HOME)/Competitive Programming/$(JUDGE)/$(CONTEST)/$(PROBLEM).$(FEXT)",
+    received_contests_directory = "$(HOME)/Competitive Programming/$(JUDGE)/$(CONTEST)",
     received_contests_problems_path = "$(PROBLEM).$(FEXT)",
     received_problems_prompt_path = false,
     testcases_use_single_file = true,
