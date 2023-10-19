@@ -34,6 +34,7 @@ alias \
 # Colorize commands when possible.
 alias \
 	ls="lsd -h --color=auto --group-directories-first" \
+	cat="bat" \
 	grep="grep --color=auto" \
 	diff="diff --color=auto" \
 	ccat="highlight --out-format=ansi" \

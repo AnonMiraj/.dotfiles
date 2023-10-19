@@ -210,14 +210,14 @@ static const Key keys[] = {
 	{ MODKEY,			XK_Return,	spawn,		{.v = termcmd } },
 	{ MODKEY|ShiftMask,		XK_Return,	togglescratch,	{.ui = 0} },
 
-	{ MODKEY,			XK_z,		incrgaps,	{.i = +3 } },
-	/* { MODKEY|ShiftMask,		XK_z,		spawn,		SHCMD("") }, */
-	{ MODKEY,			XK_x,		incrgaps,	{.i = -3 } },
-	/* { MODKEY|ShiftMask,		XK_x,		spawn,		SHCMD("") }, */
+	{ MODKEY|ShiftMask,			XK_z,		incrgaps,	{.i = +3 } },
+  
+	{ MODKEY|ShiftMask,			XK_x,		incrgaps,	{.i = -3 } },
 	// { MODKEY,			XK_c,		spawn,		{.v = (const char*[]){ TERMINAL, "-e", "profanity", NULL } } },
-	{ MODKEY,			XK_e,		spawn,		{.v = (const char*[]){ TERMINAL, "-e", "profanity", NULL } } },
-	/* { MODKEY|ShiftMask,		XK_c,		spawn,		SHCMD("") }, */
 
+	{ MODKEY,			XK_z,		spawn,          SHCMD("amespick")},
+	{ MODKEY,			XK_x,		spawn,       SHCMD("transformers_ocr hold") },
+	{ MODKEY,			XK_e,		spawn,       SHCMD("transformers_ocr recognize") },
 	{ MODKEY,			XK_c,		spawn,          {.v = (const char*[]){ "cabl", NULL } } },
 	{ MODKEY|ShiftMask,			XK_c,		spawn,          {.v = (const char*[]){ "cabl","clip", NULL } } },
 	/* V is automatically bound above in STACKKEYS */

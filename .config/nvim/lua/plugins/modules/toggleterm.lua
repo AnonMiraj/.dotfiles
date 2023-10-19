@@ -1,11 +1,12 @@
 local M = {
     "akinsho/nvim-toggleterm.lua",
-    cmd = { "ToggleExec", "ToggleTerm",  "TermFloat", "TermBottom", "TermRight" },
+    cmd = { "ToggleExec", "ToggleTerm",  "TermFloat", "TermBottom", "TermRight","TermExec" },
 }
 
 function M.init()
     vim.keymap.set({ "n", "i", "v", "t", "x" }, "<F1>", "<nop>")
     vim.keymap.set({ "n", "v" }, "<F1>", "<cmd>TermFloat<cr>")
+    vim.keymap.set({ "n", "v" }, "<F2>", "<cmd>TermExec cmd=\"!!\"<cr>")
     vim.keymap.set({ "n", "v" }, "<C-_>", "<cmd>TermBottom<cr>")
 
     local function set_terminal_keymaps()

@@ -77,7 +77,7 @@ return {
     event = "BufRead",
     opts = {}
   },
- 
+
   {
     'mbbill/undotree',
     cmd = 'UndotreeToggle',
@@ -102,21 +102,21 @@ return {
 
 
   --themes
-  { "sainnhe/gruvbox-material", lazy = false, priority = 1000 },
-  { "folke/tokyonight.nvim",    lazy = false, priority = 1000 },
-  { "adigitoleo/vim-mellow",    lazy = false, priority = 1000 },
-  { "rose-pine/neovim",    lazy = false, priority = 1000 },
-  { "catppuccin/nvim",    lazy = false, priority = 1000 },
-  { "ivanhernandez/pompeii",    lazy = false, priority = 1000 },
-  { "tobi-wan-kenobi/zengarden",    lazy = false, priority = 1000 },
-  { "maxmx03/solarized.nvim",    lazy = false, priority = 1000 },
-  { "sainnhe/everforest",    lazy = false, priority = 1000 },
-  { "olimorris/onedarkpro.nvim",    lazy = false, priority = 1000 },
-  { "rebelot/kanagawa.nvim",    lazy = false, priority = 1000 },
-  { "rafi/awesome-vim-colorschemes",    lazy = false, priority = 1000 },
-  { "savq/melange-nvim",    lazy = false, priority = 1000 },
+  { "sainnhe/gruvbox-material",      lazy = false, priority = 1000 },
+  { "folke/tokyonight.nvim",         lazy = false, priority = 1000 },
+  { "adigitoleo/vim-mellow",         lazy = false, priority = 1000 },
+  { "rose-pine/neovim",              lazy = false, priority = 1000 },
+  { "catppuccin/nvim",               lazy = false, priority = 1000 },
+  { "ivanhernandez/pompeii",         lazy = false, priority = 1000 },
+  { "tobi-wan-kenobi/zengarden",     lazy = false, priority = 1000 },
+  { "maxmx03/solarized.nvim",        lazy = false, priority = 1000 },
+  { "sainnhe/everforest",            lazy = false, priority = 1000 },
+  { "olimorris/onedarkpro.nvim",     lazy = false, priority = 1000 },
+  { "rebelot/kanagawa.nvim",         lazy = false, priority = 1000 },
+  { "rafi/awesome-vim-colorschemes", lazy = false, priority = 1000 },
+  { "savq/melange-nvim",             lazy = false, priority = 1000 },
   { "nlknguyen/papercolor-theme",    lazy = false, priority = 1000 },
-  { "sainnhe/edge",    lazy = false, priority = 1000 },
-  { "mofiqul/vscode.nvim",    lazy = false, priority = 1000 },
+  { "sainnhe/edge",                  lazy = false, priority = 1000 },
+  { "mofiqul/vscode.nvim",           lazy = false, priority = 1000 },
 
 }

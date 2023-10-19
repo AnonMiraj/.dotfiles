@@ -77,6 +77,15 @@ cmd extract ${{
 	[ $ans = "y" ] && 7z x $fx
 }}
 
+cmd compress ${{
+	clear; tput cup $(($(tput lines)/3)); tput bold
+	set -f
+	printf "%s\n\t" "$fx"
+	printf "zip?[y/N]"
+	read ans
+	[ $ans = "y" ] && zip -r $fx $fx
+}}
+
 cmd delete ${{
 	clear; tput cup $(($(tput lines)/3)); tput bold
 	set -f
@@ -120,6 +129,7 @@ map gh
 map g top
 map D delete
 map E extract
+map <c-z> compress
 map C copyto
 map M moveto
 map <c-n> push :mkdir<space>
