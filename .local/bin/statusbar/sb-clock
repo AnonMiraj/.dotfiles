@@ -1,6 +1,6 @@
 #!/bin/sh
 
-clock=$(LC_TIME=ja_JP.UTF-8 date -d '+3 hours' '+%I')
+clock=$(LC_TIME=ja_JP.UTF-8 date -d '+2 hours' '+%I')
 
 case "$clock" in
     "00") icon="🕛" ;;

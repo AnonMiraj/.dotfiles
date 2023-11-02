@@ -68,3 +68,5 @@ alias \
  	genpasswd="openssl rand -base64 21" \
 alias \
   pom="tatsumato -d -t 20 -b 4 -l 8"\
+  opennewterm="st >/dev/null 2>&1 & disown"\
+
