@@ -26,5 +26,5 @@ case $BLOCK_BUTTON in
     6) "$TERMINAL" -e "$EDITOR" "$0" ;;
 esac
 
-LC_TIME=ja_JP.UTF-8 date -d '+3 hours' "+%Y年 %b %d日 (%a) $icon%I:%M%p"
+LC_TIME=ja_JP.UTF-8 date -d '+2 hours' "+%Y年 %b %d日 (%a) $icon%I:%M%p"
 
