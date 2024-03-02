@@ -1,29 +1,48 @@
 #!/bin/sh
 
 filter() {
-  sed "/^volume:/d;s/\\&/&amp;/g;s/\\[paused\\].*/⏸/g;/\\[playing\\].*/d;/^ERROR/Q" | paste -sd ' ' -
+	input="$(cat - | sed -e '/^volume:/d;' -e 's/ *$//')"
+	songname="$(echo "$input" | head -1)"
+
+	if [ -z "$songname" ]; then
+		echo " Stopped"
+		echo ""
+		echo "#888888"
+		return
+	fi
+
+	if echo "$input" | tail -1 | grep -q 'playing'; then
+		echo " $songname"
+		echo " $songname" | colrm 30
+	else
+		echo "<span color=\"gray\" font_style=\"italic\"> $songname</span>"
+		echo "<span color=\"gray\" font_style=\"italic\">$(echo " $songname" | colrm 30)</span>"
+	fi
 }
 
-filter2() {
-  sed -e '1d;$d' -e 's/\[playing\]/ /' -e 's/\[paused\]/ /' -e 's/#\([0-9]\+\/[0-9]\+\)//' -e 's/ \+/ /g' | paste -sd ' ' -
-}
-# filter2() {
-  # sed -e '1d;$d' -e 's/\[playing\]/\ /' -e 's/\[paused\]/\ /' -e 's/#\([0-9]\+\/[0-9]\+\)//' -e 's/ //g' | paste -sd ' ' -
-# }
-pidof -x sb-mpdup >/dev/null 2>&1 || sb-mpdup >/dev/null 2>&1 &
+{ pidof -x sb-mpdup || setsid -f sb-mpdup; } >/dev/null 2>&1 &
 
 case $BLOCK_BUTTON in
-  1) mpc status | filter2 ; setsid -f "$TERMINAL" -e ncmpcpp ;;  # right click, pause/unpause
-  2) mpc toggle | filter ;;  # right click, pause/unpause
-  3) current_song="$(mpc current)"
-   mpc status | filter ; notify-send "🎵 Music module" "Now playing: $current_song
-- ⏸  when paused.
-- Left click opens ncmpcpp.
-- Middle click pauses.
-- Scroll changes track." ;;
-  4) mpc prev | filter ;;  # scroll up, previous
-  5) mpc next | filter ;;  # scroll down, next
-  6) mpc status | filter2 ; "$TERMINAL" -e "$EDITOR" "$0" ;;
-  *) mpc status | filter2 ;;
-esac
+1) # left click, launch ncmpcpp
+	mpc status | filter
+	i3-msg -q exec "i3-sensible-terminal -e ncmpcpp -s playlist"
+	;;
 
+3) # right click, pause/unpause
+	mpc toggle | filter ;;
+
+4) # scroll up, previous
+	mpc prev | filter ;;
+
+5) # scroll down, next
+	mpc next | filter ;;
+
+6) # edit
+	mpc status | filter
+	i3-msg -q exec "i3-sensible-terminal -e \"$EDITOR -- $0\""
+	;;
+
+*)
+	mpc status | filter
+	;;
+esac

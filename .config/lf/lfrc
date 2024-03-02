@@ -90,9 +90,9 @@ cmd delete ${{
 	clear; tput cup $(($(tput lines)/3)); tput bold
 	set -f
 	printf "%s\n\t" "$fx"
-	printf "delete?[y/N]"
+	printf "trash?[y/N]"
 	read ans
-	[ $ans = "y" ] && rm -rf -- $fx
+	[ $ans = "y" ] && trash-put -rf -- $fx
 }}
 
 cmd moveto ${{

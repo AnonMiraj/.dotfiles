@@ -68,7 +68,7 @@ vim.api.nvim_set_keymap('n', '<F6>', ':lua PrevColor()<CR>', { noremap = true, s
 vim.api.nvim_set_keymap('n', '<F7>', ':lua Toggle_theme()<CR>' , { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<F8>', ':lua NextColor()<CR>', { noremap = true, silent = true })
 
-
+require'colorizer'.setup()
 function NextColor()
   CurrentCommandIndex = (CurrentCommandIndex % #commands) + 1
   vim.cmd(commands[CurrentCommandIndex])

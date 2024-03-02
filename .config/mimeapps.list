@@ -22,3 +22,5 @@ x-scheme-handler/unknown=librewolf.desktop
 [Added Associations]
 text/html=librewolf.desktop;
 application/octet-stream=librewolf.desktop;
+text/x-c++src=org.xfce.mousepad.desktop;
+application/json=librewolf.desktop;

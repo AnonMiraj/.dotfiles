@@ -12,7 +12,7 @@ static char *font =
     // "Lateef-Regular:pixelsize=15:antialias=true:autohint=true"};
 static char *font2[] = {
 "Noto Sans Mono CJK JP:pixelsize=15:antialias=true:autohint=true",
-"Lateef-Regular:pixelsize=15:antialias=true:autohint=true" ,
+"NotoSansArabic-Regular:pixelsize=15:antialias=true:autohint=true" ,
 "JetBrainsMono Nerd Font :pixelsize=15:antialias=true:autohint=true"};
 static int borderpx = 1;
 

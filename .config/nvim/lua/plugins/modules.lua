@@ -99,8 +99,17 @@ return {
       { '<leader>P', '<Plug>MarkdownPreviewToggle', desc = '[P]review markdown in the browser' }
     }
   },
+  {
+    "Pocco81/auto-save.nvim",
+    event = "BufRead",
+    config = function()
+      require("auto-save").setup()
+    end,
+    vim.api.nvim_set_keymap("n", "<leader>n", ":ASToggle<CR>", {})
+  },
 
 
+  { 'norcalli/nvim-colorizer.lua',   ft = "scss" },
   --themes
   { "sainnhe/gruvbox-material",      lazy = false, priority = 1000 },
   { "folke/tokyonight.nvim",         lazy = false, priority = 1000 },

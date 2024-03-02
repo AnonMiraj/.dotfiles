@@ -1,12 +1,15 @@
 #!/bin/sh
 
 # xinitrc runs automatically when you run startx.
-
+:
 # There are some small but important commands that need to be run when we start
 # the graphical environment. There is a link to this file in ~/.xprofile
 # because that file is run automatically if someone uses a display manager
 # (login screen) and so they are needed there. To prevent doubling up commands,
 # I source them here with the line below.
+
+
+
 
 if [ -f "${XDG_CONFIG_HOME:-$HOME/.config}/x11/xprofile" ]; then
 	. "${XDG_CONFIG_HOME:-$HOME/.config}/x11/xprofile"
@@ -37,5 +40,11 @@ else
 		  -option terminate:ctrl_alt_bksp,caps:escape,grp:win_space_toggle
 fi
 
+session=${1:-dwm}
 
-ssh-agent dwm
+case $session in
+    i3|i3wm           ) exec i3;;
+    dwm               ) ssh-agent dwm;;
+    # No known session, try to run it as command
+    *                 ) exec $1;;
+esac

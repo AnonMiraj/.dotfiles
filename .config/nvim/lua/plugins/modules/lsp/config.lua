@@ -50,10 +50,11 @@ vim.keymap.set('n', '<leader>ra', '<cmd>Lspsaga  rename <CR>',{desc ="LSP rename
 local servers = {
   clangd = {},
   -- gopls = {},
-  -- pyright = {},
-  rust_analyzer = {},
+  pylsp = {},
+  -- rust_analyzer = {},
+  -- kotlin_language_server = {},
   -- tsserver = {},
-  -- html = { filetypes = { 'html', 'twig', 'hbs'} },
+  html = { filetypes = { 'html', 'twig', 'hbs'} },
 
   lua_ls = {
     Lua = {
@@ -62,6 +63,8 @@ local servers = {
     },
   },
 }
+
+
 -- Setup neovim lua configuration
 require('neodev').setup()
 
@@ -86,3 +89,19 @@ mason_lspconfig.setup_handlers {
     }
   end
 }
+ require'lspconfig'.pylsp.setup{
+   settings = {
+     pylsp = {
+       plugins = {
+         pycodestyle = {
+           maxLineLength = 125
+         },
+         pylint = {
+          args="--errors-only",
+         enabled=true
+         }
+       }
+     }
+   }
+ }
+

@@ -20,5 +20,5 @@ local M =  {
   function M.config()
     require "plugins.modules.lsp.config"
     require("fidget").setup { window = { blend = 0 } }
-end
+   end
 return M
