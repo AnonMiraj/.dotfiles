@@ -1,0 +1,3 @@
+media-video/pipewire sound-server extra pipewire-alsa man
+media-sound/pulseaudio -daemon
+

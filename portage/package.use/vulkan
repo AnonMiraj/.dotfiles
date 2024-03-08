@@ -1,0 +1,15 @@
+dev-util/vulkan-tools abi_x86_32
+media-libs/vulkan-layers abi_x86_32
+media-libs/vulkan-loader abi_x86_32 layers
+
+
+# required by vulkan-layers else dependency conflict
+dev-util/spirv-tools abi_x86_32
+dev-util/glslang abi_x86_32
+
+# required by media-libs/vulkan-layers-1.3.268::gentoo
+# required by media-libs/vulkan-loader-1.3.268::gentoo[layers]
+# required by dev-util/vulkan-tools-1.3.268::gentoo
+# required by @selected
+# required by @world (argument)
+>=dev-util/vulkan-utility-libraries-1.3.268 abi_x86_32

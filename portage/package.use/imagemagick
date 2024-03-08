@@ -1,0 +1,21 @@
+media-gfx/imagemagick svg xml
+
+# required by games-util/mangohud-0.7.0::guru[python_single_target_python3_11]
+# required by @selected
+# required by @world (argument)
+>=dev-python/pillow-10.1.0 webp
+# required by x11-libs/wxGTK-3.2.2.1-r3::gentoo
+# required by dev-python/wxpython-4.2.1::gentoo
+# required by games-util/mangohud-0.7.0::guru[python_single_target_python3_11]
+# required by @selected
+# required by @world (argument)
+>=dev-libs/libpcre2-10.42-r1 pcre32
+# required by virtual/imagemagick-tools-0-r1::gentoo
+# required by games-util/mangohud-0.7.0::guru[python_single_target_python3_11]
+# required by @selected
+# required by @world (argument)
+>=media-gfx/imagemagick-7.1.1.18 svg
+# required by games-util/mangohud-0.7.0::guru[python_single_target_python3_11]
+# required by @selected
+# required by @world (argument)
+>=virtual/imagemagick-tools-0-r1 -svg

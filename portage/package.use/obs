@@ -1,0 +1,10 @@
+>=dev-libs/libdbusmenu-16.04.0-r2 gtk3
+# required by media-video/obs-studio-30.0.2::gentoo
+# required by obs-studio (argument)
+>=dev-qt/qtbase-6.6.2 xml
+# required by media-video/obs-studio-30.0.2::gentoo
+# required by obs-studio (argument)
+>=media-video/ffmpeg-6.1.1-r4 opus
+sys-apps/xdg-desktop-portal screencast
+media-video/obs-studio pipewire
+

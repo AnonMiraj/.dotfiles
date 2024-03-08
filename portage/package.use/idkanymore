@@ -1,0 +1,751 @@
+app-emulation/wine-staging -cups -unwind llvm-libunwind
+# required by x11-libs/libX11-1.8.7::gentoo
+# required by x11-libs/libXcursor-1.2.2::gentoo
+# required by media-libs/libsdl2-2.28.5-r1::gentoo[X]
+# required by media-video/ffmpeg-6.1.1-r4::gentoo[sdl]
+# required by media-video/pipewire-1.0.3::gentoo[ffmpeg]
+# required by media-libs/libpulse-17.0::gentoo
+# required by www-client/librewolf-122.0.1_p2::librewolf[pulseaudio]
+# required by @selected
+# required by @world (argument)
+# required by dev-libs/libayatana-appindicator-0.5.92::gentoo
+# required by gui-apps/waybar-0.9.24::gentoo[tray]
+# required by @selected
+# required by @world (argument)
+>=dev-libs/libdbusmenu-16.04.0-r2 gtk3
+# required by games-util/mangohud-0.7.1::guru
+# required by mangohud (argument)
+=media-libs/imgui-1.81-r1 abi_x86_32
+# required by media-libs/mesa-24.0.2::gentoo
+# required by virtual/opengl-7.0-r2::gentoo
+# required by x11-libs/wxGTK-3.2.2.1-r3::gentoo
+# required by dev-python/wxpython-4.2.1::gentoo
+# required by dev-python/matplotlib-3.8.3::gentoo[-test,python_targets_python3_11,-python_targets_python3_10,wxwidgets]
+# required by games-util/mangohud-0.7.1::guru[python_single_target_python3_11]
+# required by mangohud (argument)
+>=x11-libs/libdrm-2.4.120 abi_x86_32
+# required by media-libs/libsdl2-2.28.5-r1::gentoo[dbus]
+# required by x11-libs/wxGTK-3.2.2.1-r3::gentoo[sdl]
+# required by dev-python/wxpython-4.2.1::gentoo
+# required by dev-python/matplotlib-3.8.3::gentoo[-test,python_targets_python3_11,-python_targets_python3_10,wxwidgets]
+# required by games-util/mangohud-0.7.1::guru[python_single_target_python3_11]
+# required by mangohud (argument)
+>=sys-apps/dbus-1.15.8 abi_x86_32
+# required by x11-libs/libdrm-2.4.120::gentoo[video_cards_intel]
+# required by media-libs/gst-plugins-base-1.22.3::gentoo[egl,opengl,gles2]
+# required by dev-qt/qtmultimedia-5.15.12::gentoo[gstreamer]
+# required by dev-python/PyQt5-5.15.10-r1::gentoo[multimedia]
+# required by dev-python/matplotlib-3.8.3::gentoo[-python_targets_python3_12,-test,-python_targets_python3_10,qt5,python_targets_python3_11]
+# required by games-util/mangohud-0.7.1::guru[python_single_target_python3_11]
+# required by mangohud (argument)
+>=x11-libs/libpciaccess-0.18 abi_x86_32
+# required by sys-devel/llvm-17.0.6::gentoo
+# required by sys-libs/llvm-libunwind-17.0.6::gentoo
+# required by app-emulation/wine-vanilla-9.3::gentoo[unwind,llvm-libunwind]
+# required by virtual/wine-0-r10::gentoo
+# required by wine (argument)
+>=sys-libs/zlib-1.3.1-r1 abi_x86_32
+# required by media-libs/imgui-1.81-r1::guru
+# required by games-util/mangohud-0.7.1::guru
+# required by mangohud (argument)
+>=media-libs/glew-2.2.0-r1 abi_x86_32
+# required by media-libs/glew-2.2.0-r1::gentoo[-egl-only]
+# required by media-libs/imgui-1.81-r1::guru
+# required by games-util/mangohud-0.7.1::guru
+# required by mangohud (argument)
+>=x11-libs/libXi-1.8.1 abi_x86_32
+# required by media-libs/glew-2.2.0-r1::gentoo[-egl-only]
+# required by media-libs/imgui-1.81-r1::guru
+# required by games-util/mangohud-0.7.1::guru
+# required by mangohud (argument)
+>=x11-libs/libXmu-1.1.4 abi_x86_32
+# required by x11-libs/libXmu-1.1.4::gentoo
+# required by media-libs/glew-2.2.0-r1::gentoo[-egl-only]
+# required by media-libs/imgui-1.81-r1::guru
+# required by games-util/mangohud-0.7.1::guru
+# required by mangohud (argument)
+>=x11-libs/libXt-1.3.0 abi_x86_32
+# required by x11-libs/libSM-1.2.4::gentoo
+# required by x11-libs/wxGTK-3.2.2.1-r3::gentoo[X]
+# required by dev-python/wxpython-4.2.1::gentoo
+# required by dev-python/matplotlib-3.8.3::gentoo[-test,python_targets_python3_11,-python_targets_python3_10,wxwidgets]
+# required by games-util/mangohud-0.7.1::guru[python_single_target_python3_11]
+# required by mangohud (argument)
+>=x11-libs/libICE-1.1.1-r1 abi_x86_32
+# required by x11-libs/libXt-1.3.0::gentoo
+# required by sys-apps/dbus-1.15.8::gentoo[X]
+# required by dev-python/PyQt5-5.15.10-r1::gentoo[dbus]
+# required by dev-python/matplotlib-3.8.3::gentoo[-python_targets_python3_12,-test,-python_targets_python3_10,qt5,python_targets_python3_11]
+# required by games-util/mangohud-0.7.1::guru[python_single_target_python3_11]
+# required by mangohud (argument)
+>=x11-libs/libSM-1.2.4 abi_x86_32
+# required by sys-apps/systemd-utils-254.10::gentoo[udev]
+# required by virtual/libudev-251-r2::gentoo[-systemd]
+# required by app-emulation/wine-vanilla-9.3::gentoo[udev]
+# required by virtual/wine-0-r10::gentoo
+# required by wine (argument)
+>=sys-apps/util-linux-2.39.3-r2 abi_x86_32
+# required by media-libs/libsdl2-2.28.5-r1::gentoo[X]
+# required by x11-libs/wxGTK-3.2.2.1-r3::gentoo[sdl]
+# required by dev-python/wxpython-4.2.1::gentoo
+# required by dev-python/matplotlib-3.8.3::gentoo[-test,python_targets_python3_11,-python_targets_python3_10,wxwidgets]
+# required by games-util/mangohud-0.7.1::guru[python_single_target_python3_11]
+# required by mangohud (argument)
+>=x11-libs/libXfixes-6.0.1 abi_x86_32
+# required by dev-util/vulkan-tools-1.3.275::gentoo
+# required by vulkan-tools (argument)
+>=dev-util/volk-1.3.275 abi_x86_32
+# required by media-libs/libsdl2-2.28.5-r1::gentoo[X]
+# required by x11-libs/wxGTK-3.2.2.1-r3::gentoo[sdl]
+# required by dev-python/wxpython-4.2.1::gentoo
+# required by dev-python/matplotlib-3.8.3::gentoo[-test,python_targets_python3_11,-python_targets_python3_10,wxwidgets]
+# required by games-util/mangohud-0.7.1::guru[python_single_target_python3_11]
+# required by mangohud (argument)
+>=x11-libs/libXcursor-1.2.2 abi_x86_32
+# required by media-libs/mesa-24.0.2::gentoo[X]
+# required by virtual/opengl-7.0-r2::gentoo
+# required by x11-libs/wxGTK-3.2.2.1-r3::gentoo
+# required by dev-python/wxpython-4.2.1::gentoo
+# required by dev-python/matplotlib-3.8.3::gentoo[-test,python_targets_python3_11,-python_targets_python3_10,wxwidgets]
+# required by games-util/mangohud-0.7.1::guru[python_single_target_python3_11]
+# required by mangohud (argument)
+>=x11-libs/libXxf86vm-1.1.5 abi_x86_32
+# required by app-emulation/wine-vanilla-9.3::gentoo[xcomposite,X]
+# required by virtual/wine-0-r10::gentoo
+# required by wine (argument)
+>=x11-libs/libXcomposite-0.4.6 abi_x86_32
+# required by app-emulation/wine-vanilla-9.3::gentoo[cups]
+# required by virtual/wine-0-r10::gentoo
+# required by wine (argument)
+>=net-print/cups-2.4.7-r2 abi_x86_32
+# required by x11-libs/pango-1.51.0::gentoo
+# required by x11-libs/wxGTK-3.2.2.1-r3::gentoo[X]
+# required by dev-python/wxpython-4.2.1::gentoo
+# required by dev-python/matplotlib-3.8.3::gentoo[-test,python_targets_python3_11,-python_targets_python3_10,wxwidgets]
+# required by games-util/mangohud-0.7.1::guru[python_single_target_python3_11]
+# required by mangohud (argument)
+>=media-libs/fontconfig-2.15.0 abi_x86_32
+# required by app-emulation/wine-vanilla-9.3::gentoo[sdl]
+# required by virtual/wine-0-r10::gentoo
+# required by wine (argument)
+>=media-libs/libsdl2-2.28.5-r1 abi_x86_32
+# required by media-video/ffmpeg-6.1.1-r4::gentoo[gnutls,-openssl]
+# required by media-video/pipewire-1.0.3::gentoo[ffmpeg]
+# required by media-libs/libpulse-17.0::gentoo
+# required by dev-qt/qtmultimedia-5.15.12::gentoo[pulseaudio]
+# required by dev-python/PyQt5-5.15.10-r1::gentoo[multimedia]
+# required by dev-python/matplotlib-3.8.3::gentoo[-python_targets_python3_12,-test,-python_targets_python3_10,qt5,python_targets_python3_11]
+# required by games-util/mangohud-0.7.1::guru[python_single_target_python3_11]
+# required by mangohud (argument)
+>=net-libs/gnutls-3.8.3 abi_x86_32
+# required by x11-libs/cairo-1.18.0::gentoo
+# required by dev-python/cairocffi-1.6.1::gentoo[-test]
+# required by dev-python/matplotlib-3.8.3::gentoo[cairo,-test]
+# required by games-util/mangohud-0.7.1::guru[python_single_target_python3_11]
+# required by mangohud (argument)
+>=media-libs/freetype-2.13.2 abi_x86_32
+# required by media-video/pipewire-1.0.3::gentoo[pipewire-alsa]
+# required by media-libs/libpulse-17.0::gentoo
+# required by dev-qt/qtmultimedia-5.15.12::gentoo[pulseaudio]
+# required by dev-python/PyQt5-5.15.10-r1::gentoo[multimedia]
+# required by dev-python/matplotlib-3.8.3::gentoo[-python_targets_python3_12,-test,-python_targets_python3_10,qt5,python_targets_python3_11]
+# required by games-util/mangohud-0.7.1::guru[python_single_target_python3_11]
+# required by mangohud (argument)
+>=media-libs/alsa-lib-1.2.11 abi_x86_32
+# required by media-libs/libpulse-17.0::gentoo[glib]
+# required by dev-qt/qtmultimedia-5.15.12::gentoo[pulseaudio]
+# required by dev-python/PyQt5-5.15.10-r1::gentoo[multimedia]
+# required by dev-python/matplotlib-3.8.3::gentoo[-python_targets_python3_12,-test,-python_targets_python3_10,qt5,python_targets_python3_11]
+# required by games-util/mangohud-0.7.1::guru[python_single_target_python3_11]
+# required by mangohud (argument)
+>=dev-libs/glib-2.78.4-r1 abi_x86_32
+# required by app-emulation/wine-vanilla-9.3::gentoo[gstreamer]
+# required by virtual/wine-0-r10::gentoo
+# required by wine (argument)
+>=media-libs/gst-plugins-base-1.22.3 abi_x86_32
+# required by media-libs/gst-plugins-base-1.22.3::gentoo
+# required by dev-qt/qtmultimedia-5.15.12::gentoo[gstreamer]
+# required by dev-python/PyQt5-5.15.10-r1::gentoo[multimedia]
+# required by dev-python/matplotlib-3.8.3::gentoo[-python_targets_python3_12,-test,-python_targets_python3_10,qt5,python_targets_python3_11]
+# required by games-util/mangohud-0.7.1::guru[python_single_target_python3_11]
+# required by mangohud (argument)
+>=media-libs/gstreamer-1.22.3 abi_x86_32
+# required by media-plugins/gst-plugins-pulse-1.22.3::gentoo
+# required by media-plugins/gst-plugins-meta-1.20.6::gentoo[pulseaudio]
+# required by app-emulation/wine-vanilla-9.3::gentoo[gstreamer]
+# required by virtual/wine-0-r10::gentoo
+# required by wine (argument)
+>=media-libs/libpulse-17.0 abi_x86_32
+# required by app-emulation/wine-vanilla-9.3::gentoo[usb]
+# required by virtual/wine-0-r10::gentoo
+# required by wine (argument)
+>=dev-libs/libusb-1.0.27-r1 abi_x86_32
+# required by media-libs/libsdl2-2.28.5-r1::gentoo[wayland]
+# required by x11-libs/wxGTK-3.2.2.1-r3::gentoo[sdl]
+# required by dev-python/wxpython-4.2.1::gentoo
+# required by dev-python/matplotlib-3.8.3::gentoo[-test,python_targets_python3_11,-python_targets_python3_10,wxwidgets]
+# required by games-util/mangohud-0.7.1::guru[python_single_target_python3_11]
+# required by mangohud (argument)
+>=x11-libs/libxkbcommon-1.6.0 abi_x86_32
+# required by app-emulation/wine-vanilla-9.3::gentoo[gstreamer]
+# required by virtual/wine-0-r10::gentoo
+# required by wine (argument)
+>=media-plugins/gst-plugins-meta-1.20.6 abi_x86_32
+# required by media-plugins/gst-plugins-pulse-1.22.3::gentoo
+# required by media-plugins/gst-plugins-meta-1.20.6::gentoo[pulseaudio]
+# required by app-emulation/wine-vanilla-9.3::gentoo[gstreamer]
+# required by virtual/wine-0-r10::gentoo
+# required by wine (argument)
+>=media-libs/gst-plugins-good-1.22.3-r2 abi_x86_32
+# required by media-plugins/gst-plugins-meta-1.20.6::gentoo[-dvd,a52]
+# required by app-emulation/wine-vanilla-9.3::gentoo[gstreamer]
+# required by virtual/wine-0-r10::gentoo
+# required by wine (argument)
+>=media-plugins/gst-plugins-a52dec-1.22.3 abi_x86_32
+# required by media-plugins/gst-plugins-meta-1.20.6::gentoo[aac]
+# required by app-emulation/wine-vanilla-9.3::gentoo[gstreamer]
+# required by virtual/wine-0-r10::gentoo
+# required by wine (argument)
+>=media-plugins/gst-plugins-faad-1.22.3 abi_x86_32
+# required by media-plugins/gst-plugins-meta-1.20.6::gentoo[dts]
+# required by app-emulation/wine-vanilla-9.3::gentoo[gstreamer]
+# required by virtual/wine-0-r10::gentoo
+# required by wine (argument)
+>=media-plugins/gst-plugins-dts-1.22.3 abi_x86_32
+# required by media-plugins/gst-plugins-meta-1.20.6::gentoo[ffmpeg]
+# required by app-emulation/wine-vanilla-9.3::gentoo[gstreamer]
+# required by virtual/wine-0-r10::gentoo
+# required by wine (argument)
+>=media-plugins/gst-plugins-libav-1.22.3 abi_x86_32
+# required by media-plugins/gst-plugins-meta-1.20.6::gentoo[flac]
+# required by app-emulation/wine-vanilla-9.3::gentoo[gstreamer]
+# required by virtual/wine-0-r10::gentoo
+# required by wine (argument)
+>=media-plugins/gst-plugins-flac-1.22.3 abi_x86_32
+# required by media-plugins/gst-plugins-meta-1.20.6::gentoo[-dvd,mp3]
+# required by app-emulation/wine-vanilla-9.3::gentoo[gstreamer]
+# required by virtual/wine-0-r10::gentoo
+# required by wine (argument)
+>=media-libs/gst-plugins-ugly-1.22.3 abi_x86_32
+# required by media-plugins/gst-plugins-meta-1.20.6::gentoo[mp3]
+# required by app-emulation/wine-vanilla-9.3::gentoo[gstreamer]
+# required by virtual/wine-0-r10::gentoo
+# required by wine (argument)
+>=media-plugins/gst-plugins-mpg123-1.22.3-r2 abi_x86_32
+# required by media-plugins/gst-plugins-meta-1.20.6::gentoo[-dvd,-vcd,mpeg]
+# required by app-emulation/wine-vanilla-9.3::gentoo[gstreamer]
+# required by virtual/wine-0-r10::gentoo
+# required by wine (argument)
+>=media-plugins/gst-plugins-mpeg2dec-1.22.3 abi_x86_32
+# required by media-plugins/gst-plugins-meta-1.20.6::gentoo[pulseaudio]
+# required by app-emulation/wine-vanilla-9.3::gentoo[gstreamer]
+# required by virtual/wine-0-r10::gentoo
+# required by wine (argument)
+>=media-plugins/gst-plugins-pulse-1.22.3 abi_x86_32
+# required by media-plugins/gst-plugins-meta-1.20.6::gentoo[vaapi]
+# required by app-emulation/wine-vanilla-9.3::gentoo[gstreamer]
+# required by virtual/wine-0-r10::gentoo
+# required by wine (argument)
+>=media-plugins/gst-plugins-vaapi-1.22.3-r1 abi_x86_32
+# required by media-plugins/gst-plugins-meta-1.20.6::gentoo[x264]
+# required by app-emulation/wine-vanilla-9.3::gentoo[gstreamer]
+# required by virtual/wine-0-r10::gentoo
+# required by wine (argument)
+>=media-plugins/gst-plugins-x264-1.22.3 abi_x86_32
+# required by media-video/ffmpeg-6.1.1-r4::gentoo[encode,x264]
+# required by media-video/pipewire-1.0.3::gentoo[ffmpeg]
+# required by media-libs/libpulse-17.0::gentoo
+# required by dev-qt/qtmultimedia-5.15.12::gentoo[pulseaudio]
+# required by dev-python/PyQt5-5.15.10-r1::gentoo[multimedia]
+# required by dev-python/matplotlib-3.8.3::gentoo[-python_targets_python3_12,-test,-python_targets_python3_10,qt5,python_targets_python3_11]
+# required by games-util/mangohud-0.7.1::guru[python_single_target_python3_11]
+# required by mangohud (argument)
+>=media-libs/x264-0.0.20231114-r1 abi_x86_32
+# required by media-plugins/gst-plugins-dts-1.22.3::gentoo
+# required by media-plugins/gst-plugins-meta-1.20.6::gentoo[dts]
+# required by app-emulation/wine-vanilla-9.3::gentoo[gstreamer]
+# required by virtual/wine-0-r10::gentoo
+# required by wine (argument)
+>=media-libs/gst-plugins-bad-1.22.3-r3 abi_x86_32
+# required by media-video/ffmpeg-6.1.1-r4::gentoo[vaapi]
+# required by media-video/pipewire-1.0.3::gentoo[ffmpeg]
+# required by media-libs/libpulse-17.0::gentoo
+# required by dev-qt/qtmultimedia-5.15.12::gentoo[pulseaudio]
+# required by dev-python/PyQt5-5.15.10-r1::gentoo[multimedia]
+# required by dev-python/matplotlib-3.8.3::gentoo[-python_targets_python3_12,-test,-python_targets_python3_10,qt5,python_targets_python3_11]
+# required by games-util/mangohud-0.7.1::guru[python_single_target_python3_11]
+# required by mangohud (argument)
+>=media-libs/libva-2.20.0 abi_x86_32
+# required by media-libs/libsdl2-2.28.5-r1::gentoo[wayland]
+# required by x11-libs/wxGTK-3.2.2.1-r3::gentoo[sdl]
+# required by dev-python/wxpython-4.2.1::gentoo
+# required by dev-python/matplotlib-3.8.3::gentoo[-test,python_targets_python3_11,-python_targets_python3_10,wxwidgets]
+# required by games-util/mangohud-0.7.1::guru[python_single_target_python3_11]
+# required by mangohud (argument)
+>=media-libs/mesa-24.0.2 abi_x86_32
+# required by media-libs/fontconfig-2.15.0::gentoo
+# required by x11-libs/wxGTK-3.2.2.1-r3::gentoo[X]
+# required by dev-python/wxpython-4.2.1::gentoo
+# required by dev-python/matplotlib-3.8.3::gentoo[-test,python_targets_python3_11,-python_targets_python3_10,wxwidgets]
+# required by games-util/mangohud-0.7.1::guru[python_single_target_python3_11]
+# required by mangohud (argument)
+>=dev-libs/expat-2.6.1 abi_x86_32
+# required by media-libs/mesa-24.0.2::gentoo[llvm,llvm_slot_17]
+# required by virtual/opengl-7.0-r2::gentoo
+# required by x11-libs/wxGTK-3.2.2.1-r3::gentoo
+# required by dev-python/wxpython-4.2.1::gentoo
+# required by dev-python/matplotlib-3.8.3::gentoo[-test,python_targets_python3_11,-python_targets_python3_10,wxwidgets]
+# required by games-util/mangohud-0.7.1::guru[python_single_target_python3_11]
+# required by mangohud (argument)
+>=sys-devel/llvm-17.0.6 abi_x86_32
+# required by media-libs/mesa-24.0.2::gentoo[vdpau]
+# required by virtual/opengl-7.0-r2::gentoo
+# required by x11-libs/wxGTK-3.2.2.1-r3::gentoo
+# required by dev-python/wxpython-4.2.1::gentoo
+# required by dev-python/matplotlib-3.8.3::gentoo[-test,python_targets_python3_11,-python_targets_python3_10,wxwidgets]
+# required by games-util/mangohud-0.7.1::guru[python_single_target_python3_11]
+# required by mangohud (argument)
+>=x11-libs/libvdpau-1.5 abi_x86_32
+# required by media-libs/mesa-24.0.2::gentoo[X]
+# required by virtual/opengl-7.0-r2::gentoo
+# required by x11-libs/wxGTK-3.2.2.1-r3::gentoo
+# required by dev-python/wxpython-4.2.1::gentoo
+# required by dev-python/matplotlib-3.8.3::gentoo[-test,python_targets_python3_11,-python_targets_python3_10,wxwidgets]
+# required by games-util/mangohud-0.7.1::guru[python_single_target_python3_11]
+# required by mangohud (argument)
+>=x11-libs/libxshmfence-1.3.2 abi_x86_32
+# required by media-libs/tiff-4.6.0::gentoo[zstd]
+# required by x11-libs/wxGTK-3.2.2.1-r3::gentoo[X,tiff]
+# required by dev-python/wxpython-4.2.1::gentoo
+# required by dev-python/matplotlib-3.8.3::gentoo[-test,python_targets_python3_11,-python_targets_python3_10,wxwidgets]
+# required by games-util/mangohud-0.7.1::guru[python_single_target_python3_11]
+# required by mangohud (argument)
+>=app-arch/zstd-1.5.5-r1 abi_x86_32
+# required by sys-devel/llvm-17.0.6::gentoo[ncurses]
+# required by sys-libs/llvm-libunwind-17.0.6::gentoo
+# required by app-emulation/wine-vanilla-9.3::gentoo[unwind,llvm-libunwind]
+# required by virtual/wine-0-r10::gentoo
+# required by wine (argument)
+>=sys-libs/ncurses-6.4_p20230401 abi_x86_32
+# required by sys-libs/ncurses-6.4_p20230401::gentoo[gpm]
+# required by sys-apps/util-linux-2.39.3-r2::gentoo[ncurses]
+# required by sys-apps/systemd-utils-254.10::gentoo[udev]
+# required by virtual/libudev-251-r2::gentoo[-systemd]
+# required by app-emulation/wine-vanilla-9.3::gentoo[udev]
+# required by virtual/wine-0-r10::gentoo
+# required by wine (argument)
+>=sys-libs/gpm-1.20.7-r6 abi_x86_32
+# required by media-video/ffmpeg-6.1.1-r4::gentoo[bzip2]
+# required by media-video/pipewire-1.0.3::gentoo[ffmpeg]
+# required by media-libs/libpulse-17.0::gentoo
+# required by dev-qt/qtmultimedia-5.15.12::gentoo[pulseaudio]
+# required by dev-python/PyQt5-5.15.10-r1::gentoo[multimedia]
+# required by dev-python/matplotlib-3.8.3::gentoo[-python_targets_python3_12,-test,-python_targets_python3_10,qt5,python_targets_python3_11]
+# required by games-util/mangohud-0.7.1::guru[python_single_target_python3_11]
+# required by mangohud (argument)
+>=app-arch/bzip2-1.0.8-r5 abi_x86_32
+# required by media-plugins/gst-plugins-dts-1.22.3::gentoo[orc]
+# required by media-plugins/gst-plugins-meta-1.20.6::gentoo[dts]
+# required by app-emulation/wine-vanilla-9.3::gentoo[gstreamer]
+# required by virtual/wine-0-r10::gentoo
+# required by wine (argument)
+>=dev-lang/orc-0.4.34 abi_x86_32
+# required by media-plugins/gst-plugins-mpeg2dec-1.22.3::gentoo
+# required by media-plugins/gst-plugins-meta-1.20.6::gentoo[-dvd,-vcd,mpeg]
+# required by app-emulation/wine-vanilla-9.3::gentoo[gstreamer]
+# required by virtual/wine-0-r10::gentoo
+# required by wine (argument)
+>=media-libs/libmpeg2-0.5.1-r3 abi_x86_32
+# required by media-plugins/gst-plugins-mpg123-1.22.3-r2::gentoo
+# required by media-plugins/gst-plugins-meta-1.20.6::gentoo[mp3]
+# required by app-emulation/wine-vanilla-9.3::gentoo[gstreamer]
+# required by virtual/wine-0-r10::gentoo
+# required by wine (argument)
+>=media-sound/mpg123-base-1.32.3 abi_x86_32
+# required by media-plugins/gst-plugins-flac-1.22.3::gentoo
+# required by media-plugins/gst-plugins-meta-1.20.6::gentoo[flac]
+# required by app-emulation/wine-vanilla-9.3::gentoo[gstreamer]
+# required by virtual/wine-0-r10::gentoo
+# required by wine (argument)
+>=media-libs/flac-1.4.3 abi_x86_32
+# required by media-libs/libvorbis-1.3.7-r1::gentoo
+# required by media-libs/gst-plugins-base-1.22.3::gentoo[vorbis]
+# required by dev-qt/qtmultimedia-5.15.12::gentoo[gstreamer]
+# required by dev-python/PyQt5-5.15.10-r1::gentoo[multimedia]
+# required by dev-python/matplotlib-3.8.3::gentoo[-python_targets_python3_12,-test,-python_targets_python3_10,qt5,python_targets_python3_11]
+# required by games-util/mangohud-0.7.1::guru[python_single_target_python3_11]
+# required by mangohud (argument)
+>=media-libs/libogg-1.3.5-r1 abi_x86_32
+# required by media-plugins/gst-plugins-libav-1.22.3::gentoo
+# required by media-plugins/gst-plugins-meta-1.20.6::gentoo[ffmpeg]
+# required by app-emulation/wine-vanilla-9.3::gentoo[gstreamer]
+# required by virtual/wine-0-r10::gentoo
+# required by wine (argument)
+>=media-video/ffmpeg-6.1.1-r4 abi_x86_32
+# required by media-video/ffmpeg-6.1.1-r4::gentoo[dav1d]
+# required by media-video/pipewire-1.0.3::gentoo[ffmpeg]
+# required by media-libs/libpulse-17.0::gentoo
+# required by dev-qt/qtmultimedia-5.15.12::gentoo[pulseaudio]
+# required by dev-python/PyQt5-5.15.10-r1::gentoo[multimedia]
+# required by dev-python/matplotlib-3.8.3::gentoo[-python_targets_python3_12,-test,-python_targets_python3_10,qt5,python_targets_python3_11]
+# required by games-util/mangohud-0.7.1::guru[python_single_target_python3_11]
+# required by mangohud (argument)
+>=media-libs/dav1d-1.3.0 abi_x86_32
+# required by media-video/ffmpeg-6.1.1-r4::gentoo[encode,mp3]
+# required by media-video/pipewire-1.0.3::gentoo[ffmpeg]
+# required by media-libs/libpulse-17.0::gentoo
+# required by dev-qt/qtmultimedia-5.15.12::gentoo[pulseaudio]
+# required by dev-python/PyQt5-5.15.10-r1::gentoo[multimedia]
+# required by dev-python/matplotlib-3.8.3::gentoo[-python_targets_python3_12,-test,-python_targets_python3_10,qt5,python_targets_python3_11]
+# required by games-util/mangohud-0.7.1::guru[python_single_target_python3_11]
+# required by mangohud (argument)
+>=media-sound/lame-3.100-r3 abi_x86_32
+# required by media-video/ffmpeg-6.1.1-r4::gentoo[encode,xvid]
+# required by media-video/pipewire-1.0.3::gentoo[ffmpeg]
+# required by media-libs/libpulse-17.0::gentoo
+# required by dev-qt/qtmultimedia-5.15.12::gentoo[pulseaudio]
+# required by dev-python/PyQt5-5.15.10-r1::gentoo[multimedia]
+# required by dev-python/matplotlib-3.8.3::gentoo[-python_targets_python3_12,-test,-python_targets_python3_10,qt5,python_targets_python3_11]
+# required by games-util/mangohud-0.7.1::guru[python_single_target_python3_11]
+# required by mangohud (argument)
+>=media-libs/xvid-1.3.7-r1 abi_x86_32
+# required by media-video/ffmpeg-6.1.1-r4::gentoo[lcms]
+# required by media-video/pipewire-1.0.3::gentoo[ffmpeg]
+# required by media-libs/libpulse-17.0::gentoo
+# required by dev-qt/qtmultimedia-5.15.12::gentoo[pulseaudio]
+# required by dev-python/PyQt5-5.15.10-r1::gentoo[multimedia]
+# required by dev-python/matplotlib-3.8.3::gentoo[-python_targets_python3_12,-test,-python_targets_python3_10,qt5,python_targets_python3_11]
+# required by games-util/mangohud-0.7.1::guru[python_single_target_python3_11]
+# required by mangohud (argument)
+>=media-libs/lcms-2.16 abi_x86_32
+# required by media-video/ffmpeg-6.1.1-r4::gentoo[opus]
+# required by media-video/pipewire-1.0.3::gentoo[ffmpeg]
+# required by media-libs/libpulse-17.0::gentoo
+# required by dev-qt/qtmultimedia-5.15.12::gentoo[pulseaudio]
+# required by dev-python/PyQt5-5.15.10-r1::gentoo[multimedia]
+# required by dev-python/matplotlib-3.8.3::gentoo[-python_targets_python3_12,-test,-python_targets_python3_10,qt5,python_targets_python3_11]
+# required by games-util/mangohud-0.7.1::guru[python_single_target_python3_11]
+# required by mangohud (argument)
+>=media-libs/opus-1.4 abi_x86_32
+# required by media-video/ffmpeg-6.1.1-r4::gentoo[svg]
+# required by media-video/pipewire-1.0.3::gentoo[ffmpeg]
+# required by media-libs/libpulse-17.0::gentoo
+# required by dev-qt/qtmultimedia-5.15.12::gentoo[pulseaudio]
+# required by dev-python/PyQt5-5.15.10-r1::gentoo[multimedia]
+# required by dev-python/matplotlib-3.8.3::gentoo[-python_targets_python3_12,-test,-python_targets_python3_10,qt5,python_targets_python3_11]
+# required by games-util/mangohud-0.7.1::guru[python_single_target_python3_11]
+# required by mangohud (argument)
+>=gnome-base/librsvg-2.57.0 abi_x86_32
+# required by gnome-base/librsvg-2.57.0::gentoo
+# required by media-video/ffmpeg-6.1.1-r4::gentoo[svg]
+# required by media-video/pipewire-1.0.3::gentoo[ffmpeg]
+# required by media-libs/libpulse-17.0::gentoo
+# required by dev-qt/qtmultimedia-5.15.12::gentoo[pulseaudio]
+# required by dev-python/PyQt5-5.15.10-r1::gentoo[multimedia]
+# required by dev-python/matplotlib-3.8.3::gentoo[-python_targets_python3_12,-test,-python_targets_python3_10,qt5,python_targets_python3_11]
+# required by games-util/mangohud-0.7.1::guru[python_single_target_python3_11]
+# required by mangohud (argument)
+>=x11-libs/cairo-1.18.0 abi_x86_32
+# required by x11-libs/pango-1.51.0::gentoo
+# required by x11-libs/wxGTK-3.2.2.1-r3::gentoo[X]
+# required by dev-python/wxpython-4.2.1::gentoo
+# required by dev-python/matplotlib-3.8.3::gentoo[-test,python_targets_python3_11,-python_targets_python3_10,wxwidgets]
+# required by games-util/mangohud-0.7.1::guru[python_single_target_python3_11]
+# required by mangohud (argument)
+>=media-libs/harfbuzz-8.3.0 abi_x86_32
+# required by media-video/ffmpeg-6.1.1-r4::gentoo[vorbis]
+# required by media-video/pipewire-1.0.3::gentoo[ffmpeg]
+# required by media-libs/libpulse-17.0::gentoo
+# required by dev-qt/qtmultimedia-5.15.12::gentoo[pulseaudio]
+# required by dev-python/PyQt5-5.15.10-r1::gentoo[multimedia]
+# required by dev-python/matplotlib-3.8.3::gentoo[-python_targets_python3_12,-test,-python_targets_python3_10,qt5,python_targets_python3_11]
+# required by games-util/mangohud-0.7.1::guru[python_single_target_python3_11]
+# required by mangohud (argument)
+>=media-libs/libvorbis-1.3.7-r1 abi_x86_32
+# required by media-libs/gst-plugins-base-1.22.3::gentoo[X]
+# required by dev-qt/qtmultimedia-5.15.12::gentoo[gstreamer]
+# required by dev-python/PyQt5-5.15.10-r1::gentoo[multimedia]
+# required by dev-python/matplotlib-3.8.3::gentoo[-python_targets_python3_12,-test,-python_targets_python3_10,qt5,python_targets_python3_11]
+# required by games-util/mangohud-0.7.1::guru[python_single_target_python3_11]
+# required by mangohud (argument)
+>=x11-libs/libXv-1.0.12 abi_x86_32
+# required by media-libs/harfbuzz-8.3.0::gentoo[graphite]
+# required by x11-libs/pango-1.51.0::gentoo
+# required by x11-libs/wxGTK-3.2.2.1-r3::gentoo[X]
+# required by dev-python/wxpython-4.2.1::gentoo
+# required by dev-python/matplotlib-3.8.3::gentoo[-test,python_targets_python3_11,-python_targets_python3_10,wxwidgets]
+# required by games-util/mangohud-0.7.1::guru[python_single_target_python3_11]
+# required by mangohud (argument)
+>=media-gfx/graphite2-1.3.14_p20210810-r3 abi_x86_32
+# required by dev-libs/libxml2-2.12.5::gentoo[icu]
+# required by x11-libs/libxkbcommon-1.6.0::gentoo
+# required by media-libs/libsdl2-2.28.5-r1::gentoo[wayland]
+# required by x11-libs/wxGTK-3.2.2.1-r3::gentoo[sdl]
+# required by dev-python/wxpython-4.2.1::gentoo
+# required by dev-python/matplotlib-3.8.3::gentoo[-test,python_targets_python3_11,-python_targets_python3_10,wxwidgets]
+# required by games-util/mangohud-0.7.1::guru[python_single_target_python3_11]
+# required by mangohud (argument)
+>=dev-libs/icu-74.2 abi_x86_32
+# required by x11-libs/cairo-1.18.0::gentoo
+# required by dev-python/cairocffi-1.6.1::gentoo[-test]
+# required by dev-python/matplotlib-3.8.3::gentoo[cairo,-test]
+# required by games-util/mangohud-0.7.1::guru[python_single_target_python3_11]
+# required by mangohud (argument)
+>=dev-libs/lzo-2.10 abi_x86_32
+# required by media-libs/freetype-2.13.2::gentoo[png]
+# required by dev-python/matplotlib-3.8.3::gentoo[-test]
+# required by games-util/mangohud-0.7.1::guru[python_single_target_python3_11]
+# required by mangohud (argument)
+>=media-libs/libpng-1.6.43 abi_x86_32
+# required by x11-libs/cairo-1.18.0::gentoo
+# required by dev-python/cairocffi-1.6.1::gentoo[-test]
+# required by dev-python/matplotlib-3.8.3::gentoo[cairo,-test]
+# required by games-util/mangohud-0.7.1::guru[python_single_target_python3_11]
+# required by mangohud (argument)
+>=x11-libs/pixman-0.43.4 abi_x86_32
+# required by gnome-base/librsvg-2.57.0::gentoo
+# required by media-video/ffmpeg-6.1.1-r4::gentoo[svg]
+# required by media-video/pipewire-1.0.3::gentoo[ffmpeg]
+# required by media-libs/libpulse-17.0::gentoo
+# required by dev-qt/qtmultimedia-5.15.12::gentoo[pulseaudio]
+# required by dev-python/PyQt5-5.15.10-r1::gentoo[multimedia]
+# required by dev-python/matplotlib-3.8.3::gentoo[-python_targets_python3_12,-test,-python_targets_python3_10,qt5,python_targets_python3_11]
+# required by games-util/mangohud-0.7.1::guru[python_single_target_python3_11]
+# required by mangohud (argument)
+>=x11-libs/gdk-pixbuf-2.42.10-r1 abi_x86_32
+# required by gnome-base/librsvg-2.57.0::gentoo
+# required by media-video/ffmpeg-6.1.1-r4::gentoo[svg]
+# required by media-video/pipewire-1.0.3::gentoo[ffmpeg]
+# required by media-libs/libpulse-17.0::gentoo
+# required by dev-qt/qtmultimedia-5.15.12::gentoo[pulseaudio]
+# required by dev-python/PyQt5-5.15.10-r1::gentoo[multimedia]
+# required by dev-python/matplotlib-3.8.3::gentoo[-python_targets_python3_12,-test,-python_targets_python3_10,qt5,python_targets_python3_11]
+# required by games-util/mangohud-0.7.1::guru[python_single_target_python3_11]
+# required by mangohud (argument)
+>=dev-libs/libxml2-2.12.5 abi_x86_32
+# required by gnome-base/librsvg-2.57.0::gentoo
+# required by media-video/ffmpeg-6.1.1-r4::gentoo[svg]
+# required by media-video/pipewire-1.0.3::gentoo[ffmpeg]
+# required by media-libs/libpulse-17.0::gentoo
+# required by dev-qt/qtmultimedia-5.15.12::gentoo[pulseaudio]
+# required by dev-python/PyQt5-5.15.10-r1::gentoo[multimedia]
+# required by dev-python/matplotlib-3.8.3::gentoo[-python_targets_python3_12,-test,-python_targets_python3_10,qt5,python_targets_python3_11]
+# required by games-util/mangohud-0.7.1::guru[python_single_target_python3_11]
+# required by mangohud (argument)
+>=x11-libs/pango-1.51.0 abi_x86_32
+# required by x11-libs/pango-1.51.0::gentoo
+# required by x11-libs/wxGTK-3.2.2.1-r3::gentoo[X]
+# required by dev-python/wxpython-4.2.1::gentoo
+# required by dev-python/matplotlib-3.8.3::gentoo[-test,python_targets_python3_11,-python_targets_python3_10,wxwidgets]
+# required by games-util/mangohud-0.7.1::guru[python_single_target_python3_11]
+# required by mangohud (argument)
+>=dev-libs/fribidi-1.0.13 abi_x86_32
+# required by x11-libs/pango-1.51.0::gentoo[X]
+# required by x11-libs/wxGTK-3.2.2.1-r3::gentoo[X]
+# required by dev-python/wxpython-4.2.1::gentoo
+# required by dev-python/matplotlib-3.8.3::gentoo[-test,python_targets_python3_11,-python_targets_python3_10,wxwidgets]
+# required by games-util/mangohud-0.7.1::guru[python_single_target_python3_11]
+# required by mangohud (argument)
+>=x11-libs/libXft-2.3.8 abi_x86_32
+# required by media-libs/gst-plugins-base-1.22.3::gentoo[opengl,gles2]
+# required by dev-qt/qtmultimedia-5.15.12::gentoo[gstreamer]
+# required by dev-python/PyQt5-5.15.10-r1::gentoo[multimedia]
+# required by dev-python/matplotlib-3.8.3::gentoo[-python_targets_python3_12,-test,-python_targets_python3_10,qt5,python_targets_python3_11]
+# required by games-util/mangohud-0.7.1::guru[python_single_target_python3_11]
+# required by mangohud (argument)
+>=media-libs/libjpeg-turbo-3.0.2 abi_x86_32
+# required by media-libs/lcms-2.16::gentoo[tiff]
+# required by media-video/ffmpeg-6.1.1-r4::gentoo[lcms]
+# required by media-video/pipewire-1.0.3::gentoo[ffmpeg]
+# required by media-libs/libpulse-17.0::gentoo
+# required by dev-qt/qtmultimedia-5.15.12::gentoo[pulseaudio]
+# required by dev-python/PyQt5-5.15.10-r1::gentoo[multimedia]
+# required by dev-python/matplotlib-3.8.3::gentoo[-python_targets_python3_12,-test,-python_targets_python3_10,qt5,python_targets_python3_11]
+# required by games-util/mangohud-0.7.1::guru[python_single_target_python3_11]
+# required by mangohud (argument)
+>=media-libs/tiff-4.6.0 abi_x86_32
+# required by media-plugins/gst-plugins-dts-1.22.3::gentoo
+# required by media-plugins/gst-plugins-meta-1.20.6::gentoo[dts]
+# required by app-emulation/wine-vanilla-9.3::gentoo[gstreamer]
+# required by virtual/wine-0-r10::gentoo
+# required by wine (argument)
+>=media-libs/libdca-0.0.7 abi_x86_32
+# required by media-plugins/gst-plugins-faad-1.22.3::gentoo
+# required by media-plugins/gst-plugins-meta-1.20.6::gentoo[aac]
+# required by app-emulation/wine-vanilla-9.3::gentoo[gstreamer]
+# required by virtual/wine-0-r10::gentoo
+# required by wine (argument)
+>=media-libs/faad2-2.11.1 abi_x86_32
+# required by media-plugins/gst-plugins-a52dec-1.22.3::gentoo
+# required by media-plugins/gst-plugins-meta-1.20.6::gentoo[-dvd,a52]
+# required by app-emulation/wine-vanilla-9.3::gentoo[gstreamer]
+# required by virtual/wine-0-r10::gentoo
+# required by wine (argument)
+>=media-libs/a52dec-0.7.4-r8 abi_x86_32
+# required by media-libs/libpulse-17.0::gentoo
+# required by dev-qt/qtmultimedia-5.15.12::gentoo[pulseaudio]
+# required by dev-python/PyQt5-5.15.10-r1::gentoo[multimedia]
+# required by dev-python/matplotlib-3.8.3::gentoo[-python_targets_python3_12,-test,-python_targets_python3_10,qt5,python_targets_python3_11]
+# required by games-util/mangohud-0.7.1::guru[python_single_target_python3_11]
+# required by mangohud (argument)
+>=media-libs/libsndfile-1.2.2-r2 abi_x86_32
+# required by media-libs/libpulse-17.0::gentoo[asyncns]
+# required by dev-qt/qtmultimedia-5.15.12::gentoo[pulseaudio]
+# required by dev-python/PyQt5-5.15.10-r1::gentoo[multimedia]
+# required by dev-python/matplotlib-3.8.3::gentoo[-python_targets_python3_12,-test,-python_targets_python3_10,qt5,python_targets_python3_11]
+# required by games-util/mangohud-0.7.1::guru[python_single_target_python3_11]
+# required by mangohud (argument)
+>=net-libs/libasyncns-0.8-r4 abi_x86_32
+# required by sys-apps/systemd-utils-254.10::gentoo[udev]
+# required by virtual/libudev-251-r2::gentoo[-systemd]
+# required by sys-apps/util-linux-2.39.3-r2::gentoo
+# required by media-libs/fontconfig-2.15.0::gentoo
+# required by x11-libs/wxGTK-3.2.2.1-r3::gentoo[X]
+# required by dev-python/wxpython-4.2.1::gentoo
+# required by dev-python/matplotlib-3.8.3::gentoo[-test,python_targets_python3_11,-python_targets_python3_10,wxwidgets]
+# required by games-util/mangohud-0.7.1::guru[python_single_target_python3_11]
+# required by mangohud (argument)
+>=sys-libs/libcap-2.69-r1 abi_x86_32
+# required by sys-libs/libcap-2.69-r1::gentoo[pam]
+# required by sys-apps/systemd-utils-254.10::gentoo[udev]
+# required by virtual/libudev-251-r2::gentoo[-systemd]
+# required by sys-apps/util-linux-2.39.3-r2::gentoo
+# required by media-libs/fontconfig-2.15.0::gentoo
+# required by x11-libs/wxGTK-3.2.2.1-r3::gentoo[X]
+# required by dev-python/wxpython-4.2.1::gentoo
+# required by dev-python/matplotlib-3.8.3::gentoo[-test,python_targets_python3_11,-python_targets_python3_10,wxwidgets]
+# required by games-util/mangohud-0.7.1::guru[python_single_target_python3_11]
+# required by mangohud (argument)
+>=sys-libs/pam-1.5.3-r1 abi_x86_32
+# required by media-libs/gst-plugins-base-1.22.3::gentoo[opengl,gles2]
+# required by dev-qt/qtmultimedia-5.15.12::gentoo[gstreamer]
+# required by dev-python/PyQt5-5.15.10-r1::gentoo[multimedia]
+# required by dev-python/matplotlib-3.8.3::gentoo[-python_targets_python3_12,-test,-python_targets_python3_10,qt5,python_targets_python3_11]
+# required by games-util/mangohud-0.7.1::guru[python_single_target_python3_11]
+# required by mangohud (argument)
+>=media-libs/graphene-1.10.8 abi_x86_32
+# required by dev-libs/glib-2.78.4-r1::gentoo
+# required by dev-qt/qtmultimedia-5.15.12::gentoo[gstreamer]
+# required by dev-python/PyQt5-5.15.10-r1::gentoo[multimedia]
+# required by dev-python/matplotlib-3.8.3::gentoo[-python_targets_python3_12,-test,-python_targets_python3_10,qt5,python_targets_python3_11]
+# required by games-util/mangohud-0.7.1::guru[python_single_target_python3_11]
+# required by mangohud (argument)
+>=dev-libs/libpcre2-10.43 abi_x86_32
+# required by net-libs/gnutls-3.8.3::gentoo
+# required by net-print/cups-2.4.7-r2::gentoo[-openssl]
+# required by dev-qt/qtprintsupport-5.15.12::gentoo[cups]
+# required by dev-python/PyQt5-5.15.10-r1::gentoo[printsupport]
+# required by dev-python/matplotlib-3.8.3::gentoo[-python_targets_python3_12,-test,-python_targets_python3_10,qt5,python_targets_python3_11]
+# required by games-util/mangohud-0.7.1::guru[python_single_target_python3_11]
+# required by mangohud (argument)
+>=dev-libs/libtasn1-4.19.0 abi_x86_32
+# required by net-libs/gnutls-3.8.3::gentoo
+# required by net-print/cups-2.4.7-r2::gentoo[-openssl]
+# required by dev-qt/qtprintsupport-5.15.12::gentoo[cups]
+# required by dev-python/PyQt5-5.15.10-r1::gentoo[printsupport]
+# required by dev-python/matplotlib-3.8.3::gentoo[-python_targets_python3_12,-test,-python_targets_python3_10,qt5,python_targets_python3_11]
+# required by games-util/mangohud-0.7.1::guru[python_single_target_python3_11]
+# required by mangohud (argument)
+>=dev-libs/libunistring-1.2 abi_x86_32
+# required by net-libs/gnutls-3.8.3::gentoo
+# required by net-print/cups-2.4.7-r2::gentoo[-openssl]
+# required by dev-qt/qtprintsupport-5.15.12::gentoo[cups]
+# required by dev-python/PyQt5-5.15.10-r1::gentoo[printsupport]
+# required by dev-python/matplotlib-3.8.3::gentoo[-python_targets_python3_12,-test,-python_targets_python3_10,qt5,python_targets_python3_11]
+# required by games-util/mangohud-0.7.1::guru[python_single_target_python3_11]
+# required by mangohud (argument)
+>=dev-libs/nettle-3.9.1 abi_x86_32
+# required by dev-libs/nettle-3.9.1::gentoo[gmp]
+# required by net-libs/gnutls-3.8.3::gentoo
+# required by net-print/cups-2.4.7-r2::gentoo[-openssl]
+# required by dev-qt/qtprintsupport-5.15.12::gentoo[cups]
+# required by dev-python/PyQt5-5.15.10-r1::gentoo[printsupport]
+# required by dev-python/matplotlib-3.8.3::gentoo[-python_targets_python3_12,-test,-python_targets_python3_10,qt5,python_targets_python3_11]
+# required by games-util/mangohud-0.7.1::guru[python_single_target_python3_11]
+# required by mangohud (argument)
+>=dev-libs/gmp-6.3.0-r1 abi_x86_32
+# required by net-libs/gnutls-3.8.3::gentoo[idn]
+# required by net-print/cups-2.4.7-r2::gentoo[-openssl]
+# required by dev-qt/qtprintsupport-5.15.12::gentoo[cups]
+# required by dev-python/PyQt5-5.15.10-r1::gentoo[printsupport]
+# required by dev-python/matplotlib-3.8.3::gentoo[-python_targets_python3_12,-test,-python_targets_python3_10,qt5,python_targets_python3_11]
+# required by games-util/mangohud-0.7.1::guru[python_single_target_python3_11]
+# required by mangohud (argument)
+>=net-dns/libidn2-2.3.7 abi_x86_32
+# required by media-libs/libsdl2-2.28.5-r1::gentoo[pipewire]
+# required by x11-libs/wxGTK-3.2.2.1-r3::gentoo[sdl]
+# required by dev-python/wxpython-4.2.1::gentoo
+# required by dev-python/matplotlib-3.8.3::gentoo[-test,python_targets_python3_11,-python_targets_python3_10,wxwidgets]
+# required by games-util/mangohud-0.7.1::guru[python_single_target_python3_11]
+# required by mangohud (argument)
+>=media-video/pipewire-1.0.3 abi_x86_32
+# required by dev-libs/glib-2.78.4-r1::gentoo
+# required by dev-qt/qtmultimedia-5.15.12::gentoo[gstreamer]
+# required by dev-python/PyQt5-5.15.10-r1::gentoo[multimedia]
+# required by dev-python/matplotlib-3.8.3::gentoo[-python_targets_python3_12,-test,-python_targets_python3_10,qt5,python_targets_python3_11]
+# required by games-util/mangohud-0.7.1::guru[python_single_target_python3_11]
+# required by mangohud (argument)
+>=virtual/libintl-0-r2 abi_x86_32
+# required by media-libs/libsdl2-2.28.5-r1::gentoo[udev]
+# required by x11-libs/wxGTK-3.2.2.1-r3::gentoo[sdl]
+# required by dev-python/wxpython-4.2.1::gentoo
+# required by dev-python/matplotlib-3.8.3::gentoo[-test,python_targets_python3_11,-python_targets_python3_10,wxwidgets]
+# required by games-util/mangohud-0.7.1::guru[python_single_target_python3_11]
+# required by mangohud (argument)
+>=virtual/libudev-251-r2 abi_x86_32
+# required by virtual/libudev-251-r2::gentoo[-systemd]
+# required by sys-apps/util-linux-2.39.3-r2::gentoo
+# required by media-libs/fontconfig-2.15.0::gentoo
+# required by x11-libs/wxGTK-3.2.2.1-r3::gentoo[X]
+# required by dev-python/wxpython-4.2.1::gentoo
+# required by dev-python/matplotlib-3.8.3::gentoo[-test,python_targets_python3_11,-python_targets_python3_10,wxwidgets]
+# required by games-util/mangohud-0.7.1::guru[python_single_target_python3_11]
+# required by mangohud (argument)
+>=sys-apps/systemd-utils-254.10 abi_x86_32
+# required by media-video/ffmpeg-6.1.1-r4::gentoo[iconv]
+# required by media-video/pipewire-1.0.3::gentoo[ffmpeg]
+# required by media-libs/libpulse-17.0::gentoo
+# required by dev-qt/qtmultimedia-5.15.12::gentoo[pulseaudio]
+# required by dev-python/PyQt5-5.15.10-r1::gentoo[multimedia]
+# required by dev-python/matplotlib-3.8.3::gentoo[-python_targets_python3_12,-test,-python_targets_python3_10,qt5,python_targets_python3_11]
+# required by games-util/mangohud-0.7.1::guru[python_single_target_python3_11]
+# required by mangohud (argument)
+>=virtual/libiconv-0-r2 abi_x86_32
+# required by media-libs/glew-2.2.0-r1::gentoo
+# required by media-libs/imgui-1.81-r1::guru
+# required by games-util/mangohud-0.7.1::guru
+# required by mangohud (argument)
+>=virtual/opengl-7.0-r2 abi_x86_32
+# required by media-libs/glew-2.2.0-r1::gentoo
+# required by media-libs/imgui-1.81-r1::guru
+# required by games-util/mangohud-0.7.1::guru
+# required by mangohud (argument)
+>=virtual/glu-9.0-r2 abi_x86_32
+# required by virtual/glu-9.0-r2::gentoo
+# required by x11-libs/wxGTK-3.2.2.1-r3::gentoo[opengl]
+# required by dev-python/wxpython-4.2.1::gentoo
+# required by dev-python/matplotlib-3.8.3::gentoo[-test,python_targets_python3_11,-python_targets_python3_10,wxwidgets]
+# required by games-util/mangohud-0.7.1::guru[python_single_target_python3_11]
+# required by mangohud (argument)
+>=media-libs/glu-9.0.3 abi_x86_32
+# required by gnome-base/librsvg-2.57.0::gentoo
+# required by media-video/ffmpeg-6.1.1-r4::gentoo[svg]
+# required by media-video/pipewire-1.0.3::gentoo[ffmpeg]
+# required by media-libs/libpulse-17.0::gentoo
+# required by dev-qt/qtmultimedia-5.15.12::gentoo[pulseaudio]
+# required by dev-python/PyQt5-5.15.10-r1::gentoo[multimedia]
+# required by dev-python/matplotlib-3.8.3::gentoo[-python_targets_python3_12,-test,-python_targets_python3_10,qt5,python_targets_python3_11]
+# required by games-util/mangohud-0.7.1::guru[python_single_target_python3_11]
+# required by mangohud (argument)
+>=virtual/rust-1.75.0 abi_x86_32
+# required by virtual/rust-1.75.0::gentoo
+# required by gnome-base/librsvg-2.57.0::gentoo
+# required by media-video/ffmpeg-6.1.1-r4::gentoo[svg]
+# required by media-video/pipewire-1.0.3::gentoo[ffmpeg]
+# required by media-libs/libpulse-17.0::gentoo
+# required by dev-qt/qtmultimedia-5.15.12::gentoo[pulseaudio]
+# required by dev-python/PyQt5-5.15.10-r1::gentoo[multimedia]
+# required by dev-python/matplotlib-3.8.3::gentoo[-python_targets_python3_12,-test,-python_targets_python3_10,qt5,python_targets_python3_11]
+# required by games-util/mangohud-0.7.1::guru[python_single_target_python3_11]
+# required by mangohud (argument)
+>=dev-lang/rust-bin-1.75.0 abi_x86_32

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<opml version="1.1">
+  <head>
+    <title>subscriptions</title>
+  </head>
+  <body>
+    <outline text="tech">
+      <outline type="rss" text="Arch Linux: Recent news updates" xmlUrl="https://www.archlinux.org/feeds/news/" htmlUrl="https://www.archlinux.org/feeds/news/"/>
+      <outline type="rss" text="Artix Linux news" xmlUrl="https://artixlinux.org/feed.php" htmlUrl="https://artixlinux.org/"/>
+      <outline type="rss" text="LandChad.net" xmlUrl="https://landchad.net/rss.xml" htmlUrl="https://landchad.net/rss.xml"/>
+    </outline>
+    <outline text="media">
+    <outline type="rss" text="Audiobook" xmlUrl="https://nyaa.si/?page=rss&q=audiobook&c=0_0&f=0" htmlUrl="https://nyaa.si/?page=rss&q=audiobook&c=0_0&f=0"/>
+    <outline type="rss" text="Zom 100 Bucket List of the Dead" xmlUrl="https://nyaa.si/?page=rss&q=Zom+100+Bucket+List+of+the+Dead&c=0_0&f=0&u=varyg1001" htmlUrl="https://nyaa.si/?page=rss&q=Zom+100+Bucket+List+of+the+Dead&c=0_0&f=0&u=varyg1001"/>
+    <outline type="rss" text="Releases Feed" xmlUrl="https://github.com/jc141x/releases-feed/releases/download/feeds/releases.rss" htmlUrl="https://github.com/jc141x/releases-feed"/>
+    </outline>
+  </body>
+</opml>
+

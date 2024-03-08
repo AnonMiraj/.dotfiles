@@ -1,0 +1,34 @@
+#!/bin/sh
+
+SCRIPTSDIR="$HOME/.config/hypr/scripts"
+
+# Transition config
+FPS=30
+TYPE="wipe"
+DURATION=1
+BEZIER=".43,1.19,1,.4"
+SWWW_PARAMS="--transition-fps $FPS --transition-type $TYPE --transition-duration $DURATION"
+
+# Location of link to wallpaper link.
+bgloc="${XDG_DATA_HOME:-$HOME/.local/share}/bg"
+
+# Check if swaybg is running
+if pidof swaybg > /dev/null; then
+  pkill swaybg
+fi
+
+
+swww query || swww init
+trueloc="$(readlink -f "$1")" &&
+case "$(file --mime-type -b "$trueloc")" in
+	image/* ) ln -sf "$(readlink -f "$1")" "$bgloc" && notify-send "Changing wallpaper..." ;;
+	inode/directory ) ln -sf "$(find "$trueloc" -iregex '.*.\(jpg\|jpeg\|png\|gif\)' -type f | shuf -n 1)" "$bgloc" && notify-send "Random Wallpaper chosen." ;;
+	*) notify-send "Error" "Not a valid image or directory." ; exit 1;;
+esac
+
+swww img $bgloc $SWWW_PARAMS
+
+sleep 0.5
+${SCRIPTSDIR}/PywalSwww.sh
+sleep 0.2
+${SCRIPTSDIR}/Refresh.sh

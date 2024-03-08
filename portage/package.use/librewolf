@@ -1,0 +1,3 @@
+# required by www-client/librewolf-122.0.1_p2::librewolf[system-libvpx]
+# required by librewolf (argument)
+>=media-libs/libvpx-1.14.0 postproc
