@@ -32,7 +32,6 @@
 	],
 
 "modules-center": [
-	"custom/separator#dot-line",
 	"idle_inhibitor", 
 	"custom/separator#dot-line",
 	"clock",
@@ -40,7 +39,6 @@
   "custom/stop_watch",
 	"custom/separator#dot-line",
 	"custom/light_dark",
-	"custom/separator#dot-line",
 	], 
 
 "modules-right": [
@@ -49,12 +47,12 @@
 	"custom/swaync",
 	"custom/separator#dot-line",
 	//"mpris", 
-	"custom/separator#dot-line", 
+	//"custom/separator#dot-line", 
 	"pulseaudio",
 	"custom/separator#dot-line",
 	"pulseaudio#microphone",
-	"custom/separator#dot-line",
-	"tray",
+	//"custom/separator#dot-line",
+	//"tray",
 	"custom/separator#dot-line",
 	"battery",
 	],

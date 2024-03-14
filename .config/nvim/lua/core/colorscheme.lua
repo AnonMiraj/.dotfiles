@@ -63,6 +63,9 @@ local function check_dark_mode()
 end
 
 vim.loop.new_timer():start(2000, 2000, vim.schedule_wrap(check_dark_mode))
+if commands[currentCommandIndex]=="lushwal" then
+        vim.cmd("silent LushwalCompile")
+end
 
 -- Define the keybindings
 vim.api.nvim_set_keymap('n', '<F6>', ':lua PrevColor()<CR>', { noremap = true, silent = true })
