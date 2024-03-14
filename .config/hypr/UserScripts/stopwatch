@@ -1,0 +1,82 @@
+
+#!/bin/bash
+
+DIR=/dev/shm/stop-watch
+STATUS_FILE=$DIR/status
+START_FILE=$DIR/start
+STOP_FILE=$DIR/stop
+
+ICON="󰚭"
+
+mkdir -p "$DIR"
+touch "$STATUS_FILE" "$START_FILE" "$STOP_FILE"
+read -r STATUS < "$STATUS_FILE"
+: "${STATUS:=reset}"
+read -r START < "$START_FILE"
+: "${START:=$(date +%s)}"
+read -r STOP < "$STOP_FILE"
+: "${STOP:=$(date +%s)}"
+
+reset_stopwatch() {
+    echo "reset" > "$STATUS_FILE"
+    echo "$(date +%s)" > "$START_FILE"
+    echo "$(date +%s)" > "$STOP_FILE"
+    ICON= "󰚭"
+}
+
+
+toggle_stopwatch() {
+    if [[ $STATUS = running ]]; then
+        STATUS=stopped
+        date +%s > "$STOP_FILE"
+    else
+        STATUS=running
+        CUR=$(date +%s)
+        START=$((CUR - STOP + START))
+        echo "$START" > "$START_FILE"
+        STOP=$CUR
+        echo "$STOP" > "$STOP_FILE"
+    fi
+    ICON="󱦟"
+    echo "$STATUS" > "$STATUS_FILE"
+}
+
+calculate_time() {
+    if [[ $STATUS = running ]]; then
+        STOP=$(date +%s)
+        echo "$STOP" > "$STOP_FILE"
+        ICON="󱦟"
+    fi
+
+    if [ $(($STOP - $START)) -ge 3600 ]; then
+        TIME=$(date -u --date="@$(($STOP - $START))" '+%H:%M:%S')
+    else
+        TIME=$(date -u --date="@$(($STOP - $START))" '+%M:%S')
+    fi
+
+    if [[ $STATUS = reset ]]; then
+        TIME=""
+        ICON="󰚭"
+    fi
+    echo  "{\"text\" : \"$ICON $TIME\"},\"status\" : \"$STATUS\"" 
+}
+
+main() {
+
+    while getopts ":rs" opt; do
+        case ${opt} in
+            r )
+                reset_stopwatch
+                ;;
+            s )
+                toggle_stopwatch
+                ;;
+        esac
+    done
+    shift $((OPTIND - 1))
+
+    calculate_time
+}
+
+main "$@"
+
