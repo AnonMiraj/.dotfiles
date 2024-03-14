@@ -127,5 +127,13 @@ return {
   { "nlknguyen/papercolor-theme",    lazy = false,     priority = 1000 },
   { "sainnhe/edge",                  lazy = false,     priority = 1000 },
   { "mofiqul/vscode.nvim",           lazy = false,     priority = 1000 },
-
+  { "uZer/pywal16.nvim",             lazy = false,     priority = 1000 },
+{
+	"oncomouse/lushwal.nvim",
+	cmd = { "LushwalCompile" },
+	dependencies = {
+		{ "rktjmp/lush.nvim" },
+		{ "rktjmp/shipwright.nvim" },
+	},
+}
 }

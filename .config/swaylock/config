@@ -11,16 +11,16 @@ timestr=%H:%M:%S
 datestr=%d %B, %a
 
 # Add current display as background
-screenshots
+#screenshots
 
 # Add an image as a background. You need to disable screenshots above
-#image=$HOME/.config/rofi/.current_wallpaper
+image=$HOME/.config/rofi/.current_wallpaper
 
 # Effect for background
 # NOTE: if you choose image as wallpaper, you may want to comment (#) these effects 
-# effect-blur=9x5
-# effect-vignette=0.5:0.5
-effect-greyscale
+ effect-blur=9x5
+ effect-vignette=0.5:0.5
+# effect-greyscale
 # effect-pixelate=5
 
 color=1f1d2e80
@@ -55,5 +55,4 @@ grace-no-mouse
 grace-no-touch
 fade-in=0.2
 ignore-empty-password
-
 

@@ -49,6 +49,7 @@ vim.keymap.set('n', '<leader>ra', '<cmd>Lspsaga  rename <CR>',{desc ="LSP rename
 --  define the property 'filetypes' to the map in question.
 local servers = {
   clangd = {},
+  fortls = {},
   -- gopls = {},
   pylsp = {},
   -- rust_analyzer = {},
@@ -104,4 +105,9 @@ mason_lspconfig.setup_handlers {
      }
    }
  }
-
+require'lspconfig'.fortls.setup{
+    cmd = {
+        'fortls',
+        '--debug_log'
+    }
+}

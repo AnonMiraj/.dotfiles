@@ -2,7 +2,7 @@ local commands = {
   "catppuccin", "zengarden", "tokyonight", "pompeii", "mellow",
   "rose-pine", "gruvbox-material", "everforest", "onehalflight",
   "onelight", "kanagawa", "melange", "PaperColor", "vscode", "edge",
-  "scheakur", "lightning", "atom", "pyte", "solarized"
+  "scheakur", "lightning", "atom", "pyte", "solarized","lushwal"
 }
 
 local function write_to_file(filename, value)

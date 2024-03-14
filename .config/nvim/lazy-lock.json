@@ -30,7 +30,6 @@
   "neo-tree.nvim": { "branch": "main", "commit": "cac2e1bfa1ecd5bd0ce7ae29e12efb3ba5a7347d" },
   "neodev.nvim": { "branch": "main", "commit": "9a5c0f0de5c15fba52d4fb83d425d3f4fa7abfa1" },
   "neodim": { "branch": "v2", "commit": "11b59d9cd99c04e88257d34d7b27a58f256f9b22" },
-  "neoscroll.nvim": { "branch": "master", "commit": "4bc0212e9f2a7bc7fe7a6bceb15b33e39f0f41fb" },
   "neovim": { "branch": "main", "commit": "e29002cbee4854a9c8c4b148d8a52fae3176070f" },
   "nui.nvim": { "branch": "main", "commit": "9e3916e784660f55f47daa6f26053ad044db5d6a" },
   "nvim": { "branch": "main", "commit": "490078b1593c6609e6a50ad5001e7902ea601824" },
@@ -48,6 +47,7 @@
   "papercolor-theme": { "branch": "master", "commit": "9051480ad9129ff4ab4fffb38b44779b9081626f" },
   "plenary.nvim": { "branch": "master", "commit": "267282a9ce242bbb0c5dc31445b6d353bed978bb" },
   "pompeii": { "branch": "master", "commit": "8a3f996c8f2d676a130f066bd785310ea882f335" },
+  "pywal16.nvim": { "branch": "main", "commit": "4ba75b1c2daa1812146a844e78e6dd7ca04e7fef" },
   "solarized.nvim": { "branch": "main", "commit": "afac3067219b51f06b63b72c2017f31e9cd92a30" },
   "telescope-fzf-native.nvim": { "branch": "main", "commit": "9bc8237565ded606e6c366a71c64c0af25cd7a50" },
   "telescope.nvim": { "branch": "master", "commit": "2d92125620417fbea82ec30303823e3cd69e90e8" },
@@ -56,6 +56,7 @@
   "vim-mellow": { "branch": "master", "commit": "13592a7c4b724f4383801242c8990dd611d91e84" },
   "vim-sleuth": { "branch": "master", "commit": "1cc4557420f215d02c4d2645a748a816c220e99b" },
   "vscode.nvim": { "branch": "main", "commit": "11b212096a0b2056fc8acaf31c0d62d656b6fd2d" },
+  "wal-colors.nvim": { "branch": "main", "commit": "f0f052ae2dd5054200b98ff308c864579c2983ea" },
   "which-key.nvim": { "branch": "main", "commit": "7ccf476ebe0445a741b64e36c78a682c1c6118b7" },
   "zengarden": { "branch": "main", "commit": "29924bc5b8876714405a1e2c5477e11cf80a983c" }
 }

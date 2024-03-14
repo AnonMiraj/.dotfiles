@@ -5,7 +5,10 @@
 // Memory Limit: $(MEMLIM)
 // Time Limit: $(TIMELIM)
 // Start: $(DATE)
-//
+// Reading Time : 
+// Thinking Time : 
+// Coding Time : 
+// Comments : 
 #include <algorithm>
 #include <bitset>
 #include <cctype>
