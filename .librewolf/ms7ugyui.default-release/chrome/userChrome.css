@@ -1,0 +1,33 @@
+/* Import your desired components first */
+@import url(hacks/button_effect_scale_onclick.css);
+@import url(hacks/hide_toolbox_top_bottom_borders.css);
+/* @import url(hacks/minimal_text_fields.css); */
+/* @import url(hacks/minimal_toolbarbuttons.css); */
+@import url(hacks/custom_menupopup_check_icons.css); 
+
+/*Import hacks */
+@import url(hacks/urlHighlight.css);
+/* @import url(hacks/sideberyMods.css);  */
+@import url(hacks/sideberyModsLEFT.css);
+/* @import url(hacks/sideberyModsLeftSlide.css); */
+@import url(hacks/menuShow.css); 
+@import url(hacks/darkContextMenu.css);
+
+@import url(hacks/autoHideUrlBar.css);
+
+:root { 
+--tabs-border-color: transparent !important; 
+}
+#titlebar {
+    display: none !important;
+}
+#urlbar, #searchbar .searchbar-textbox {
+  font-family: JetBrains Mono !important; font-size: 12pt 
+}
+
+#TabsToolbar, #sidebar-header, #sidebar-splitter {
+  display: none;
+}
+
+
+/* note: if your minimize, exit, etc menu is gone, press alt, right click the menu bar and check mark it */
