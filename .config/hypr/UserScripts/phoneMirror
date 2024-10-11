@@ -1,0 +1,41 @@
+#!/bin/bash
+
+OPTIONS="Audio Only\nVideo and Audio"
+
+toggle_scrcpy() {
+    case "$1" in
+        "Audio Only")
+            scrcpy --no-video --no-control --no-window 2>&1 | tee /tmp/scrcpy.log
+            ;;
+        "Video and Audio")
+            scrcpy --video-codec=h265 --max-size=1920 --max-fps=60 2>&1 | tee /tmp/scrcpy.log
+            ;;
+    esac
+
+    if grep -q "Could not find any ADB device" /tmp/scrcpy.log; then
+        adb connect "192.168.1.10:5555"
+    fi
+}
+
+SCRCPY_PID=$(pgrep scrcpy)
+
+if [ -n "$SCRCPY_PID" ]; then
+    CONFIRM=$(echo -e "yes\nno" | rofi -i -dmenu -config ~/.config/rofi/config-compact.rasi  -mesg "scrcpy is running. Kill it?")
+    if [ "$CONFIRM" = "yes" ]; then
+        kill -9 "$SCRCPY_PID"
+        echo "Killed existing scrcpy process."
+    else
+        echo "Exiting without starting a new scrcpy session."
+        exit 0
+    fi
+fi
+
+CHOICE=$(echo -e "$OPTIONS" | rofi -i -dmenu -config ~/.config/rofi/config-compact.rasi -mesg "Choose scrcpy mode:")
+
+if [ -n "$CHOICE" ]; then
+    toggle_scrcpy "$CHOICE"
+else
+    echo "No choice selected, exiting."
+    exit 0
+fi
+

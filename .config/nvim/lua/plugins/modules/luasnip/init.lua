@@ -22,7 +22,6 @@ function M.config()
     local ls_types = require "luasnip.util.types"
     local util = require "luasnip.util.util"
 
-    require("luasnip/loaders/from_vscode").lazy_load {}
 
     require("luasnip.config").setup {
         history = true,

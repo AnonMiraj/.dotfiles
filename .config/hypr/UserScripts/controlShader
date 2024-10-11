@@ -1,0 +1,29 @@
+
+#!/bin/bash
+
+# Directory containing shaders
+SHADER_DIR="$HOME/.config/hypr/shaders/"
+
+# Check if the directory exists
+if [ ! -d "$SHADER_DIR" ]; then
+    echo "Shader directory does not exist."
+    exit 1
+fi
+
+# Get a list of shader files and add "off" option
+SHADER_FILES=$(ls "$SHADER_DIR" | sed 's/\.[^.]*$//')
+OPTIONS="off\n$SHADER_FILES"
+
+# Use rofi to select a shader file or turn off
+SELECTED_OPTION=$(echo -e "$OPTIONS" | rofi -dmenu -i -config ~/.config/rofi/config-compact.rasi  -mesg  "Select Shader")
+
+# If 'off' is selected, turn shaders off
+if [ "$SELECTED_OPTION" == "off" ]; then
+    hyprshade off
+# If a shader was selected, toggle it using hyprshade
+elif [ -n "$SELECTED_OPTION" ]; then
+    hyprshade toggle "$SELECTED_OPTION"
+else
+    echo "No option selected."
+fi
+

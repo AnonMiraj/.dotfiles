@@ -1,16 +1,15 @@
 local M = {
     "akinsho/nvim-toggleterm.lua",
-    cmd = { "ToggleExec", "ToggleTerm",  "TermFloat", "TermBottom", "TermRight" },
+    cmd = { "ToggleExec", "ToggleTerm",  "TermFloat", "TermBottom", "TermRight","TermExec" },
 }
 
 function M.init()
     vim.keymap.set({ "n", "i", "v", "t", "x" }, "<F1>", "<nop>")
     vim.keymap.set({ "n", "v" }, "<F1>", "<cmd>TermFloat<cr>")
-    vim.keymap.set({ "n", "v" }, "<C-_>", "<cmd>TermBottom<cr>")
+    vim.keymap.set({ "n", "v" }, "<F2>", "<cmd>TermExec cmd=\"!!\"<cr>")
 
     local function set_terminal_keymaps()
         vim.keymap.set("t", "<F1>", "<cmd>TermFloat<cr>")
-        vim.keymap.set("t", "<C-_>", "<cmd>TermBottom<cr>")
         vim.keymap.set("t", "<C-h>", [[<C-\><C-n><C-W>h]])
         vim.keymap.set("t", "<C-j>", [[<C-\><C-n><C-W>j]])
         vim.keymap.set("t", "<C-k>", [[<C-\><C-n><C-W>k]])
@@ -27,9 +26,10 @@ function M.config()
         start_in_insert = true,
         insert_mappings = true,
         shade_terminals = true,
+
         shading_factor = 2,
         persist_size = true,
-        close_on_exit = true,
+       close_on_exit = true,
         direction = "float",
         highlights = { FloatBorder = { guifg = "#4A5057" } },
         float_opts = {

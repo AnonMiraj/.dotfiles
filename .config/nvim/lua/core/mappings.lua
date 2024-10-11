@@ -9,7 +9,12 @@ function M.general()
   -- vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x \" % \"<CR>", { silent = true, desc = 'chmod +x file' })
   --    vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
   vim.keymap.set("n", "<leader>fm", function() vim.lsp.buf.format { async = true } end, { desc = 'LSP formatting' })
-  vim.keymap.set("n", "<leader>tt", "<cmd> TroubleToggle <CR>", { desc = 'Toggle Trouble' })
+  vim.keymap.set("n", "<leader>pm", "<cmd> MarkdownPreviewToggle <CR>", { desc = 'Preview Markdown' })
+  -- vim.keymap.set("n", "<leader>tt", "<cmd> TroubleToggle <CR>", { desc = 'Toggle Trouble' })
+  --
+  vim.keymap.set("n", " cc", "<cmd> %y+ <CR>")
+  vim.api.nvim_set_keymap("x", "<", "<gv", { noremap = true })
+  vim.api.nvim_set_keymap("x", ">", ">gv", { noremap = true })
 end
 
 function M.movements()
@@ -28,7 +33,7 @@ function M.movements()
   vim.keymap.set("i", "<C-k>", "<Up>")
 
   -- save
-  vim.keymap.set("n", "<C-s>", "<cmd> w <CR>")
+  -- vim.keymap.set("n", "<C-s>", "<cmd> w <CR>")
 
   -- Copy all
   vim.keymap.set("n", "<C-c>", "<cmd> %y+ <CR>")
@@ -37,13 +42,13 @@ function M.movements()
   vim.keymap.set("n", "<leader>b", "<cmd> enew <CR>", { desc = 'New buffer' })
 
   -- toggle comment in both modes
-  vim.keymap.set("n", "<leader>/", M.commentline, { desc = 'Toggle comment' })
-  vim.keymap.set("v", "<leader>/", "<ESC><cmd>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<CR>",
-    { desc = 'Toggle comment' })
+  -- vim.keymap.set("n", "<leader>/", M.commentline, { desc = 'Toggle comment' })
+  -- vim.keymap.set("v", "<leader>/", "<ESC><cmd>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<CR>",
+  -- { desc = 'Toggle comment' })
 end
 
-function M.commentline()
-  require("Comment.api").toggle.linewise.current()
-end
+-- function M.commentline()
+--   require("Comment.api").toggle.linewise.current()
+-- end
 
 M.setup()

@@ -9,6 +9,7 @@ end
 function M.globals()
   vim.g.mapleader = " "
   vim.g.maplocalleader = " "
+
 end
 
 function M.options()
@@ -42,7 +43,7 @@ function M.options()
   -- Set completeopt to have a better completion experience
   vim.o.completeopt = 'menuone,noselect'
 
-  vim.o.wrap = false
+  -- vim.o.wrap = false
 
   vim.o.termguicolors = true
 
@@ -68,6 +69,10 @@ function M.options()
   vim.opt.foldenable = true
   vim.opt.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
   vim.opt.signcolumn = "auto:1-2"
+  -- Line breaks
+  vim.opt.linebreak = true    -- Wrap long lines at word boundaries
+  vim.opt.showbreak = '+'     -- Gutter string before wrapped lines
+  vim.opt.whichwrap = 'b,s,h,l' -- Keys allowed to move across lines
 
   -- [[ Highlight on yank ]]
   -- See `:help vim.highlight.on_yank()`

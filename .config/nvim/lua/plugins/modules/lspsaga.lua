@@ -1,11 +1,10 @@
 local M = {
   'nvimdev/lspsaga.nvim',
-  event = "LspAttach",
+  lazy = false,
   -- config = function()
   -- require "custom.configs.external.lspsaga"
   -- end,
   dependencies = {
-    'nvim-treesitter/nvim-treesitter',     -- optional
     'nvim-tree/nvim-web-devicons'          -- optional
   }
 }
@@ -14,17 +13,10 @@ function M.init()
   vim.keymap.set('n', '[d', '<cmd>Lspsaga  diagnostic_jump_prev <CR>', { desc = "Goto prev" })
   vim.keymap.set('n', ']d', '<cmd>Lspsaga  diagnostic_jump_next <CR>', { desc = "Goto next" })
   vim.keymap.set('n', '<leader>dd', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
-        --  This function gets run when an LSP connects to a particular buffer.
-      local on_attach = function(_, bufnr)
-        local nmap = function(keys, func, desc)
-          if desc then desc = 'LSP: ' .. desc end
-          vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
-        end
-  nmap( 'K', '<cmd>Lspsaga hover_doc <CR>',  "Hover Documentation" )
-  nmap( '<leader>ca', '<cmd>Lspsaga code_action <CR>', { desc = '[C]ode [A]ction' })
-  nmap( 'gd', '<cmd>Lspsaga  goto_definition <CR>', { desc = "LSP definition" })
-  nmap( '<leader>ra', '<cmd>Lspsaga  rename <CR>', { desc = "LSP rename" })
-end
+  vim.keymap.set( 'n','K', '<cmd>Lspsaga hover_doc <CR>',  { desc = "Hover Documentation"} )
+  vim.keymap.set('n', '<leader>ca', '<cmd>Lspsaga code_action <CR>', { desc = '[C]ode [A]ction' })
+  vim.keymap.set('n', 'gd', '<cmd>Lspsaga  goto_definition <CR>', { desc = "LSP definition" })
+  vim.keymap.set('n', '<leader>ra', '<cmd>Lspsaga  rename <CR>', { desc = "LSP rename" })
 end
 
 function M.config()

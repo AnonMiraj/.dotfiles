@@ -1,31 +1,32 @@
-// Problem: $(PROBLEM)
+// ﷽
 // Contest: $(CONTEST)
 // Judge: $(JUDGE)
 // URL: $(URL)
 // Memory Limit: $(MEMLIM)
 // Time Limit: $(TIMELIM)
 // Start: $(DATE)
-//
-#include <algorithm>
-#include <bitset>
-#include <cctype>
-#include <cmath>
-#include <iomanip>
-#include <iostream>
-#include <map>
-#include <queue>
-#include <set>
-#include <stack>
-#include <string>
-#include <utility>
-#include <vector>
+// Reading Time : 
+// Thinking Time : 
+// Coding Time : 
+// Comments : 
+#include<bits/stdc++.h>
+ 
+#ifdef ALGOAT
+#include "debug.hpp"
+#else
+#define debug(...) 0
+#define debug_itr(...) 0
+#define debug_bits(...) 0
+#endif
+ 
 // 48-57 -> 0-9  65-90 -> A-Z 97-122 -> a-z
 #define fastio()                                                               \
   ios_base::sync_with_stdio(false);                                            \
   cin.tie(NULL);
+ 
 #define int long long
+ 
 using namespace std;
-
 void solve() {}
 int32_t main() {
 

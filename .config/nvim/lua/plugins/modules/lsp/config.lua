@@ -29,7 +29,7 @@ local on_attach = function(_, bufnr)
   nmap('<leader>wa', vim.lsp.buf.add_workspace_folder, '[W]orkspace [A]dd Folder')
   nmap('<leader>wr', vim.lsp.buf.remove_workspace_folder, '[W]orkspace [R]emove Folder')
   nmap('<leader>wl', function()
-  print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+    print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
   end, '[W]orkspace [L]ist Folders')
 
   -- Create a command `:Format` local to the LSP buffer
@@ -38,7 +38,7 @@ local on_attach = function(_, bufnr)
   end, { desc = 'Format current buffer with LSP' })
 end
 
-vim.keymap.set('n', '<leader>ra', '<cmd>Lspsaga  rename <CR>',{desc ="LSP rename"})
+vim.keymap.set('n', '<leader>ra', '<cmd>Lspsaga  rename <CR>', { desc = "LSP rename" })
 -- Enable the following language servers
 --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
 --
@@ -49,11 +49,13 @@ vim.keymap.set('n', '<leader>ra', '<cmd>Lspsaga  rename <CR>',{desc ="LSP rename
 --  define the property 'filetypes' to the map in question.
 local servers = {
   clangd = {},
+  fortls = {},
   -- gopls = {},
-  -- pyright = {},
+  pylsp = {},
   rust_analyzer = {},
+  -- kotlin_language_server = {},
   -- tsserver = {},
-  -- html = { filetypes = { 'html', 'twig', 'hbs'} },
+  html = { filetypes = { 'html', 'twig', 'hbs' } },
 
   lua_ls = {
     Lua = {
@@ -62,6 +64,8 @@ local servers = {
     },
   },
 }
+
+
 -- Setup neovim lua configuration
 require('neodev').setup()
 
@@ -86,3 +90,28 @@ mason_lspconfig.setup_handlers {
     }
   end
 }
+require 'lspconfig'.pylsp.setup {
+  settings = {
+    pylsp = {
+      plugins = {
+        pycodestyle = {
+          maxLineLength = 125
+        },
+        pylint = {
+          args = "--errors-only",
+          enabled = true
+        }
+      }
+    }
+  }
+}
+require 'lspconfig'.fortls.setup {
+  cmd = {
+    'fortls',
+  }
+}
+
+-- require'lspconfig'.clangd.setup {
+--   cmd = { "clangd", "-pretty","-clang-tidy"},
+-- }
+

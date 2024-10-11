@@ -1,32 +1,33 @@
 local M =
-  {
+{
     -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
-     event = { "BufReadPost", "BufNewFile" },
+    event = { "BufReadPost", "BufNewFile" },
+    lazy =false,
     dependencies = {
-      'nvim-treesitter/nvim-treesitter-textobjects',
-      {
+        'nvim-treesitter/nvim-treesitter-textobjects',
+        {
             "simrat39/symbols-outline.nvim",
             config = function()
                 require("symbols-outline").setup {}
             end,
-      }
+        }
     },
     build = ':TSUpdate',
-  }
-  -- ensure_installed = { "lua" },
-  --
-  -- highlight = {
-  --   enable = true,
-  --   use_languagetree = true,
-  -- },
-  --
-  -- indent = { enable = true },
-  --
+}
+-- ensure_installed = { "lua" },
+--
+-- highlight = {
+--   enable = true,
+--   use_languagetree = true,
+-- },
+--
+-- indent = { enable = true },
+--
 function M.config()
     local treesitter = require "nvim-treesitter.configs"
     treesitter.setup {
-        ensure_installed = {"rust","lua","cpp","markdown","markdown_inline"},
+        ensure_installed = { "rust", "lua", "cpp", "markdown", "markdown_inline" },
         highlight = {
             enable = true,
             additional_vim_regex_highlighting = false,
@@ -36,7 +37,6 @@ function M.config()
             enable = true,
             keymaps = {
                 init_selection = "gnn",
-                node_umental = "gnn",
                 scope_incremental = "gns",
                 node_decremental = "gnp",
             },
@@ -88,6 +88,5 @@ function M.config()
         },
     }
 end
-
 
 return M

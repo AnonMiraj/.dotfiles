@@ -1,0 +1,4 @@
+#!/bin/bash
+mv ~/.config/nvim ~/.config/nvim.ee
+mv ~/.config/nvim.e ~/.config/nvim
+mv ~/.config/nvim.ee ~/.config/nvim.e

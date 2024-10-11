@@ -1,0 +1,49 @@
+#!/bin/bash
+
+status_file="/tmp/pomodoro_status"
+time_file="/tmp/pomodoro_time"
+
+# Function to check if tatsumato is running
+is_running() {
+    pgrep -x "tatsumato" >/dev/null 2>&1
+}
+
+# Toggle function to start or stop tatsumato
+toggle_tatsumato() {
+    if is_running; then
+        pkill -x "tatsumato"  # Stop the running process
+        echo "󱎬" > "$status_file"  # Not running icon
+        echo "Not running" > "$time_file"  # Update time file
+    else
+        tatsumato -a -p -d&  # Start the process
+        echo "" > "$status_file"  # Pomodoro icon
+    fi
+}
+
+# Check for arguments
+if [[ "$1" == "toggle" ]]; then
+    toggle_tatsumato
+    exit 0
+fi
+
+# Check if tatsumato is running
+if is_running; then
+    # If status and time files exist, read them
+    if [[ -f "$status_file" && -f "$time_file" ]]; then
+        status=$(cat "$status_file")
+        time_left=$(cat "$time_file")
+    else
+        # Default values if files are missing
+        status="⏹️"  # Not running emoji
+        time_left="No time left"
+    fi
+else
+    # If tatsumato is not running
+    status="󱎬"  # Not running emoji
+    time_left="Pomodoro not running"
+fi
+
+# Output JSON for Waybar
+cat <<EOF
+{"text": "$status","tooltip": "$time_left"}
+EOF
