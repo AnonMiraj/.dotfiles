@@ -662,11 +662,11 @@
     "on-click": "~/.local/bin/tatsumato_status toggle"
 },
 "custom/prayerbar": {
-    "format": "{}",
-    "tooltip": true,
+    "format": "󱠧  {}",
     "interval": 60,
-    "exec": "prayerbar --city Zagazig --country egypt --ar",
-    "return-type": "json"
+    "exec": "$HOME/.local/bin/prayer-times waybar",
+    "on-click": "$HOME/.local/bin/prayer-times yad",
+    "return-type": "json",
 },
 "custom/cycle_wall": {
 	"format": " ",

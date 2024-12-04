@@ -385,13 +385,13 @@ echo "$search_text" | grep -q "^.*@.*\.[A-Za-z]\+$" &&
 
 
 if echo "$search_text" | grep -q "/watch?v=\|invidious\|youtube\.com\|youtu\.be\|twitch\.tv/video"; then
-	youtubedl() { tsp yt-dlp --add-metadata --write-sub -ic "$@"; }
+        youtubedl() { tsp yt-dlp --add-metadata --write-sub -ic -f "bestvideo[height<=720]+bestaudio/best[height<=720]" "$@"; }
 	audiodl() {
 		tsp yt-dlp \
 			--add-metadata -ic \
 			-x \
 			-f bestaudio/best \
-			-o '/mnt/archive/audio/ytdl/%(upload_date)s-%(title)s.%(ext)s' "$@"
+			-o '~/Youtube/audio/%(upload_date)s-%(title)s.%(ext)s' "$@"
 	}
 	mpv() { unset -f mpv && setsid -f mpv "$*"; }
 	add_to_impd() { impd add "$*"; }

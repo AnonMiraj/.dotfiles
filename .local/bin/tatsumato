@@ -23,6 +23,7 @@ readonly ankiconnect_url=127.0.0.1:8765
 
 readonly status_file="/tmp/pomodoro_status"
 readonly time_file="/tmp/pomodoro_time"
+readonly time_file_end="/tmp/pomodoro_time_end"
 
 while getopts 'a A p H v h s i d    t: b: l: L: k:' flag; do
 	case $flag in
@@ -114,6 +115,10 @@ notify() {
 
 do_pomodoro() {
 	local -r time=$1 mode=$2
+
+        local start_time=$(date +%s)
+        echo $((start_time + time * 60)) > "$time_file_end"
+
 	if [[ ${mode,,} == "pomodoro" ]]; then
 		echo "" > "$status_file"  # Pomodoro (tomato emoji)
 	elif [[ ${mode,,} == "short break" || ${mode,,} == "long break" ]]; then

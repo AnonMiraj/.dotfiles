@@ -115,8 +115,8 @@ map D delete
 map <c-d> dragon
 map E extract
 map <c-z> compress
-map C copyto
-map M moveto
+# map C copyto
+# map M moveto
 map <c-n> push :mkdir<space>
 map <c-c> push :create<space>
 map <c-r> reload
