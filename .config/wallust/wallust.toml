@@ -1,8 +1,8 @@
 # wallust 3.0*
 
-backend = "kmeans"
-color_space = "lch"
-
+backend = "full"
+palette = "light16"
+color_space = "lchmixed"
 # NOTE: All filters will fill 16 colors (from color0 to color15), 16 color
 #       variations are the 'ilusion' of more colors by opaquing color1 to color5.
 # Use the most prominent colors in a way that makes sense, a scheme:
@@ -17,7 +17,6 @@ color_space = "lch"
 #  * softdark16  - softdark with 16 color variation
 #  * softlight   - Light with soft pastel colors, counterpart of `harddark`
 #  * softlight16 - softlight with 16 color variation
-palette = "light16"
 
 # Difference between similar colors, used by the colorspace:
 #  1          Not perceptible by human eyes.
@@ -43,6 +42,22 @@ waybar.target = '~/.config/waybar/wallust/colors-waybar.css'
 kitty.template = 'colors-kitty.conf'
 kitty.target = '~/.config/kitty/kitty.conf'
 
+
+nvim.template = "nvim.vim"
+nvim.target = "/home/nir/.cache/wallust/colors_neopywal.vim"
+
+
+discord.template = "discord.theme.css"
+discord.target="~/.config/vesktop/themes/wallust.theme.css"
+
+discord2.template = "discord-wallust-beta.css"
+discord2.target="~/.config/vesktop/themes/wallust_beta.theme.css"
+
+discord3.template = "discord-wallust.css"
+discord3.target="~/.config/vesktop/themes/wal.theme.css"
+
+di.template = "cdis.css"
+di.target="~/.config/vesktop/themes/wa0ltheme.css"
 #swaync.template = 'colors-swaync.css'
 #swaync.target = '~/.config/swaync/wallust/colors-wallust.css'
 
