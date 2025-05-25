@@ -2,6 +2,7 @@
 
 OPTIONS="Audio Only\nVideo and Audio"
 
+        adb connect "192.168.1.15:5555"
 toggle_scrcpy() {
     case "$1" in
         "Audio Only")
@@ -13,7 +14,7 @@ toggle_scrcpy() {
     esac
 
     if grep -q "Could not find any ADB device" /tmp/scrcpy.log; then
-        adb connect "192.168.1.10:5555"
+        adb connect "192.168.1.15:5555"
     fi
 }
 

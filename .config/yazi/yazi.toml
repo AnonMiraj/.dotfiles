@@ -1,0 +1,98 @@
+"$schema" = "https://yazi-rs.github.io/schemas/yazi.json"
+
+[manager]
+ratio = [1, 4, 3]
+sort_by = "natural"
+sort_dir_first = true
+show_hidden = true
+[opener]
+folder = [
+  { run = '''zsh -c "nvim "$1""''', block = true, desc = "neovim", for = "linux" },
+  { run = 'kitty --detach nvim "$@"', orphan = true, desc = "neovim (detached)", for = "linux" },
+  { run = '''zsh -c "lazygit -p "$1""''', block = true, desc = "lazygit", for = "linux" },
+  { run = 'codium  "$@"', orphan = true, desc = "vscodium", for = "linux" },
+  { run = 'kitty "$@"', orphan = true, desc = "kitty", for = "linux" },
+  { run = 'xdg-open "$@"', orphan = true, desc = "xdg-open", for = "linux" },
+]
+extract = [
+  { run = 'ouch d -y "$@"', desc = "Extract here with ouch", for = "unix" },
+]
+
+text = [
+  { run = 'nvim "$@"', block = true, desc = "neovim", for = "linux" },
+  { run = 'kitty --detach nvim "$@"', block = true, desc = "neovim (detached)", for = "linux" },
+  { run = 'xdg-open "$@"', orphan = true, desc = "xdg-open", for = "linux" },
+]
+
+document = [
+  { run = 'zathura "$@"', orphan = true, desc = "zathura", for = "linux" },
+  { run = 'xdg-open "$@"', orphan = true, desc = "xdg-open", for = "linux" },
+  { run = 'libreoffice "$@"', orphan = true, desc = "libreoffice", for = "linux" },
+]
+
+image = [
+  { run = 'nsxiv "$@"', orphan = true, desc = "qimgv", for = "linux" },
+  { run = 'xdg-open "$@"', orphan = true, desc = "xdg-open", for = "linux" },
+]
+video = [
+  { run = 'mpv "$@"', orphan = true, desc = "mpv", for = "linux" },
+  { run = 'xdg-open "$@"', orphan = true, desc = "xdg-open", for = "linux" },
+]
+audio = [
+  { run = 'mpv "$@"', orphan = true, desc = "mpv", for = "linux" },
+  { run = 'xdg-open "$@"', orphan = true, desc = "xdg-open", for = "linux" },
+]
+fallback = [
+  { run = 'nvim "$@"', block = true, desc = "neovim", for = "linux" },
+  { run = 'kitty --detach nvim "$@"', block = true, desc = "neovim (detached)", for = "linux" },
+  { run = 'xdg-open "$@"', orphan = true, desc = "xdg-open", for = "linux" },
+]
+[open]
+# rules = [
+#   { name = "*/", use = "folder" },
+#   { mime = "text/*", use = "text" },
+#   { mime = "text/x-lua", use = "text" },
+#   { mime = "image/*", use = "image" },
+#   { mime = "video/*", use = "video" },
+#   { mime = "application/octet-stream", use = "video" },
+#   { mime = "audio/*", use = "audio" },
+#   { mime = "inode/x-empty", use = "text" },
+#   { mime = "application/json", use = "text" },
+#
+#   { mime = "application/zip", use = "extract" },
+#   { mime = "application/gzip", use = "extract" },
+#   { mime = "application/x-bzip", use = "extract" },
+#   { mime = "application/x-bzip2", use = "extract" },
+#   { mime = "application/x-tar", use = "extract" },
+#   { mime = "application/x-7z-compressed", use = "extract" },
+#   { mime = "application/x-gzip", use = [ "extract", "reveal" ] },
+#   { mime = "application/x-rar", use = "extract" },
+#   { mime = "application/vnd.rar", use = "extract" },
+#   { mime = "application/pdf", use = "document" },
+  # { mime = "application/epub+zip", use = "document" },
+#   { mime = "application/x-mobipocket-ebook", use = "document" },
+#
+#   { mime = "*", use = "fallback" },
+# ]
+#
+[plugin]
+prepend_previewers = [
+	# extract previewer
+	# { mime = "application/*zip",            run = "ouch" },
+	{ mime = "application/x-tar",           run = "ouch" },
+	{ mime = "application/x-bzip2",         run = "ouch" },
+	{ mime = "application/x-7z-compressed", run = "ouch" },
+	{ mime = "application/x-rar",           run = "ouch" },
+	{ mime = "application/x-xz",            run = "ouch" },
+	{ name = "*.md",			run = "glow" },
+	{ name = "*.csv",		        run = "rich-preview"}, # for csv files
+	{ name = "*.rst",                       run = "rich-preview"}, # for restructured text (.rst) files
+	{ name = "*.ipynb",                     run = "rich-preview"}, # for jupyter notebooks (.ipynb)
+	{ name = "*.json",                      run = "rich-preview"}, # for json (.json) files
+	{ mime = "application/epub+zip",        run = "epub-preview"},
+	{ name = "*.epub",		        run = "epub-preview"},
+] 
+prepend_fetchers = [
+	{ id = "git", name = "*", run = "git" },
+	{ id = "git", name = "*/", run = "git" },
+]

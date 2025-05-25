@@ -1,20 +1,26 @@
+#!/usr/bin/env sh
 
-#! /usr/bin/env sh
-
-# A hyprland script for toggling between internal/external/both monitors using rofi, with an option to DPMS off both monitors
+# A Hyprland script for toggling between internal/external/both monitors using rofi,
+# with a safeguard to not disable the internal monitor if it's the only one
 
 INTERNAL_MONITOR="eDP-1"
 EXTERNAL_MONITOR="HDMI-A-1"
 
-NUM_MONITORS=$(hyprctl monitors all | grep --count Monitor)
-NUM_MONITORS_ACTIVE=$(hyprctl monitors | grep --count Monitor)
+# Check if external monitor is connected
+external_connected=$(hyprctl monitors all | grep -A 3 "$EXTERNAL_MONITOR" | grep "enabled: true")
 
-choice=$(echo -e "Enable External\nEnable Internal\nEnable Both\nDisable Both (DPMS)" | rofi -i -dmenu  -config ~/.config/rofi/config-compact.rasi  -mesg "Select monitor setup:")
+choice=$(echo -e "Enable External\nEnable Internal\nEnable Both\nDisable Both (DPMS)" | rofi -i -dmenu \
+  -config ~/.config/rofi/config-compact.rasi -mesg "Select monitor setup:")
 
 case "$choice" in
   "Enable External")
-    hyprctl keyword monitor $EXTERNAL_MONITOR,2560x1440@144.0,1920x0,1.0
-    hyprctl keyword monitor "$INTERNAL_MONITOR, disable"
+    if [ -n "$external_connected" ]; then
+      hyprctl keyword monitor $EXTERNAL_MONITOR,2560x1440@144.0,1920x0,1.0
+      hyprctl keyword monitor "$INTERNAL_MONITOR, disable"
+    else
+      notify-send "Monitor Setup" "External monitor not connected. Internal monitor will stay enabled."
+      hyprctl keyword monitor $INTERNAL_MONITOR,1920x1080@144.0,0x0,1.0
+    fi
     ;;
   "Enable Internal")
     hyprctl keyword monitor $INTERNAL_MONITOR,1920x1080@144.0,0x0,1.0
@@ -22,6 +28,7 @@ case "$choice" in
     ;;
   "Enable Both")
     hyprctl keyword monitor $INTERNAL_MONITOR,1920x1080@144.0,0x0,1.0
+    hyprctl keyword monitor $EXTERNAL_MONITOR,2560x1440@144.0,1920x0,1.0
     move_all_workspaces_to_monitor $EXTERNAL_MONITOR
     ;;
   "Disable Both (DPMS)")

@@ -1,4 +1,26 @@
 
+I want to convert an `lf` (ranger-like terminal file manager) configuration into a fully functional `yazi` config file. I will provide my full `lf` config.  
+
+For each line or feature:
+
+- Translate it directly to `yazi`'s `yazi.toml`, `keymap.toml`, or custom scripts, **if possible**.
+- **Preserve the original `lf` line as a comment** next to or above the translated line.
+- If something cannot be translated, **write a comment stating that clearly**.
+- If `yazi` offers a similar but better native feature, **use that instead** and mention it with a comment like: _"Replaced with better native Yazi feature."_.
+- Ensure **feature parity**, especially for:
+    - keybindings
+    - file previews
+    - image/pdf launching
+    - compress/extract/delete commands
+    - navigation improvements (like zoxide)
+    - hidden file toggles
+    - clipboard integration
+    - fuzzy navigation or selection
+- Use TOML syntax properly.
+- Output should be complete and ready to be used as a `yazi` config, split across relevant files: `yazi.toml`, `keymap.toml`, and any scripts (if needed).
+
+I will now provide the full `lf` config for translation.
+
 # Basic vars
 set shellopts '-eu'
 set ifs "\n"
@@ -6,8 +28,6 @@ set scrolloff 10
 set icons
 set period 1
 set hiddenfiles ".*:*.aux:*.log:*.bbl:*.bcf:*.blg:*.run.xml"
-set cleaner '~/.config/lf/cleaner'
-set previewer '~/.config/lf/scope'
 set autoquit true
 # cmds/functions
 cmd on-cd %{{
@@ -160,4 +180,3 @@ map Y $printf "%s" "$fx" | wl-copy
 
 &[ $LF_LEVEL -eq 1 ] || lf -remote "send $id echoerr \"Warning: You're in a nested lf( $LF_LEVEL) instance!\""
 
-source "~/.config/lf/shortcutrc"

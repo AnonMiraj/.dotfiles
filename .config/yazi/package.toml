@@ -1,0 +1,64 @@
+[[plugin.deps]]
+use = "Reledia/glow"
+rev = "a1711f1"
+hash = "f9ee1436e3b853508d87f7d49dce56e6"
+
+[[plugin.deps]]
+use = "ndtoan96/ouch"
+rev = "2496cd9"
+hash = "5b9dea47776a30946cfbf83232d18fb1"
+
+[[plugin.deps]]
+use = "AnirudhG07/rich-preview"
+rev = "2559e5f"
+hash = "c9a3d0731e7d7340e2c6d6126b1f3aa3"
+
+[[plugin.deps]]
+use = "yazi-rs/plugins:jump-to-char"
+rev = "b12a9ab"
+hash = "a670c03eb3760812e044a24f94cedc55"
+
+[[plugin.deps]]
+use = "pirafrank/what-size"
+rev = "f1c6b69"
+hash = "6e789212eb41d937bab04877ca361099"
+
+[[plugin.deps]]
+use = "ourongxing/fast-enter"
+rev = "738356f"
+hash = "b209b5db91df69bdc6a4656cb8276cd9"
+
+[[plugin.deps]]
+use = "yazi-rs/plugins:git"
+rev = "b12a9ab"
+hash = "e0ada736ea676c2bbb3ec705a49526ef"
+
+[[plugin.deps]]
+use = "imsi32/yatline"
+rev = "90e0284"
+hash = "8d4cb2dfadcbda045ddaa5c274441f9c"
+
+[[plugin.deps]]
+use = "imsi32/yatline-githead"
+rev = "3b0eb7c"
+hash = "bfd30c396bbe2af526cb949d97ce3dcf"
+
+[[plugin.deps]]
+use = "yazi-rs/plugins:chmod"
+rev = "b12a9ab"
+hash = "2f1053f89d1a301a648ab181d0948e38"
+
+[[plugin.deps]]
+use = "boydaihungst/pref-by-location"
+rev = "21f0c34"
+hash = "5bb928ef11a87430e5eac6a65f815e21"
+
+[[plugin.deps]]
+use = "kirasok/epub-preview"
+rev = "521feb1"
+hash = "9aed469134b5c89fc4014ce278307ae3"
+
+[[flavor.deps]]
+use = "muratoffalex/kanagawa-lotus"
+rev = "d84d61a"
+hash = "eef7cfa41fe51c19628d28cf453e967d"

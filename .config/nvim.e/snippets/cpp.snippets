@@ -1,243 +1,96 @@
-snippet arr
-    int n;
-    cin >> n;
-    vector<int> v(n);
-    for (int i = 0; i < n; i++) {
-        cin >> v[i];
-    }
-
-snippet vi
-    vector<int> ${1:v}(${2:n});
-
-snippet pb
-    push_back
-
-snippet map
-    map<${1:int},${2:int}> ${3:m};
-
-snippet pair
-    pair<${1:int},${2:int}> ${3:p};
-
-snippet queue
-    queue<${1:int}> ${2:q};
-
-snippet deque
-    deque<${1:int}> ${2:q};
-
-snippet set
-    set<${1:int}> ${2:s};
-
-snippet fori
-	for (int ${2:i} = 0; $2 < ${1:n}; $2${3:++}) {
-	}
-
-snippet fore
-	for (${1:auto} &${2:i} : ${3:container}) {
-          cout<<i << " ";
-	}
-
-snippet form
-	for (${1:auto} &[${2:a},${3:b}] : ${4:container}) {
-	}
-
-snippet cin
-    int ${1:x};
-    cin >> $1;
-
-snippet cout
-    cout << ${1:x} << "\n";
-
-snippet yes
-    cout << "YES\n";
-
-snippet no
-    cout << "NO\n";
-
-# useful algos
-# Prime factorization in O(sqrt(n))
-snippet code_primefacts
-    map<int, int> primefacts(int n) {
-      map<int,int> primes;
-      for (int i = 2; i * i <= n; i++) {
-        while (n % i == 0) {
-          primes[i]++;
-          n /= i;
-        }
-      }
-      if (n != 1) {
-        primes[n]++;
-      }
-      return primes;
-    }
-
-# Prime factorization query in O(log(n))
-snippet code_primefacts_log
-    map<int, int> primefacts_log(int x) {
-      map<int, int> primes;
-      while (x != 1) {
-        primes[spf[x]]++;
-        x = x / spf[x];
-      }
-    }
-
-# get divisors from prime facts
-snippet code_getdivs_primefacts
-    vector<int> getDivisors(map<int, int>& primeFactors) {
-      vector<int> divisors;
-      divisors.push_back(1);
-      for (auto& [prime, power] : primeFactors) {
-        for (int i = 0; i < divisors.size(); i++) {
-          long long curr = divisors[i];
-          for (int j = 1; j <= power; j++) {
-            curr *= prime;
-            divisors.push_back(curr);
-          }
-        }
-      }
-      return divisors;
-    }
-
-# get divisors dierctly O(sqrt(n))
-snippet code_getdivs
-    vector<int> getDivisors(int n) {
-      vector<int> divisors;
-      for (int i = 1; i * i <= n; i++) {
-        if (n % i == 0) {
-          divisors.push_back(i);
-          if (i * i != n) {
-            divisors.push_back(n / i);
-          }
-        }
-      }
-      return divisors;
-    }
-# check if prime 
-snippet code_isprime
-    bool isPrime(int n) {
-        if(n < 2) return false;
-        if(n == 2) return true;
-        if(n % 2 == 0) return false;
-        
-        for(int i = 3; i * i <= n; i += 2) {
-            if(n % i == 0) return false;
-        }
-        return true;
-    }
-# Sieve's algorithm to mark numbers as primes and composites
-snippet code_sieve
-    vector<bool> is_prime((int)(1e6+9),true);
-    void sieve(vector<bool> &is_prime) {
-        is_prime[1] = false;
-        is_prime[0] = false;
-        int s = is_prime.size();
-        for (int i = 4; i < s; i += 2)
-            is_prime[i] = false;
-        for (int i = 3; i * i < s; i += 2) {
-            if (is_prime[i]) {
-                for (int j = i * i; j < s; j += i + i)
-                    is_prime[j] = false;
-            }
-        }
-    }
-
-snippet code_sieve_fast
-    const int NMAX = 1000000;
-    bitset<NMAX / 2> bits;
-
-    void precalcseive() {
-      bits.set();
-      for (int i = 3; i / 2 < bits.size(); i = 2 * bits._Find_next(i / 2) + 1) {
-        for (auto j = (int64_t)i * i / 2; j < bits.size(); j += i)
-          bits[j] = 0;
-      }
-    }
-
-# Fast Sieve's algorithm to calc minimum prime
-snippet code_sieve_spf
-    vector<int> spf, primes;
-    void sieve(int n) {
-        spf.assign(n + 1, 0);
-        primes.clear();
-
-        for (int i = 2; i <= n; i++) {
-            if (spf[i] == 0) {
-                spf[i] = i;
-                primes.push_back(i);
-            }
-
-            for (auto p : primes) {
-                if (i * p > n) {
-                    break;
-                }
-                spf[i * p] = p;
-                if (p == spf[i]) {
-                    break;
-                }
-            }
-        }
-    }
-
-# Sieve's algorithm to calc all divisors
-snippet code_sieve_divs
-    void divs(int n = 1e6) {
-        vector<vector<int>> divs(n);
-
-        for (int i = 1; i < n; i++) {
-            for (int j = i; j < n; j += i) {
-                divs[j].push_back(i);
-            }
-        }
-    }
-
-
-snippet code_fast_pow
-    int fast_power(int a, int b, int mod) {
-        int res = 1;
-        while (b) {
-            if (b & 1) res = res * a % mod;
-            a = a * a % mod;
-            b >>= 1;
-        }
-        return res;
-    }
-
 # modular arithmetics stolen from Jiangly
 snippet code_mint
-    template<int32_t mod>
+    template<typename T = void> // default
+    struct BiggerType {
+        typedef ll type;
+    };
+
+    template<> // for long long
+    struct BiggerType<ll> {
+        typedef __int128 type;
+    };
+
+    template<typename T, T mod, typename V = typename BiggerType<T>::type>
     struct mint {
-        using Z = mint;
-        int32_t x;
-        mint(int32_t x = 0) : x(norm(x)) {}
-        mint(ll x) : x(norm(x % mod)) {}
-        inline int32_t norm(int32_t x) const {
-            return x >= mod ? x - mod : (x < 0  ? x + mod : x);
+    private:
+        inline T norm(T x) const {
+            if (x < 0) x += mod;
+            if (x >= mod) x -= mod;
+            return x;
         }
-        Z power(ll b) const {
-            Z res = 1, a = x;
-            for (; b; b >>= 1, a *= a)
+
+    public:
+        T x;
+        mint(T x = 0) : x(norm(x)) {}
+        mint(V x) : x(norm(x % mod)) {}
+        mint operator-() const { return mint(norm(mod - x)); }
+        mint inv() const {
+            assert(x != 0);
+            return power(mod - 2);
+        }
+        mint power(T b) const {
+            mint res = 1, a = x;
+            for (; b; b >>= 1, a *= a) {
                 if (b & 1) res *= a;
+            }
             return res;
         }
-        Z inv() const { return assert(x != 0), power(mod - 2); }
-        Z operator-() const { return -x; }
-        Z &operator*=(const Z &r) { return *this = (ll) x * r.x; }
-        Z &operator+=(const Z &r) { return *this = x + r.x; }
-        Z &operator-=(const Z &r) { return *this = x - r.x; }
-        Z &operator/=(const Z &r) { return *this *= r.inv(); }
-        friend Z operator*(const Z &l, const Z &r) { return Z(l) *= r; }
-        friend Z operator+(const Z &l, const Z &r) { return Z(l) += r; }
-        friend Z operator-(const Z &l, const Z &r) { return Z(l) -= r; }
-        friend Z operator/(const Z &l, const Z &r) { return Z(l) /= r; }
-        friend ostream &operator<<(ostream &os, const Z &a) { return os << a.x; }
-        friend istream &operator>>(istream &is, Z &a) {
-            ll y = 0;
-            return is >> y, a = y, is;
+        mint &operator*=(const mint &rhs) {
+            x = (V) x * rhs.x % mod;
+            return *this;
+        }
+        mint &operator+=(const mint &rhs) {
+            x = norm(x + rhs.x);
+            return *this;
+        }
+        mint &operator-=(const mint &rhs) {
+            x = norm(x - rhs.x);
+            return *this;
+        }
+        mint &operator/=(const mint &rhs) { return *this *= rhs.inv(); }
+        friend mint operator*(const mint &lhs, const mint &rhs) {
+            mint res = lhs;
+            res *= rhs;
+            return res;
+        }
+        friend mint operator+(const mint &lhs, const mint &rhs) {
+            mint res = lhs;
+            res += rhs;
+            return res;
+        }
+        friend mint operator-(const mint &lhs, const mint &rhs) {
+            mint res = lhs;
+            res -= rhs;
+            return res;
+        }
+        friend mint operator/(const mint &lhs, const mint &rhs) {
+            mint res = lhs;
+            res /= rhs;
+            return res;
+        }
+        friend bool operator==(const mint &lhs, const mint &rhs) {
+            return lhs.x == rhs.x;
+        }
+        friend std::istream &operator>>(std::istream &is, mint &a) {
+            T v;
+            return is >> v, a = mint(v), is;
+        }
+        friend std::ostream &operator<<(std::ostream &os, const mint &a) {
+            return os << a.x;
+        }
+        friend mint max(mint a, mint b) {
+            return a.x > b.x ? a : b;
+        }
+        friend mint min(mint a, mint b) {
+            return a.x < b.x ? a : b;
         }
     };
 
     // constexpr int MOD = 998244353;
     constexpr int MOD = 1000000007;
-    using Z = mint<MOD>;
+    using Z = mint<int32_t, MOD>;
+
+
 
 # modular combinations
 snippet code_ncr
@@ -260,198 +113,110 @@ snippet code_ncr
     }
 
 
-snippet code_dfs
-  function<void(int)> dfs = [&](int p) {
-    vis[p] = 1;
-    for (auto v : adj[p]) {
-      if (!vis[v]) dfs(v);
-    }
-  };
 
+# Description
+snippet code_bigint
+    template<int base = 10>
+    class bigint {
+    public:
+        vector<int> digits;
 
-snippet code_bfs
-  queue<int> q;
-  vector<int> d(n + 1, inf), par(n + 1, -1);
-  q.push(1);
-  d[1] = 0;
-  while (!q.empty()) {
-    int u = q.front();
-    q.pop();
-    for (auto v: g[u]) {
-      if (d[u] + 1 < d[v]) {
-        d[v] = d[u] + 1;
-        par[v] = u;
-        q.push(v);
-      }
-    }
-  }
-snippet code_bfs_grid
-  queue<pair<int, int>> q;
-  vector<vector<int>> d(m + 1, vector<int>(n + 1, inf));
-  vector<vector<bool>> visited(m + 1, vector<bool>(n + 1, false));
-  q.push({startX, startY});
-  d[startX][startY] = 0;
-  visited[startX][startY] = true;
+        bigint(unsigned ll value = 0) { set_value(value); }
 
-  int dx[] = {-1, 0, 1, 0}; // Movement in four directions (up, right, down, left)
-  int dy[] = {0, 1, 0, -1};
-
-  while (!q.empty()) {
-    auto [x, y] = q.front();
-    q.pop();
-    for (int i = 0; i < 4; ++i) {
-      int newX = x + dx[i];
-      int newY = y + dy[i];
-      if (newX >= 1 && newX <= m && newY >= 1 && newY <= n && !visited[newX][newY]) {
-        visited[newX][newY] = true;
-        d[newX][newY] = d[x][y] + 1;
-        q.push({newX, newY});
-      }
-    }
-  }
-# random utils
-snippet code_rand
-    mt19937 rng = mt19937(random_device()());
-
-    void seed(int s) { rng = mt19937(s); }
-
-    int rand_int(int x, int y) {
-        return uniform_int_distribution<int>(x, y)(rng);
-    }
-
-# generator utils for the stress tester
-snippet code_stress_gen
-    struct Gen {
-        static vector<int> perm(int n) {
-            vector<int> a(n);
-            for (int i = 0; i < n; i++)
-                a[i] = i;
-            random_shuffle(a.begin(), a.end());
-            return a;
-        }
-
-        static vector<int> tree_parents(int n) {
-            vector<int> p(n - 1);
-            auto a = perm(n);
-            // a.begin(), node 1, is the root
-            random_shuffle(a.begin() + 1, a.end());
-            for (int i = 1; i < n; i++)
-                p[i - 1] = a[rand_int(0, i - 1)] + 1;
-            return p;
-        }
-
-        static vector<pair<int, int>> tree_edges(int n) {
-            auto a = perm(n);
-            vector<pair<int, int>> edges;
-            for (int i = 1; i < n; i++)
-                edges.push_back({a[i] + 1, a[rand_int(0, i - 1)] + 1});
-            return edges;
-        }
-
-
-        static vector<vector<int>> tree_adj(int n) {
-            vector<vector<int>> adj(n);
-            for (auto [u, v]: tree_edges(n)) {
-                u--, v--;
-                adj[u].push_back(v);
-                adj[v].push_back(u);
+        bigint(string s) {
+            digits.resize(s.size());
+            for (int i = (int) s.size() - 1; i >= 0; i--) {
+                digits[i] = s[(int) s.size() - 1 - i] - '0';
             }
-            return adj;
         }
 
-        static string str(int n) {
-            string s;
-            for (int i = 0; i < n; i++)
-                s += rand_int('a', 'z');
-            return s;
-        }
-    };
-
-snippet sum
-    auto sum = [](int n) {
-        return (n * (n + 1)) / 2;
-    };
-
-snippet inverse_sum
-    auto inverse_sum = [](int S) {
-        return ceil((-1 + sqrt(1 + 8 * S)) / 2);
-    };
-
-snippet code_hash
-    constexpr int H = 2;
-    typedef array<long long, H> val;
-    vector<val> B;
-    const val M = {
-            1000000007,
-            1444444447,
-            // 998244353,
-            // 1000000009,
-    };
-
-    val tmp;
-
-    val operator*(const val &a, const val &b) {
-        for (int i = 0; i < H; i++) tmp[i] = a[i] * b[i] % M[i];
-        return tmp;
-    }
-
-    val operator-(const val &a, const val &b) {
-        for (int i = 0; i < H; i++) tmp[i] = (a[i] - b[i] + M[i]) % M[i];
-        return tmp;
-    }
-
-    val operator+(const val &a, const val &b) {
-        for (int i = 0; i < H; i++) tmp[i] = (a[i] + b[i]) % M[i];
-        return tmp;
-    }
-
-    val getval(int x) {
-        for (int i = 0; i < H; i++) tmp[i] = x % M[i];
-        return tmp;
-    }
-
-    void setB(int n) {
-        if (B.size() == 0) {
-            mt19937 rng(random_device{}());
-            B.assign(2, getval(1));
-            for (int i = 0; i < H; i++)
-                B.back()[i] = uniform_int_distribution<ll>(1, M[i] - 1)(rng);
-        }
-        while ((int) B.size() <= n) B.push_back(B.back() * B[1]);
-    }
-
-    struct Hash {
-        vector<val> h;
-
-        Hash(const string &s) : Hash(vector<int>(s.begin(), s.end())) {}
-
-        Hash(const vector<int> &s) {
-            vector<val> v;
-            for (auto x: s) v.push_back(getval(x));
-            *this = Hash(v);
+        template<typename RandomIt>
+        bigint(RandomIt begin, RandomIt end) {
+            digits.assign(begin, end);
         }
 
-        Hash(const vector<val> &s) : h(s.size() + 1) {
-            setB(s.size());
-            for (int i = 0; i < (int) s.size(); i++)
-                h[i + 1] = h[i] * B[1] + s[i];
+        void set_value(ll value) {
+            digits.clear();
+            while (value) {
+                digits.push_back(value % base);
+                value /= base;
+            }
         }
 
-        val get(int l, int r) { return h[r + 1] - h[l] * B[r - l + 1]; }
+        int size() const { return digits.size(); }
+
+        void trim() {
+            while (digits.back() == 0 && digits.size() > 1)
+                digits.pop_back();
+        }
+
+        int &operator[](int i) { return digits[i]; }
+
+        int operator[](int i) const { return digits[i]; }
+
+        void operator*=(const bigint &rhs) {
+            vector<int> res(size() + rhs.size() + 1);
+            for (int i = 0; i < size(); i++) {
+                for (int j = 0; j < rhs.size(); j++) {
+                    res[i + j] += digits[i] * rhs[j];
+                }
+            }
+            for (int i = 0; i < (int) res.size() - 1; i++) {
+                res[i + 1] += res[i] / base;
+                res[i] %= base;
+            }
+            digits = res;
+            trim();
+        }
+
+        void operator+=(const bigint &rhs) {
+            digits.resize(max(size(), rhs.size()) + 1);
+            int i;
+            for (i = 0; i < rhs.size(); i++) {
+                digits[i] += rhs[i];
+                if (digits[i] >= base) {
+                    digits[i + 1] += digits[i] / base;
+                    digits[i] %= base;
+                }
+            }
+            while (i < (int) digits.size() - 1 && digits[i] >= base) {
+                digits[i + 1] = digits[i] / base;
+                digits[i] %= base;
+            }
+            trim();
+        }
+
+        void operator%=(ll mod) {
+            ll p = 1;
+            ll res = 0;
+            for (int i = 0; i < size(); i++) {
+                res = (res + p * digits[i] % mod) % mod;
+                p = p * base % mod;
+            }
+            *this = res;
+        }
+
+        friend bool operator==(bigint &lhs, bigint &rhs) {
+            return lhs.digits == rhs.digits;
+        }
+
+        friend bool operator!=(bigint &lhs, bigint &rhs) {
+            return lhs.digits != rhs.digits;
+        }
+
+        friend bool operator<(bigint &lhs, bigint &rhs) {
+            if (lhs.size() != rhs.size())
+                return lhs.size() < rhs.size();
+            for (int i = lhs.size() - 1; i >= 0; i--) {
+                if (lhs[i] < rhs[i]) return true;
+                if (lhs[i] > rhs[i]) return false;
+            }
+            return false;// equal
+        }
+
+        friend ostream &operator<<(ostream &os, const bigint &bi) {
+            for (int i = bi.size() - 1; i >= 0; i--) os << bi[i];
+            return os;
+        }
     };
-
-
-# stress bash
-snippet stress
-    g++ -o A A.cpp
-    g++ -o B B.cpp
-    g++ -o gen gen.cpp
-    for ((i = 1; ; ++i)); do  # if they are same then will loop forever
-        echo $i
-        ./gen $i > int
-        ./A < int > out1
-        ./B < int > out2
-        #diff -w out1 out2 || break
-         diff -w <(./A < int) <(./B < int) || break
-    done
 

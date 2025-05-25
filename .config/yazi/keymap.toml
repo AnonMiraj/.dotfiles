@@ -1,0 +1,110 @@
+"$schema" = "https://yazi-rs.github.io/schemas/keymap.json"
+
+[manager]
+
+prepend_keymap = [
+  { on = "w", run = '''shell "$SHELL" --block --confirm''', desc = "Open shell here" },
+  { on = "<C-w>", run = "tasks:show", desc = "Show task manager" },
+  { on = "f", run = "plugin jump-to-char", desc = "Jump to char" },
+  { on = "<C-z>", run = "plugin ouch", desc = "Archive selected files" },
+  { on = "K", run = "plugin parent-arrow -1"},
+  { on = "J", run = "plugin parent-arrow 1"},
+  { on = "<A-k>", run = "arrow -5", desc = "Move cursor up half page" },
+  { on = "<A-j>", run = "arrow 5", desc = "Move cursor down half page" },
+  # Rename operations
+  { on = ["C"], run = "rename --cursor=start --empty=stem", desc = "Rename from start" },
+  { on = ["i"], run = "rename --cursor=before_ext --empty=stem", desc = "Rename before extension" },
+  { on = ["a"], run = "rename", desc = "Rename after extension" },
+  { on = ["B"], run = "bulk_rename", desc = "Bulk rename" },
+ 
+  { on = ["<C-n>"], run = "create", desc = "Create file/directory" },
+  { on   = [ ",", "S" ], run  = "plugin what-size", desc = "Calc size of selection or cwd" },
+  { on   = [ "c", "m" ], run  = "plugin chmod", desc = "Chmod on selected files" },
+  { on = "l",run = "plugin fast-enter", desc = "Enter the subfolder faster, or open the file directly" },
+  { on = "<C-d>",run = '''shell 'ripdrag "$@" -n -a -x 2>/dev/null &' --confirm'''},
+  { on = "d",run = '''yank --cut'''},
+
+  { on = "z",run = "plugin zoxide", desc = "jump to a directory using zoxide" },
+  { on = "<C-f>",run = "plugin fzf", desc = "jump to a directory/file using fzf" },
+	{ on = "F", run = "filter --smart", desc = "Filter files" },
+
+
+
+
+
+
+
+  { on = ".", run = [ "hidden toggle", "plugin pref-by-location -- save" ], desc = "Toggle the visibility of hidden files" },
+
+  # Linemode
+  { on = [ "m", "s" ], run = [ "linemode size", "plugin pref-by-location -- save" ],        desc = "Linemode: size" },
+  { on = [ "m", "p" ], run = [ "linemode permissions", "plugin pref-by-location -- save" ], desc = "Linemode: permissions" },
+  { on = [ "m", "b" ], run = [ "linemode btime", "plugin pref-by-location -- save" ],       desc = "Linemode: btime" },
+  { on = [ "m", "m" ], run = [ "linemode mtime", "plugin pref-by-location -- save" ],       desc = "Linemode: mtime" },
+  { on = [ "m", "o" ], run = [ "linemode owner", "plugin pref-by-location -- save" ],       desc = "Linemode: owner" },
+  { on = [ "m", "n" ], run = [ "linemode none", "plugin pref-by-location -- save" ],        desc = "Linemode: none" },
+  # Custom size_and_mtime linemode
+  # { on = [ "u", "S" ], run = [ "linemode size_and_mtime", "plugin pref-by-location -- save" ], desc = "Show Size and Modified time" },
+
+  # Sorting
+  # Any changes during disabled state won't be saved to save file.
+  # { on = [ ",", "t" ], run = "plugin pref-by-location -- toggle",                                                desc = "Toggle auto-save preferences" },
+  { on = [ ",", "t" ], run = [ "sort mtime --reverse", "linemode mtime", "plugin pref-by-location -- save" ],    desc = "Sort by modified time (reverse)" },
+  { on = [ ",", "T" ], run = [ "sort mtime --reverse=no", "linemode mtime", "plugin pref-by-location -- save" ],    desc = "Sort by modified time (reverse)" },
+  # { on = [ ",", "d" ], run = "plugin pref-by-location -- disable",                                               desc = "Disable auto-save preferences" },
+  # This will reset any preference changes for the current working directory (CWD),
+  # then fall back to the predefined preferences in init.lua or yazi.toml.
+  # { on = [ ",", "R" ], run = [ "plugin pref-by-location -- reset" ],                                             desc = "Reset preference of cwd" },
+  { on = [ ",", "m" ], run = [ "sort mtime --reverse=no", "linemode mtime", "plugin pref-by-location -- save" ], desc = "Sort by modified time" },
+  { on = [ ",", "M" ], run = [ "sort mtime --reverse", "linemode mtime", "plugin pref-by-location -- save" ],    desc = "Sort by modified time (reverse)" },
+  { on = [ ",", "b" ], run = [ "sort btime --reverse=no", "linemode btime", "plugin pref-by-location -- save" ], desc = "Sort by birth time" },
+  { on = [ ",", "B" ], run = [ "sort btime --reverse", "linemode btime", "plugin pref-by-location -- save" ],    desc = "Sort by birth time (reverse)" },
+  { on = [ ",", "e" ], run = [ "sort extension --reverse=no", "plugin pref-by-location -- save" ],               desc = "Sort by extension" },
+  { on = [ ",", "E" ], run = [ "sort extension --reverse", "plugin pref-by-location -- save" ],                  desc = "Sort by extension (reverse)" },
+  { on = [ ",", "a" ], run = [ "sort alphabetical --reverse=no", "plugin pref-by-location -- save" ],            desc = "Sort alphabetically" },
+  { on = [ ",", "A" ], run = [ "sort alphabetical --reverse", "plugin pref-by-location -- save" ],               desc = "Sort alphabetically (reverse)" },
+  { on = [ ",", "n" ], run = [ "sort natural --reverse=no", "plugin pref-by-location -- save" ],                 desc = "Sort naturally" },
+  { on = [ ",", "N" ], run = [ "sort natural --reverse", "plugin pref-by-location -- save" ],                    desc = "Sort naturally (reverse)" },
+  # --sensitive=no or --sensitive
+  # { on = [ ",", "N" ], run = [ "sort natural --reverse=no --sensitive", "plugin pref-by-location -- save" ],                    desc = "Sort naturally" },
+  { on = [ ",", "s" ], run = [ "sort size --reverse=no", "linemode size", "plugin pref-by-location -- save" ],   desc = "Sort by size" },
+  { on = [ ",", "S" ], run = [ "sort size --reverse", "linemode size", "plugin pref-by-location -- save" ],      desc = "Sort by size (reverse)" },
+  { on = [ ",", "r" ], run = [ "sort random --reverse=no", "plugin pref-by-location -- save" ],                  desc = "Sort randomly" },
+]
+
+append_keymap = [
+  { on = "e", run = "open", desc = "Open the selected files" },
+  { on = "E", run = "open --interactive", desc = "Open the selected files interactively" },
+  { on = [
+    "g",
+    "n",
+  ], run = "cd ~/.config/nvim/", desc = "Go to the nvim directory" },
+
+  { on = [
+    "g",
+    "v",
+  ], run = "cd ~/videos/", desc = "Go to the videos directory" },
+  { on = [
+    "g",
+    "p",
+  ], run = "cd ~/pictures/", desc = "Go to the pictures directory" },
+  { on = [
+    "g",
+    "s",
+  ], run = "cd ~/pictures/Screenshots/", desc = "Go to the screenshots directory" },
+  { on = [
+    "g",
+    "D",
+  ], run = "cd ~/documents/", desc = "Go to the docs directory" },
+  ]
+
+[input]
+
+prepend_keymap = [{ on = ["<Esc>"], run = "close", desc = "Cancel input" }]
+
+[completion]
+prepend_keymap = [
+  { on = "<C-k>", run = "arrow -1", desc = "Move cursor up" },
+  { on = "<C-j>", run = "arrow 1", desc = "Move cursor down" },
+]
+
