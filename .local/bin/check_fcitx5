@@ -1,0 +1,9 @@
+#!/bin/bash
+
+if pgrep -x "fcitx5" > /dev/null
+then
+    echo "fcitx5 is already running"
+else
+    fcitx5 -D &
+fi
+
