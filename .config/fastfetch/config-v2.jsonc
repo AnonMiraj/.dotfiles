@@ -12,13 +12,19 @@
 "display": {
   "separator": " ➜  "
 },
-
 "modules": [
   "break",
+
+{
+  "type": "custom",
+  "key": "OS",
+  "format": "NirOS 1.0 x86_64"
+}
   {
     "type": "os",
     "key": " DISTRO",
     "keyColor": "31",
+    "format": "nirOS"
   },
   {
     "type": "kernel",

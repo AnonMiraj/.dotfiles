@@ -120,9 +120,9 @@ do_pomodoro() {
         echo $((start_time + time * 60)) > "$time_file_end"
 
 	if [[ ${mode,,} == "pomodoro" ]]; then
-		echo "" > "$status_file"  # Pomodoro (tomato emoji)
+		echo "running" > "$status_file"  # Pomodoro (tomato emoji)
 	elif [[ ${mode,,} == "short break" || ${mode,,} == "long break" ]]; then
-		echo "" > "$status_file"  # Break (coffee emoji)
+		echo "break" > "$status_file"  # Break (coffee emoji)
 	fi
 
 	for ((i = time; i > 0; i--)); do
@@ -187,7 +187,7 @@ unlock_screen() {
 
 call_dmenu() {
 	if command -v rofi >/dev/null; then
-		rofi -dmenu -config ~/.config/rofi/config-compact.rasi  "$@"
+		rofi -dmenu   "$@"
 	else
 		assert_installed dmenu
 		dmenu "$@"

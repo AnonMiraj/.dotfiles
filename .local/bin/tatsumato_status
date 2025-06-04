@@ -14,19 +14,26 @@ toggle_tatsumato() {
         echo "󱎬" > "$status_file"
         echo "Not running" > "$time_file"
     else
-        tatsumato -a -p -d&
+        # Start tatsumato. Redirect its stdout/stderr to /dev/null
+        # or capture it if you need to inspect it, but don't print to script's stdout.
+        tatsumato -a -p -d &>/dev/null & # Redirect both stdout and stderr of tatsumato itself
         echo "" > "$status_file"
     fi
 }
 
+# --- Start main script execution ---
+# Check for 'toggle' argument first
 if [[ "$1" == "toggle" ]]; then
     toggle_tatsumato
-    exit 0
+    exit 0 # Exit immediately after toggle, do not proceed to print status
 fi
 
+# --- Logic to determine status JSON (only runs if not 'toggle') ---
 START=$(date +%s)
-
-STOP=$(<"$time_file_end")
+STOP=0 # Initialize STOP
+if [[ -f "$time_file_end" ]]; then
+    STOP=$(cat "$time_file_end")
+fi
 
 ELAPSED=$(($STOP - $START))
 
@@ -36,21 +43,27 @@ else
     TIME=$(date -u --date="@$ELAPSED" '+%M:%S')
 fi
 
+status_char=""
+time_display=""
+tooltip_text=""
 
 if is_running; then
     if [[ -f "$status_file" && -f "$time_file" ]]; then
-        status=$(cat "$status_file")
-        time_left=$(cat "$time_file")
+        status_char=$(cat "$status_file")
+        time_display="$TIME" # Use the calculated TIME for display
+        tooltip_text=$(cat "$time_file")
     else
-        status="⏹️"
-        time_left="No time left"
+        status_char="⏹️"
+        time_display=""
+        tooltip_text="Status files missing"
     fi
 else
-    status="󱎬"
-    time_left="Pomodoro not running"
-    TIME=""
+    status_char="󱎬"
+    time_display=""
+    tooltip_text="Pomodoro not running"
 fi
 
+# Finally, print only the JSON. Nothing else.
 cat <<EOF
-{"text": "$status $TIME","tooltip": "$time_left"}
+{"text": "$status_char $time_display","tooltip": "$tooltip_text"}
 EOF
