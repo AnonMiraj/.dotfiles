@@ -1,9 +1,9 @@
 "$schema" = "https://yazi-rs.github.io/schemas/keymap.json"
 
-[manager]
+[mgr]
 
 prepend_keymap = [
-  { on = "w", run = '''shell "$SHELL" --block --confirm''', desc = "Open shell here" },
+  { on = "w", run = '''shell "fish" --block --confirm''', desc = "Open shell here" },
   { on = "<C-w>", run = "tasks:show", desc = "Show task manager" },
   { on = "f", run = "plugin jump-to-char", desc = "Jump to char" },
   { on = "<C-z>", run = "plugin ouch", desc = "Archive selected files" },

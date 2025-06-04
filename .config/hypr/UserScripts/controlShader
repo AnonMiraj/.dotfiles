@@ -15,7 +15,7 @@ SHADER_FILES=$(ls "$SHADER_DIR" | sed 's/\.[^.]*$//')
 OPTIONS="off\n$SHADER_FILES"
 
 # Use rofi to select a shader file or turn off
-SELECTED_OPTION=$(echo -e "$OPTIONS" | rofi -dmenu -i -config ~/.config/rofi/config-compact.rasi  -mesg  "Select Shader")
+SELECTED_OPTION=$(echo -e "$OPTIONS" | rofi -dmenu -i  -mesg  "Select Shader")
 
 # If 'off' is selected, turn shaders off
 if [ "$SELECTED_OPTION" == "off" ]; then

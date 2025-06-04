@@ -1,6 +1,4 @@
---- @since 25.2.7
---- NOTE: REMOVE :parent() :name() :is_hovered() :ext() tab.id after upgrade to v25.4.4
---- https://github.com/sxyazi/yazi/pull/2572
+--- @since 25.5.28
 
 local PackageName = "pref-by-location"
 
@@ -161,13 +159,9 @@ local save_prefs = function(opts)
 
 	local save_path = Url(get_state(STATE_KEY.save_path))
 	-- create parent directories
-	local save_path_created, err_create =
-		fs.create("dir_all", type(save_path.parent) == "function" and save_path:parent() or save_path.parent)
+	local save_path_created, err_create = fs.create("dir_all", save_path.parent)
 	if err_create then
-		fail(
-			"Can't create folder: %s",
-			tostring(type(save_path.parent) == "function" and save_path:parent() or save_path.parent)
-		)
+		fail("Can't create folder: %s", tostring(save_path.parent))
 	end
 
 	-- save prefs to file
@@ -210,13 +204,13 @@ local change_pref = ya.sync(function()
 					tab = (type(cx.active.id) == "number" or type(cx.active.id) == "string") and cx.active.id
 						or cx.active.id.value,
 				})
-				ya.manager_emit("sort", sort_pref)
+				ya.emit("sort", sort_pref)
 			end
 
 			-- linemode
 			local linemode_pref = pref.linemode
 			if linemode_pref then
-				ya.manager_emit("linemode", {
+				ya.emit("linemode", {
 					linemode_pref,
 					tab = (type(cx.active.id) == "number" or type(cx.active.id) == "string") and cx.active.id
 						or cx.active.id.value,
@@ -226,7 +220,7 @@ local change_pref = ya.sync(function()
 			--show_hidden
 			local show_hidden_pref = pref.show_hidden
 			if show_hidden_pref ~= nil then
-				ya.manager_emit("hidden", {
+				ya.emit("hidden", {
 					show_hidden_pref and "show" or "hide",
 					tab = (type(cx.active.id) == "number" or type(cx.active.id) == "string") and cx.active.id
 						or cx.active.id.value,
@@ -248,19 +242,11 @@ local change_pref = ya.sync(function()
 						and last_hovered_folder.preview_hovered_folder
 							~= (cx.active.current.hovered and tostring(cx.active.current.hovered.url))
 					then
-						-- hacky way to wait for hidden fully updated UI, then restore hover
-						local args = ya.quote("private-restore-hover")
-							.. " "
-							.. ya.quote(last_hovered_folder.preview_hovered_folder)
-							.. " "
-							.. ya.quote(
-								(type(cx.active.id) == "number" or type(cx.active.id) == "string") and cx.active.id
-									or cx.active.id.value
-							)
-
-						ya.manager_emit("plugin", {
-							get_state("_id"),
-							args,
+						ya.emit("reveal", {
+							last_hovered_folder.preview_hovered_folder,
+							no_dummy = true,
+							tab = (type(cx.active.id) == "number" or type(cx.active.id) == "string") and cx.active.id
+								or cx.active.id.value,
 						})
 					elseif
 						--NOTE: Case user move from right to left
@@ -268,19 +254,11 @@ local change_pref = ya.sync(function()
 						and last_hovered_folder.hovered_folder
 							~= (cx.active.current.hovered and tostring(cx.active.current.hovered.url))
 					then
-						-- hacky way to wait for hidden fully updated UI, then restore hover
-						local args = ya.quote("private-restore-hover")
-							.. " "
-							.. ya.quote(last_hovered_folder.hovered_folder)
-							.. " "
-							.. ya.quote(
-								(type(cx.active.id) == "number" or type(cx.active.id) == "string") and cx.active.id
-									or cx.active.id.value
-							)
-
-						ya.manager_emit("plugin", {
-							get_state("_id"),
-							args,
+						ya.emit("reveal", {
+							last_hovered_folder.hovered_folder,
+							no_dummy = true,
+							tab = (type(cx.active.id) == "number" or type(cx.active.id) == "string") and cx.active.id
+								or cx.active.id.value,
 						})
 					end
 				end
@@ -341,7 +319,11 @@ local reload_prefs_from_file = function()
 	broadcast(PUBSUB_KIND.prefs_changed, prefs)
 end
 
--- sort value is https://yazi-rs.github.io/docs/configuration/keymap#manager.sort
+function M:is_literal_string(str)
+	return str:gsub("([%^%$%(%)%%%.%[%]%*%+%-%?])", "%%%1")
+end
+
+-- sort value is https://yazi-rs.github.io/docs/configuration/keymap#mgr.sort
 --- @param opts {prefs: table<{ location: string, sort: {[1]?: SORT_BY, reverse?: boolean, dir_first?: boolean, translit?: boolean, sensitive?: boolean }, linemode?: LINEMODE, show_hidden?: boolean, is_predefined?: boolean }>, save_path?: string, disabled?: boolean, no_notify?: boolean }
 function M:setup(opts)
 	local prefs = type(opts.prefs) == "table" and opts.prefs or {}
@@ -382,13 +364,8 @@ function M:setup(opts)
 			return
 		end
 		-- NOTE: Trigger if folder is already loaded
-		-- NOTE: REMOVE AFTER NEXT UPDATE
-		local has_lua54_call_metamethod, loaded = pcall(cx.active.current.stage) -- Triggers error
-		if not has_lua54_call_metamethod then
-			loaded = not cx.active.current.stage.is_loading
-		end
 
-		if loaded then
+		if cx.active.current.stage then
 			change_pref()
 		end
 	end)
@@ -403,13 +380,7 @@ function M:setup(opts)
 			return
 		end
 		-- NOTE: Trigger if folder is already loaded
-		-- NOTE: REMOVE AFTER NEXT UPDATE
-		local has_lua54_call_metamethod, loaded = pcall(body.stage) -- Triggers error
-		if not has_lua54_call_metamethod then
-			loaded = not body.stage.is_loading
-		end
-
-		if loaded and current_dir() == tostring(body.url) then
+		if body.stage and current_dir() == tostring(body.url) then
 			change_pref()
 		end
 	end)
@@ -449,8 +420,6 @@ function M:entry(job)
 		save_prefs()
 	elseif action == "reset" then
 		reset_pref_cwd()
-	elseif action == "private-restore-hover" then
-		ya.manager_emit("hover", { job.args[2], tab = job.args[3] })
 	end
 end
 

@@ -1,0 +1,104 @@
+.wallselect-bg {
+    background-color: $layer0;
+    border-bottom: 0.5px solid $outliner;
+    padding: 1rem 0rem 1.2rem;
+}
+.colorpicker{
+    background-color: $layer0;
+    padding: 0.2rem 1.5rem;
+}
+.pick-rounding {
+    border-radius: 0 0 $rounding_large $rounding_large;
+}
+.wall-rounding {
+    border-radius: $rounding_small $rounding_small 0 0;
+}
+.wallpaper-list {
+    .preview-box {
+        min-width: 164px;
+        min-height: 102.5px;
+        background-size: cover;
+        background-position: center;
+        border-radius: $rounding_small;
+    }
+
+    button {
+        margin: 5px;
+    }
+}
+.wallselect-content {
+    background-color: $layer1;
+    padding: 0.5rem 0.5rem;
+    margin: 0 $elevation_margin + $elevation_margin;
+    border-radius:$rounding_medium;
+}
+.corner-wallselect{
+    @include large-rounding;
+    background-color: $background;
+}
+.wallpaper-placeholder {
+    padding: 2rem;
+    @include titlefont;
+    color: $onSurfaceVariant;
+}
+
+.generate-thumbnails {
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    background-color: $secondaryContainer;
+    color: $onSecondaryContainer;
+    margin-right: 0.5rem;
+
+    &:hover {
+        background-color: mix($secondaryContainer, $onSecondaryContainer, 90%);
+    }
+
+    &:active {
+        background-color: mix($secondaryContainer, $onSecondaryContainer, 80%);
+    }
+}
+
+// Pagination styles
+.material-pagination-container {
+    margin: 8px 0;
+    padding: 4px 8px;
+    border-radius: $rounding_medium;
+    background-color: transparentize($surfaceContainerLow, 0.2);
+    box-shadow: 0 1px 3px transparentize($shadow, 0.8);
+}
+
+.wallpaper-pagination-btn {
+    padding: 4px;
+    border-radius: 50%;
+    background-color: transparentize($surfaceContainerLowest, 0.3);
+    color: $onSurface;
+    margin: 0 2px;
+    min-width: 32px;
+    min-height: 32px;
+    transition: background-color 200ms ease, box-shadow 200ms ease;
+
+    // Make the icon larger
+    label {
+        font-size: 18px;
+    }
+
+    &:hover {
+        background-color: mix($surfaceContainerHigh, $primary, 85%);
+        box-shadow: 0 1px 2px transparentize($shadow, 0.8);
+    }
+
+    &:active {
+        background-color: mix($primaryContainer, $primary, 90%);
+        color: $onPrimaryContainer;
+    }
+}
+
+.wallpaper-pagination-counter {
+    font-size: 1rem;
+    font-weight: 500;
+    color: $onSurfaceVariant;
+    margin: 0 8px;
+    min-width: 45px;
+    /* Use xalign instead of text-align for GTK */
+    /* text-align is not supported in GTK CSS */
+}

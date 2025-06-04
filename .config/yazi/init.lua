@@ -228,3 +228,6 @@ require("pref-by-location"):setup({
     -- So change linemode, show_hidden, sort_xyz in yazi.toml instead.
   },
 })
+require("session"):setup {
+	sync_yanked = true,
+}

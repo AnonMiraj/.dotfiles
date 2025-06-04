@@ -21,7 +21,7 @@ toggle_scrcpy() {
 SCRCPY_PID=$(pgrep scrcpy)
 
 if [ -n "$SCRCPY_PID" ]; then
-    CONFIRM=$(echo -e "yes\nno" | rofi -i -dmenu -config ~/.config/rofi/config-compact.rasi  -mesg "scrcpy is running. Kill it?")
+    CONFIRM=$(echo -e "yes\nno" | rofi -i -dmenu  -mesg "scrcpy is running. Kill it?")
     if [ "$CONFIRM" = "yes" ]; then
         kill -9 "$SCRCPY_PID"
         echo "Killed existing scrcpy process."
@@ -31,7 +31,7 @@ if [ -n "$SCRCPY_PID" ]; then
     fi
 fi
 
-CHOICE=$(echo -e "$OPTIONS" | rofi -i -dmenu -config ~/.config/rofi/config-compact.rasi -mesg "Choose scrcpy mode:")
+CHOICE=$(echo -e "$OPTIONS" | rofi -i -dmenu  -mesg "Choose scrcpy mode:")
 
 if [ -n "$CHOICE" ]; then
     toggle_scrcpy "$CHOICE"

@@ -424,11 +424,18 @@ function Yatline.string.get:hovered_mime()
 end
 
 --- Gets the hovered file's user and group ownership of the current active tab.
+--- Unix-like systems only.
 --- @return string ownership Current active tab's hovered file's user and group ownership.
 function Yatline.string.get:hovered_ownership()
 	local hovered = cx.active.current.hovered
 
 	if hovered then
+		if not hovered.cha.uid or not hovered.cha.gid then
+			return ""
+		end
+		if not ya.user_name(hovered.cha.uid) or not ya.group_name(hovered.cha.gid) then
+			return ""
+		end
 		return ya.user_name(hovered.cha.uid) .. ":" .. ya.group_name(hovered.cha.gid)
 	else
 		return ""
@@ -713,6 +720,7 @@ function Yatline.coloreds.create(coloreds, component_type)
 end
 
 --- Gets the hovered file's permissions of the current active tab.
+--- Unix-like systems only.
 --- @return Coloreds coloreds Current active tab's hovered file's permissions
 function Yatline.coloreds.get:permissions()
 	local hovered = cx.active.current.hovered
@@ -1104,6 +1112,10 @@ return {
 				left = { section_a = {}, section_b = {}, section_c = {} },
 				right = { section_a = {}, section_b = {}, section_c = {} },
 			}
+
+		config.theme = (not rt.term.light and config.theme_dark)
+			or (rt.term.light and config.theme_light)
+			or config.theme
 
 		if config.theme then
 			for key, value in pairs(config.theme) do

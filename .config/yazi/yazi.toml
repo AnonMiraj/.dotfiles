@@ -1,15 +1,15 @@
 "$schema" = "https://yazi-rs.github.io/schemas/yazi.json"
 
-[manager]
+[mgr]
 ratio = [1, 4, 3]
 sort_by = "natural"
 sort_dir_first = true
 show_hidden = true
 [opener]
 folder = [
-  { run = '''zsh -c "nvim "$1""''', block = true, desc = "neovim", for = "linux" },
+  { run = '''fish -c "nvim "$1""''', block = true, desc = "neovim", for = "linux" },
   { run = 'kitty --detach nvim "$@"', orphan = true, desc = "neovim (detached)", for = "linux" },
-  { run = '''zsh -c "lazygit -p "$1""''', block = true, desc = "lazygit", for = "linux" },
+  { run = '''fish -c "lazygit -p "$1""''', block = true, desc = "lazygit", for = "linux" },
   { run = 'codium  "$@"', orphan = true, desc = "vscodium", for = "linux" },
   { run = 'kitty "$@"', orphan = true, desc = "kitty", for = "linux" },
   { run = 'xdg-open "$@"', orphan = true, desc = "xdg-open", for = "linux" },
