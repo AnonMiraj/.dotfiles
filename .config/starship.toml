@@ -10,15 +10,15 @@ $character
 
 [palettes.colors]
 mustard = '#af8700' # example
-color1 = '#ffb1c3'
-color2 = '#ffffff'
-color3 = '#514346'
-color4 = '#fbeaec'
-color5 = '#ffffff'
-color6 = '#e7d6d8'
-color7 = '#fff8f7'
-color8 = '#8d4a5c'
-color9 = '#7b5733'
+color1 = '#83d2e5'
+color2 = '#00363f'
+color3 = '#bfc8cb'
+color4 = '#1b2122'
+color5 = '#00363f'
+color6 = '#0e1416'
+color7 = '#0e1416'
+color8 = '#83d2e5'
+color9 = '#bdc5eb'
 
 
 

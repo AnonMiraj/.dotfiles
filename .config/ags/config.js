@@ -18,6 +18,8 @@ import Session from "./modules/session/main.js";
 import SideLeft from "./modules/sideleft/main.js";
 import SideRight from "./modules/sideright/main.js";
 import MusicWindow from "./modules/music/music.js";
+import PomodoroFloatingPanel from "./modules/bar/modules/pomwidget.js";
+
 import Glance from "./modules/overview/glance.js";
 const COMPILED_STYLE_DIR = `${GLib.get_user_cache_dir()}/ags/user/generated`;
 const opts = await userOptions.asyncGet();
@@ -114,6 +116,7 @@ let Modules = () => [
     : []),
   SideLeft(),
   MusicWindow(),
+  PomodoroFloatingPanel(),
   SideRight(),
   Glance(),
 ];
