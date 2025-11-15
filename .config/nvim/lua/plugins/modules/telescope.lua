@@ -28,8 +28,8 @@ function M.init()
 	vim.keymap.set('n', '<leader>fh', require('telescope.builtin').help_tags, { desc = 'Help page' })
 	vim.keymap.set('n', '<leader>fg', require('telescope.builtin').git_files, { desc = 'Find Git Files' })
 	vim.keymap.set('n', '<leader>fc', require('telescope.builtin').grep_string, { desc = '[S]earch current [W]ord' })
-	vim.keymap.set('n', '<leader>fw', require('telescope.builtin').live_grep, { desc = 'Live grep' })
 	vim.keymap.set('n', '<leader>fd', require('telescope.builtin').diagnostics, { desc = 'Find [D]iagnostics' })
+	vim.keymap.set('n', '<leader>fw', require('telescope.builtin').live_grep, { desc = 'Live grep' })
 	vim.keymap.set('n', '<leader>th', require('telescope.builtin').colorscheme, { desc = 'Preview Colorscheme' })
 
 

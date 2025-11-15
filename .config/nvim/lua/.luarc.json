@@ -1,6 +1,7 @@
 {
     "diagnostics.globals": [
         "task",
-        "handle"
+        "handle",
+        "vim"
     ]
 }

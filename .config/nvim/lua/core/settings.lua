@@ -19,6 +19,7 @@ function M.options()
   vim.opt_local.conceallevel = 2
   -- Enable mouse mode
   vim.o.mouse = 'a'
+  vim.opt.autochdir = true
 
   -- Sync clipboard between OS and Neovim.
   vim.o.clipboard = 'unnamedplus'
@@ -59,7 +60,7 @@ function M.options()
 
   vim.opt.encoding = "utf-8"
   vim.opt.fileencoding = "utf-8"
-  vim.opt.wrap = false
+  vim.opt.wrap = true
   vim.o.spelllang = "en_us"
 
   vim.opt.foldcolumn = "2"

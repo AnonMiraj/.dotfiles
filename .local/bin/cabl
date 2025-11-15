@@ -154,7 +154,7 @@ if [[ $locale == ja ]]; then
 			--eos-format='\n' \
 			--unk-format='\n' <<< "$*" |
 			sed '/^ *$/d' |
-			{ rofi -config ~/.config/rofi/config-compact.rasi   -dmenu  || echo "$*" ;} |
+			{  fuzzel --dmenu  || echo "$*" ;} |
 			tee >(wl-copy) |
 			wl-copy
 
@@ -385,7 +385,7 @@ echo "$search_text" | grep -q "^.*@.*\.[A-Za-z]\+$" &&
 
 
 if echo "$search_text" | grep -q "/watch?v=\|invidious\|youtube\.com\|youtu\.be\|twitch\.tv/video"; then
-        youtubedl() { tsp yt-dlp --add-metadata --write-sub -ic -f "bestvideo[height<=720]+bestaudio/best[height<=720]" "$@"; }
+        !youtubedl() { tsp yt-dlp --add-metadata --write-sub -ic -f "bestvideo[height<=720]+bestaudio/best[height<=720]" "$@"; }
 	audiodl() {
 		tsp yt-dlp \
 			--add-metadata -ic \
@@ -398,7 +398,7 @@ if echo "$search_text" | grep -q "/watch?v=\|invidious\|youtube\.com\|youtu\.be\
 fi
 
 echo "$search_text" | grep -Pq "instagram\.com|nitter|/status/|bitchute\.com|worldstar\.com/web/video|twitter\." &&
-	youtubedl() {
+	!youtubedl() {
 		local -r url=$(sed -E 's,.*/([^\/]+)/status/,https://twitter.com/\1/status/,' <<< "$*")
 		tsp torsocks yt-dlp --add-metadata -ic "$url";
 	}
@@ -421,12 +421,13 @@ fi
 
 __ask_action() {
 	declare -F | awk '!/ __.+$/ {gsub("_", " ", $3); print $3}' |
-		rofi -dmenu -config ~/.config/rofi/config-compact.rasi  -mesg "Plumb ${search_text:0:30} to?" -i 
+		  fuzzel --dmenu --prompt "Plumb ${search_text:0:30} to?" -i 
 }
 
 __main() {
 	local pid func
 
+	echo "$search_text" 
 	if [[ -z "$search_text" ]]; then
 		echo "Clipboard is empty." >&2 && exit 1
 	fi

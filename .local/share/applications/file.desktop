@@ -1,6 +1,8 @@
+
 [Desktop Entry]
 Type=Application
 Name=File Manager
-Exec=kitty -e lf-l "%u"
+Exec=/home/nir/.local/bin/yazi-wrapper.sh %u
 MimeType=inode/directory;
 Terminal=false
+

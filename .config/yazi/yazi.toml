@@ -5,12 +5,12 @@ ratio = [1, 4, 3]
 sort_by = "natural"
 sort_dir_first = true
 show_hidden = true
+image_delay = 0
 [opener]
 folder = [
   { run = '''fish -c "nvim "$1""''', block = true, desc = "neovim", for = "linux" },
   { run = 'kitty --detach nvim "$@"', orphan = true, desc = "neovim (detached)", for = "linux" },
   { run = '''fish -c "lazygit -p "$1""''', block = true, desc = "lazygit", for = "linux" },
-  { run = 'codium  "$@"', orphan = true, desc = "vscodium", for = "linux" },
   { run = 'kitty "$@"', orphan = true, desc = "kitty", for = "linux" },
   { run = 'xdg-open "$@"', orphan = true, desc = "xdg-open", for = "linux" },
 ]
@@ -27,11 +27,10 @@ text = [
 document = [
   { run = 'zathura "$@"', orphan = true, desc = "zathura", for = "linux" },
   { run = 'xdg-open "$@"', orphan = true, desc = "xdg-open", for = "linux" },
-  { run = 'libreoffice "$@"', orphan = true, desc = "libreoffice", for = "linux" },
+  { run = 'xournalpp "$@"', orphan = true, desc = "xouranl++", for = "linux" },
 ]
 
 image = [
-  { run = 'nsxiv "$@"', orphan = true, desc = "qimgv", for = "linux" },
   { run = 'xdg-open "$@"', orphan = true, desc = "xdg-open", for = "linux" },
 ]
 video = [
@@ -48,7 +47,7 @@ fallback = [
   { run = 'xdg-open "$@"', orphan = true, desc = "xdg-open", for = "linux" },
 ]
 [open]
-# rules = [
+prepend_rules = [
 #   { name = "*/", use = "folder" },
 #   { mime = "text/*", use = "text" },
 #   { mime = "text/x-lua", use = "text" },
@@ -68,12 +67,16 @@ fallback = [
 #   { mime = "application/x-gzip", use = [ "extract", "reveal" ] },
 #   { mime = "application/x-rar", use = "extract" },
 #   { mime = "application/vnd.rar", use = "extract" },
-#   { mime = "application/pdf", use = "document" },
-  # { mime = "application/epub+zip", use = "document" },
-#   { mime = "application/x-mobipocket-ebook", use = "document" },
+  { mime = "application/pdf", use = "document" },
+  { mime = "application/epub+zip", use = "document" },
+  { mime = "application/x-mobipocket-ebook", use = "document" },
 #
-#   { mime = "*", use = "fallback" },
-# ]
+  # { mime = "*", use = "fallback" },
+]
+
+append_rules = [
+	{ name = "*", use = "fallback" },
+]
 #
 [plugin]
 prepend_previewers = [
@@ -92,7 +95,13 @@ prepend_previewers = [
 	{ mime = "application/epub+zip",        run = "epub-preview"},
 	{ name = "*.epub",		        run = "epub-preview"},
 ] 
-prepend_fetchers = [
-	{ id = "git", name = "*", run = "git" },
-	{ id = "git", name = "*/", run = "git" },
-]
+
+[[plugin.prepend_fetchers]]
+id   = "git"
+name = "*"
+run  = "git"
+
+[[plugin.prepend_fetchers]]
+id   = "git"
+name = "*/"
+run  = "git"

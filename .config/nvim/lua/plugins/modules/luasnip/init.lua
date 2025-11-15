@@ -93,6 +93,7 @@ function M.config()
     require "plugins.modules.luasnip.snips.lua"
     require "plugins.modules.luasnip.snips.cmake"
     require "plugins.modules.luasnip.snips.cpp"
+    require "plugins.modules.luasnip.snips.markdown"
 end
 
 return M

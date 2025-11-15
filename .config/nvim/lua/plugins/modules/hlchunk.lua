@@ -13,7 +13,7 @@ function M.config()
 
   hlchunk.setup {
     chunk = {
-      enable = false,
+      enable = true,
       support_filetypes = {
         -- "*.json",
         "*.lua",
@@ -31,7 +31,7 @@ function M.config()
     },
 
     indent = {
-      enable = true,
+      enable = false,
       use_treesitter = false,
       -- You can uncomment to get more indented line look like
       chars = {
@@ -72,6 +72,9 @@ function M.config()
         vim.fn.synIDattr(vim.fn.synIDtrans(vim.fn.hlID "Whitespace"), "fg", "gui"),
       },
       exclude_filetype = "...",
+    },
+    line_num = {
+      style = "#806d9c",
     },
   }
 end

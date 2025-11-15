@@ -18,38 +18,38 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 readonly lock_timeout=10s
-readonly lock_color=111111
 readonly ankiconnect_url=127.0.0.1:8765
 
 readonly status_file="/tmp/pomodoro_status"
 readonly time_file="/tmp/pomodoro_time"
 readonly time_file_end="/tmp/pomodoro_time_end"
+readonly duration_file="/tmp/pomodoro_duration" # Added for progress tracking
 
-while getopts 'a A p H v h s i d    t: b: l: L: k:' flag; do
-	case $flag in
-	H) human=false ;;
-	v) verbose=true ;;
-	h) disphelp=true ;;
-	s) silent=true ;;
-	i) use_hyprlock=true ;;
-	p) control_player=true ;;
-	a) control_anki=true ;;
-	d) dmenu_nag=true ;;
+while getopts 'aApHvhsi dt:b:l:L:k:' flag; do
+    case $flag in
+    H) human=false ;;
+    v) verbose=true ;;
+    h) disphelp=true ;;
+    s) silent=true ;;
+    i) use_login_lock=true ;; # Changed from use_hyprlock
+    p) control_player=true ;;
+    a) control_anki=true ;;
+    d) dmenu_nag=true ;;
 
-	t) pomtime=${OPTARG} ;;
-	b) brktime=${OPTARG} ;;
-	l) lngbrkt=${OPTARG} ;;
-	L) longbrk=${OPTARG} ;;
-	k) endtime=${OPTARG} ;;
-	*) echo "Unknown argument ${flag}" && exit 1 ;;
-	esac
+    t) pomtime=${OPTARG} ;;
+    b) brktime=${OPTARG} ;;
+    l) lngbrkt=${OPTARG} ;;
+    L) longbrk=${OPTARG} ;;
+    k) endtime=${OPTARG} ;;
+    *) echo "Unknown argument ${flag}" && exit 1 ;;
+    esac
 done
 
 readonly human=${human:-true}
 readonly verbose=${verbose:-false}
 readonly disphelp=${disphelp:-false}
 readonly silent=${silent:-false}
-readonly use_hyprlock=${use_hyprlock:-false}
+readonly use_login_lock=${use_login_lock:-false} # Changed from use_hyprlock
 readonly control_player=${control_player:-false}
 readonly control_anki=${control_anki:-false}
 readonly dmenu_nag=${dmenu_nag:-false}
@@ -61,192 +61,204 @@ readonly longbrk=${longbrk:-3}
 readonly endtime=${endtime:-0}
 
 show_help() {
-	local -r prog=$(basename -- "$0")
-	cat <<-END
-		$prog - Pomodoro productivity shell script.
+    local -r prog=$(basename -- "$0")
+    cat <<-END
+        $prog - Pomodoro productivity shell script.
 
-		Options:
-	END
-	column -N key,description -W description -d -t -s'|' <<-'EOF'
-		  -t [minutes]|Set the amount of minutes a pomodoro lasts. Default 25.
-		  -b [minutes]|Set the amount of minutes a short break lasts. Default 5.
-		  -l [minutes]|Set the amount of minutes a long break lasts. Default 10.
-		  -L [number]|Set the amount of pomodoros before triggering a long break. Default 3.
-		  -k [number]|Set the amount of pomodoros before ending the script. 0 means the script will run until stopped by the user. Default 0.
-		  -H|Disable human mode.
-		  -h|Display this help text and exit.
-		  -v|Enable verbose mode. Echo the pomodoro status to your terminal. Off by default.
-		  -s|Silent mode. Notification sound is not played.
-		  -i|Run hyprlock when a pomodoro is over.
-		  -p|Pause/unpause mpv between breaks.
-		  -a|Control Anki. Close Anki's review screen before a break starts.
-		  -d|Show a dmenu (or rofi) dialog after each pomodoro.
-	EOF
-	cat <<-END
+        Options:
+END
+    column -N key,description -W description -d -t -s'|' <<-'EOF'
+            -t [minutes]|Set the amount of minutes a pomodoro lasts. Default 25.
+            -b [minutes]|Set the amount of minutes a short break lasts. Default 5.
+            -l [minutes]|Set the amount of minutes a long break lasts. Default 10.
+            -L [number]|Set the amount of pomodoros before triggering a long break. Default 3.
+            -k [number]|Set the amount of pomodoros before ending the script. 0 means the script will run until stopped by the user. Default 0.
+            -H|Disable human mode.
+            -h|Display this help text and exit.
+            -v|Enable verbose mode. Echo the pomodoro status to your terminal. Off by default.
+            -s|Silent mode. Notification sound is not played.
+            -i|Lock the session when a pomodoro is over (uses loginctl).
+            -p|Pause/unpause mpv between breaks.
+            -a|Control Anki. Close Anki's review screen before a break starts.
+            -d|Show a dmenu (or rofi) dialog after each pomodoro.
+EOF
+    cat <<-END
 
-		Notes:
-		  Create a shell alias with the options you like. For example:
-		  alias pom="$prog -a -i -p -t 13 -b 2 -l 3"
-	END
+        Notes:
+            Create a shell alias with the options you like. For example:
+            alias pom="$prog -a -i -p -t 13 -b 2 -l 3"
+END
 }
 
 assert_installed() {
-	local x
-	for x; do
-		if ! command -v "$x" >/dev/null 2>&1; then
-			echo "Error: $x is not installed." >&2
-			exit 1
-		fi
-	done
+    local x
+    for x; do
+        if ! command -v "$x" >/dev/null 2>&1; then
+            echo "Error: $x is not installed." >&2
+            exit 1
+        fi
+    done
 }
 
 play_bell() {
-	assert_installed paplay
-	paplay /usr/share/sounds/freedesktop/stereo/complete.oga &
+    assert_installed paplay
+    paplay /usr/share/sounds/freedesktop/stereo/complete.oga &
 }
 
 notify() {
-	assert_installed notify-send
-	$verbose && echo "$@"
-	notify-send "Pomodoro" "$*" >/dev/null 2>&1 &
-	$silent || play_bell
+    assert_installed notify-send
+    $verbose && echo "$@"
+    notify-send "Pomodoro" "$*" >/dev/null 2>&1 &
+    $silent || play_bell
 }
 
 
 do_pomodoro() {
-	local -r time=$1 mode=$2
+    local -r time_min=$1 mode=$2
+    local -r total_seconds=$((time_min * 60))
 
-        local start_time=$(date +%s)
-        echo $((start_time + time * 60)) > "$time_file_end"
+    # Write total duration for external UIs like the Python script
+    echo "$total_seconds" > "$duration_file"
 
-	if [[ ${mode,,} == "pomodoro" ]]; then
-		echo "running" > "$status_file"  # Pomodoro (tomato emoji)
-	elif [[ ${mode,,} == "short break" || ${mode,,} == "long break" ]]; then
-		echo "break" > "$status_file"  # Break (coffee emoji)
-	fi
+    local -r start_time=$(date +%s)
+    echo $((start_time + total_seconds)) > "$time_file_end"
 
-	for ((i = time; i > 0; i--)); do
-		printf -- '%im left of %s' "$i" "${mode,,}" > "$time_file"
-		$human && printf -- '\r'
-		printf -- '%im left of %s ' "$i" "${mode,,}"
-		$human || printf -- '\n'
-		sleep 1m
-	done
+    if [[ ${mode,,} == "pomodoro" ]]; then
+        echo "running" > "$status_file"
+    elif [[ ${mode,,} == "short break" || ${mode,,} == "long break" ]]; then
+        echo "break" > "$status_file"
+    fi
+
+    # Second-based loop for progress
+    for ((s = total_seconds; s >= 0; s--)); do
+        local minutes=$((s / 60))
+        local seconds=$((s % 60))
+        local time_display
+        time_display=$(printf "%02d:%02d" "$minutes" "$seconds")
+        
+        # This will be the main info for the Python GUI
+        printf -- '%s left of %s' "$time_display" "${mode,,}" > "$time_file"
+        
+        # This is for the terminal display
+        $human && printf -- '\r'
+        printf -- 'Time left: %s (%s) ' "$time_display" "${mode,,}"
+        $human || printf -- '\n'
+        
+        sleep 1s
+    done
+    
+    # Add a newline at the end if in human mode
+    $human && echo ""
 }
 
 
 close_review_window() {
-	assert_installed curl
-	# If you use Pomodoro while doing your Anki reps,
-	# this function will close the review window before a break starts.
-	# Requires AnkiConnect to work.
-	curl \
-		-fsS "$ankiconnect_url" \
-		-X POST \
-		-d '{ "action": "guiDeckBrowser", "version": 6 }' >/dev/null &
+    assert_installed curl
+    # If you use Pomodoro while doing your Anki reps,
+    # this function will close the review window before a break starts.
+    # Requires AnkiConnect to work.
+    curl \
+        -fsS "$ankiconnect_url" \
+        -X POST \
+        -d '{ "action": "guiDeckBrowser", "version": 6 }' >/dev/null &
 }
 
 
 setallmpv() {
-	# Sends pause/play commands to mpv.
-	# Requires the mpvSockets user-script for mpv.
-	assert_installed socat 
+    # Sends pause/play commands to mpv.
+    # Requires the mpvSockets user-script for mpv.
+    assert_installed socat 
 
-	local cmd='{ "command": ["set_property", "pause", <pause>] }'
+    local cmd='{ "command": ["set_property", "pause", <pause>] }'
 
-	if [[ $1 == play ]]; then
-		local -r cmd=${cmd/<pause>/false}
-	else
-		local -r cmd=${cmd/<pause>/true}
-	fi
+    if [[ $1 == play ]]; then
+        local -r cmd=${cmd/<pause>/false}
+    else
+        local -r cmd=${cmd/<pause>/true}
+    fi
 
-	for i in /tmp/mpvSockets/*; do
-		echo "$cmd" | socat - "$i"
-	done
+    for i in /tmp/mpvSockets/*; do
+        echo "$cmd" | socat - "$i"
+    done
 }
 
 resume_player() {
-	setallmpv play >/dev/null 2>&1
+    setallmpv play >/dev/null 2>&1
 }
 
 pause_player() {
-	setallmpv pause >/dev/null 2>&1
+    setallmpv pause >/dev/null 2>&1
 }
 
 lock_screen() {
-	assert_installed hyprlock
-	(
-		sleep "$lock_timeout"
-		hyprlock --color="$lock_color"
-	) &
-}
-
-unlock_screen() {
-	killall hyprlock 2>/dev/null || true
+    assert_installed loginctl
+    (
+        sleep "$lock_timeout"
+        loginctl lock-session
+    ) &
 }
 
 call_dmenu() {
-	if command -v rofi >/dev/null; then
-		rofi -dmenu   "$@"
-	else
-		assert_installed dmenu
-		dmenu "$@"
-	fi
+    if command -v rofi >/dev/null; then
+        rofi -dmenu  "$@"
+    else
+        assert_installed dmenu
+        dmenu "$@"
+    fi
 }
 
 dmenu_report() {
-	cat <<-EOF | call_dmenu -l 30 -i -p "Finished 🍠$pomcount pomodoros."
-		☕ start ${mode,,} ($time min)
-		🚪 exit
-	EOF
+    cat <<-EOF | call_dmenu -l 30 -i -p "Finished 🍠$pomcount pomodoros."
+        ☕ start ${mode,,} ($time min)
+        🚪 exit
+EOF
 }
 
 dmenu_nagscreen() {
-	$silent || play_bell
-	case $(dmenu_report) in
-	*start*) return ;;
-	*exit) exit ;;
-	*) echo "Invalid command or no command provided." && exit 1 ;;
-	esac
+    $silent || play_bell
+    case $(dmenu_report) in
+    *start*) return ;;
+    *exit) exit ;;
+    *) echo "Invalid command or no command provided." && exit 1 ;;
+    esac
 }
 
 main() {
-	$disphelp && show_help && exit
+    $disphelp && show_help && exit
 
-	local endcount=0 pomcount=0 mode=Pomodoro time=$pomtime
+    local endcount=0 pomcount=0 mode=Pomodoro time=$pomtime
 
-	while true; do
-		notify "${mode^} will last for $time minute(s)."
-		do_pomodoro "$time" "$mode"
+    while true; do
+        notify "${mode^} will last for $time minute(s)."
+        do_pomodoro "$time" "$mode"
 
-		if [[ ${mode,,} == "pomodoro" ]]; then
-			# after pomodoro
-			pomcount=$((pomcount + 1)) endcount=$((endcount + 1))
-			if [[ $endtime -gt 0 ]] && [[ $endcount -ge $endtime ]]; then
-				echo "Finished."
-				return
-			fi
-			if [[ $pomcount -eq $longbrk ]]; then
-				mode="Long break" time=$lngbrkt
-			else
-				mode="Short break" time=$brktime
-			fi
-			$dmenu_nag && dmenu_nagscreen
-			$control_player && resume_player
-			$use_hyprlock && lock_screen
-			$control_anki && close_review_window
-		else
-			# after break
-			mode="Pomodoro" time=$pomtime
-			$use_hyprlock && unlock_screen
-			$control_player && pause_player
-			$dmenu_nag && dmenu_nagscreen
-		fi
+        if [[ ${mode,,} == "pomodoro" ]]; then
+            # after pomodoro
+            pomcount=$((pomcount + 1)) endcount=$((endcount + 1))
+            if [[ $endtime -gt 0 ]] && [[ $endcount -ge $endtime ]]; then
+                echo "Finished."
+                return
+            fi
+            if [[ $pomcount -eq $longbrk ]]; then
+                mode="Long break" time=$lngbrkt
+            else
+                mode="Short break" time=$brktime
+            fi
+            $dmenu_nag && dmenu_nagscreen
+            $control_player && resume_player
+            $use_login_lock && lock_screen
+            $control_anki && close_review_window
+        else
+            # after break
+            mode="Pomodoro" time=$pomtime
+            $control_player && pause_player
+            $dmenu_nag && dmenu_nagscreen
+        fi
 
-		if [[ ${mode,,} == "long break" ]]; then
-			pomcount=0
-		fi
-	done
+        if [[ ${mode,,} == "long break" ]]; then
+            pomcount=0
+        fi
+    done
 }
 
 main

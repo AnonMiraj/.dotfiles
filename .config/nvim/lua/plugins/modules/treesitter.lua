@@ -6,12 +6,6 @@ local M =
     lazy =false,
     dependencies = {
         'nvim-treesitter/nvim-treesitter-textobjects',
-        {
-            "simrat39/symbols-outline.nvim",
-            config = function()
-                require("symbols-outline").setup {}
-            end,
-        }
     },
     build = ':TSUpdate',
 }

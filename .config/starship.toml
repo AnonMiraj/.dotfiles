@@ -10,15 +10,15 @@ $character
 
 [palettes.colors]
 mustard = '#af8700' # example
-color1 = '#83d2e5'
-color2 = '#00363f'
-color3 = '#bfc8cb'
-color4 = '#1b2122'
-color5 = '#00363f'
-color6 = '#0e1416'
-color7 = '#0e1416'
-color8 = '#83d2e5'
-color9 = '#bdc5eb'
+color1 = '#faba73'
+color2 = '#ffffff'
+color3 = '#50453a'
+color4 = '#faebe0'
+color5 = '#ffffff'
+color6 = '#e5d8cc'
+color7 = '#fff8f4'
+color8 = '#845415'
+color9 = '#56633c'
 
 
 
@@ -101,4 +101,3 @@ format = '[](bold fg:color8)[$path ]($style)[](bold fg:color8)'
 [cmd_duration]
 min_time = 0
 format = '[](bold fg:mustard)[ $duration](bold bg:mustard fg:color3)[](bold fg:mustard) •• '
-

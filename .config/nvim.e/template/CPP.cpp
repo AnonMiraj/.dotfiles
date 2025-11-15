@@ -32,8 +32,7 @@
 #define rep(i, a, b) for (int i = a; i < (b); ++i)
 #define sz(x) (int)(x).size()
 #define int long long
-#define F first
-#define S second
+#define vi vector<int>
 #define all(a) (a).begin(), (a).end()
 #define rall(a) (a).rbegin(), (a).rend()
 
@@ -44,11 +43,16 @@ const int dx[8] = {1, 0, -1, 0, 1, 1, -1, -1},
 
 using namespace std;
 
+void solve() {
 #define MUTLI_CASE
-void solve() {}
+
+}
 int32_t main() {
-  /*freopen("whereami.in", "r", stdin);*/
-  /*freopen("whereami.out", "w", stdout);*/
+
+#ifndef ALGOAT
+  // freopen("i.in", "r", stdin);
+  // freopen("i.out", "w", stdout);
+#endif
   fastio();
   int n = 1;
 
