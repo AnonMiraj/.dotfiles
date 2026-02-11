@@ -14,7 +14,7 @@ if test -f "$MBSYNCRC"
 end
 
 # Use sudo with system commands
-for command in mount umount sv pacman updatedb su shutdown poweroff reboot
+for command in mount umount sv updatedb su shutdown poweroff reboot
     alias $command="sudo $command"
 end
 

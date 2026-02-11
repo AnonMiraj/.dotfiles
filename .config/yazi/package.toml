@@ -58,5 +58,72 @@ use = "yazi-rs/plugins:vcs-files"
 rev = "d1c8baa"
 hash = "4ee57085277d616acfa0ef1fef37dc00"
 
-[flavor]
-deps = []
+[[plugin.deps]]
+use = "simla33/ucp"
+rev = "96f54af"
+hash = "2011ef145f7d4aaa23cbc64c05cd6a7f"
+
+[[plugin.deps]]
+use = "AminurAlam/yazi-plugins:preview-typst"
+rev = "ad655be"
+hash = "b30c20172c5f7d552342fdc14a11f92a"
+
+[[plugin.deps]]
+use = "AminurAlam/yazi-plugins:spot"
+rev = "ad655be"
+hash = "9ba70b10978fe83aae1681fd91f92b76"
+
+[[plugin.deps]]
+use = "AminurAlam/yazi-plugins:spot-video"
+rev = "ad655be"
+hash = "3e437d65ebb31ac1ce2e1a20c93f3357"
+
+[[plugin.deps]]
+use = "AminurAlam/yazi-plugins:spot-image"
+rev = "ad655be"
+hash = "afa0c98d3cab4a594ce5aae7ea92a81a"
+
+[[plugin.deps]]
+use = "nsavvide/duck-radar"
+rev = "c54830c"
+hash = "c553a03f9141cfbfa21027b52dacaca4"
+
+[[plugin.deps]]
+use = "uhs-robert/recycle-bin"
+rev = "fa68711"
+hash = "8714306b5cac6359edbacbf545fbd691"
+
+[[plugin.deps]]
+use = "uhs-robert/sshfs"
+rev = "4070c8e"
+hash = "a4cd81fe60c350c3f0fde9957f4a4bb9"
+
+[[plugin.deps]]
+use = "walldmtd/fs-usage"
+rev = "da38c3e"
+hash = "5a691c4fb17201eab2edb94643d324ae"
+
+[[plugin.deps]]
+use = "AminurAlam/yazi-plugins:fchar"
+rev = "ad655be"
+hash = "d024efb7bc95bcb912fe983fe0f39c7e"
+
+[[plugin.deps]]
+use = "AminurAlam/yazi-plugins:preview-git"
+rev = "ad655be"
+hash = "52f20cafe2faf4901910ef77da8956e8"
+
+[[plugin.deps]]
+use = "boydaihungst/hover-after-moved"
+rev = "c2e90df"
+hash = "c006690998c6446edfd35a1bf7ca639b"
+
+[[flavor.deps]]
+use = "muratoffalex/kanagawa-lotus"
+rev = "00dcc74"
+hash = "8fe01c79d91d7154ce231334cc7275f2"
+
+[[flavor.deps]]
+use = "dangooddd/kanagawa"
+rev = "04985d1"
+hash = "c69a63981e254a3a06a11c2bf0e6af1d"

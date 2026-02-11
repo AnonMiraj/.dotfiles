@@ -2,10 +2,12 @@
 
 [user]
 	# User name and email
-	name = anonmiraj
-	email = nabilmalek48@gmail.com
+	name = Ezzeldin Ibrahim
+	email = ezzibrahimx@gmail.com
+	signingkey = /home/nir/.ssh/id_ed25519.pub
 
 [alias]
+	amend = commit --amend --no-edit
 	co   = checkout
 	ci   = commit
 	st   = status
@@ -27,7 +29,9 @@
 	editor   = nvim
 	autocrlf = false
 	quotePath = false
-
+	fsmonitor = true
+	untrackedCache = true
+	preloadIndex = true
 [push]
 	default = simple
 
@@ -59,6 +63,10 @@
 	untracked = red
 [rerere]
 	enabled = 1
+	autoupdate = true
+[rebase]
+	autoStash = true
+	autoSquash = true
 [pull]
 	rebase = false
 [diff]
@@ -68,6 +76,6 @@
 [init]
 	defaultBranch = main
 [commit]
-	gpgsign = false
+	gpgsign = true
 [pager]
 	status = true

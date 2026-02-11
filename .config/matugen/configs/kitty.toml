@@ -1,0 +1,4 @@
+[templates.dmskitty]
+input_path = './matugen/templates/kitty.conf'
+output_path = '~/.config/kitty/dank-theme.conf'
+post_hook = "kill -SIGUSR1 $(pgrep kitty)"

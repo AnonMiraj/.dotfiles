@@ -2,7 +2,7 @@ local commands = {
   "catppuccin", "zengarden", "tokyonight", "pompeii", "mellow",
   "rose-pine", "gruvbox-material", "everforest", "onehalflight",
   "onelight", "kanagawa", "melange", "PaperColor", "vscode", "edge",
-  "scheakur", "lightning", "atom", "pyte", "solarized","neopywal-dark"
+  "scheakur", "lightning", "atom", "lytmode"
 }
 
 local function write_to_file(filename, value)
@@ -63,9 +63,6 @@ local function check_dark_mode()
 end
 
 vim.loop.new_timer():start(2000, 2000, vim.schedule_wrap(check_dark_mode))
-if commands[currentCommandIndex]=="lushwal" then
-        vim.cmd("silent LushwalCompile")
-end
 
 -- Define the keybindings
 vim.api.nvim_set_keymap('n', '<F6>', ':lua PrevColor()<CR>', { noremap = true, silent = true })

@@ -3,9 +3,9 @@
 [mgr]
 
 prepend_keymap = [
+{ on = [ "g", "a" ], run = '''shell 'adb-sync "$@" /sdcard/acv/ && notify-send "ADB" "Files synced successfully" || notify-send "ADB" "Sync failed"' --confirm''', desc = "ADB sync to /sdcard/acv" },
   { on = "w", run = '''shell "fish" --block --confirm''', desc = "Open shell here" },
   { on = "<C-w>", run = "tasks:show", desc = "Show task manager" },
-  { on = "f", run = "plugin jump-to-char", desc = "Jump to char" },
   { on = "<C-z>", run = "plugin ouch", desc = "Archive selected files" },
   { on = "K", run = "plugin parent-arrow -1"},
   { on = "J", run = "plugin parent-arrow 1"},
@@ -27,8 +27,9 @@ prepend_keymap = [
   { on = "z",run = "plugin zoxide", desc = "jump to a directory using zoxide" },
   { on = "<C-g>",run = "plugin vcs-files", desc = "Show Git file changes" },
   { on = "<C-f>",run = "plugin fzf", desc = "jump to a directory/file using fzf" },
-	{ on = "F", run = "filter --smart", desc = "Filter files" },
-
+  { on = "F", run = "filter --smart", desc = "Filter files" },
+  { on = ["R","b"], run = "plugin recycle-bin",              desc = "Open Recycle Bin menu" },
+  { on = ["M"], run = "plugin sshfs -- menu",            desc = "Open SSHFS options" },
 
 
 
@@ -71,6 +72,13 @@ prepend_keymap = [
   { on = [ ",", "s" ], run = [ "sort size --reverse=no", "linemode size", "plugin pref-by-location -- save" ],   desc = "Sort by size" },
   { on = [ ",", "S" ], run = [ "sort size --reverse", "linemode size", "plugin pref-by-location -- save" ],      desc = "Sort by size (reverse)" },
   { on = [ ",", "r" ], run = [ "sort random --reverse=no", "plugin pref-by-location -- save" ],                  desc = "Sort randomly" },
+
+
+    { on = "p", run = "plugin ucp paste notify", desc = "Paste" },
+    { on = "y", run = "plugin ucp copy notify", desc = "Copy" },
+    { on = "<C-r>", run = "plugin duck-radar", desc = "🦆 Duck Radar - Recent Files" },
+  { on = "f",     run = "plugin fchar start", desc = "Jump to first char in filename" },
+  # { on = "F",     run = "plugin fchar word",  desc = "Jump to first char in a word" },
 ]
 
 append_keymap = [

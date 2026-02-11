@@ -1,24 +1,31 @@
-  -- NOTE: This is where your plugins related to LSP can be installed.
-  --  The configuration is done below. Search for lspconfig to find it below.
-local M =  {
-    -- LSP Configuration & Plugins
-    'neovim/nvim-lspconfig',
-    event = "BufReadPre",
-    dependencies = {
-      -- Automatically install LSPs to stdpath for neovim
-      { 'williamboman/mason.nvim', config = true },
-      'williamboman/mason-lspconfig.nvim',
+return {
+  -- LSP Configuration & Plugins
+  'neovim/nvim-lspconfig',
+  event = { 'BufReadPre', 'BufNewFile' },
+  dependencies = {
+    -- Automatically install LSPs to stdpath for neovim
+    { 'williamboman/mason.nvim', config = true },
+    'williamboman/mason-lspconfig.nvim',
 
-      -- Useful status updates for LSP
-      -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
-      { 'j-hui/fidget.nvim', tag = 'legacy', opts = {} },
+    -- Useful status updates for LSP
+    { 'j-hui/fidget.nvim', opts = {} },
 
-      -- Additional lua configuration, makes nvim stuff amazing!
-      'folke/neodev.nvim',
+    -- New replacement for neodev: provides lsp stuff for neovim config
+    {
+      'folke/lazydev.nvim',
+      ft = 'lua',
+      opts = {
+        library = {
+          -- Load luvit types when the `vim.uv` word is found
+          { path = 'luvit-meta/library', words = { 'vim%.uv' } },
+        },
+      },
     },
-  }
-  function M.config()
+    -- Optional: for lazydev types
+    { 'Bilal2453/luvit-meta', lazy = true },
+  },
+  config = function()
+    -- This calls the file where the actual LSP settings live
     require "plugins.modules.lsp.config"
-    require("fidget").setup { window = { blend = 0 } }
-   end
-return M
+  end,
+}

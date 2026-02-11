@@ -79,6 +79,16 @@ append_rules = [
 ]
 #
 [plugin]
+prepend_spotters = [
+  { url = "video/*", run = "spot-video" },
+  { mime = "image/*", run = "spot-image" },
+
+  { mime = "audio/*", run = "spot" },
+  # use as a spotter for all directories
+  { url = "*/", run = "spot" },
+  # use as a fallback for all files that don't have a spotter
+  { url = "*", run = "spot" },
+]
 prepend_previewers = [
 	# extract previewer
 	# { mime = "application/*zip",            run = "ouch" },
@@ -94,14 +104,16 @@ prepend_previewers = [
 	{ name = "*.json",                      run = "rich-preview"}, # for json (.json) files
 	{ mime = "application/epub+zip",        run = "epub-preview"},
 	{ name = "*.epub",		        run = "epub-preview"},
+	{ url = '*.typ', run = 'preview-typst' },
+	{ url = '**/.git/', run = 'preview-git' },
 ] 
 
-[[plugin.prepend_fetchers]]
-id   = "git"
-name = "*"
-run  = "git"
+prepend_preloaders = [
+  { url = '*.typ', run = 'preview-typst' },
+]
 
-[[plugin.prepend_fetchers]]
-id   = "git"
-name = "*/"
-run  = "git"
+
+prepend_fetchers = [
+	{ id = "git", url = "*", run = "git" },
+	{ id = "git", url = "*/", run = "git" },
+]

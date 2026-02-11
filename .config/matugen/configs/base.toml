@@ -1,0 +1,43 @@
+[config]
+
+[templates.dmsgtk4]
+input_path = '~/.config/matugen/templates/gtk-colors.css'
+output_path = '~/.config/gtk-4.0/dank-colors.css'
+
+[templates.dmskcolorscheme]
+input_path = '~/.config/matugen/templates/kcolorscheme.colors'
+output_path = '~/.local/share/color-schemes/DankMatugen.colors'
+
+[templates.dmslightkcolorscheme]
+input_path = '~/.config/matugen/templates/light-kcolorscheme.colors'
+output_path = '~/.local/share/color-schemes/DankMatugenLight.colors'
+
+[templates.dmsdarkkcolorscheme]
+input_path = '~/.config/matugen/templates/dark-kcolorscheme.colors'
+output_path = '~/.local/share/color-schemes/DankMatugenDark.colors'
+#
+#
+[templates.dmsvicinae]
+input_path = '~/.config/matugen/templates/vicinae.toml'
+output_path = '~/.local/share/vicinae/themes/matugen.toml'
+post_hook = 'vicinae theme set matugen'
+
+# [templates.dmsyazi]
+# input_path = "~/.config/matugen/templates/yazi-theme.toml"
+# output_path = "~/.config/yazi/theme.toml"
+
+
+[templates.starship]
+
+input_path = "~/.config/matugen/templates/starship-colors.toml"
+output_path = "~/.config/starship.toml"
+
+[templates.zathura]
+input_path = '~/.config/matugen/templates/zathura-colors'
+output_path = '~/.config/zathura/zathurarc'
+
+
+[templates.nvim]
+input_path = '~/.config/matugen/templates/template.lua'
+output_path = '~/.config/nvim/generated.lua'
+post_hook = 'pkill -SIGUSR1 nvim'

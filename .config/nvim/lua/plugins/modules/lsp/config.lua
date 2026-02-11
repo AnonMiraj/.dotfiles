@@ -1,108 +1,135 @@
--- [[ Configure LSP ]]
---  This function gets run when an LSP connects to a particular buffer.
-local on_attach = function(_, bufnr)
-  -- NOTE: Remember that lua is a real programming language, and as such it is possible
-  -- to define small helper and utility functions so you don't have to repeat yourself
-  -- many times.
-  --
-  -- In this case, we create a function that lets us more easily define mappings specific
-  -- for LSP related items. It sets the mode, buffer and description for us each time.
-  local nmap = function(keys, func, desc)
-    if desc then
-      desc = 'LSP: ' .. desc
-    end
+-- [[ Modern LSP Configuration for Nvim 0.11+ ]]
 
-    vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
-  end
-
-  --
-
-  -- Create a command `:Format` local to the LSP buffer
-  vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
-    vim.lsp.buf.format()
-  end, { desc = 'Format current buffer with LSP' })
-end
-
--- Enable the following language servers
---  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
---
---  Add any additional override configuration in the following tables. They will be passed to
---  the `settings` field of the server config. You must look up that documentation yourself.
---
---  If you want to override the default filetypes that your language server will attach to you can
---  define the property 'filetypes' to the map in question.
-local servers = {
-  clangd = {},
-  -- gopls = {},
-  pylsp = {},
-  rust_analyzer = {},
-  -- kotlin_language_server = {},
-  -- tsserver = {},
-  html = { filetypes = { 'html', 'twig', 'hbs' } },
-
-  lua_ls = {
-    Lua = {
-      workspace = { checkThirdParty = false },
-      telemetry = { enable = false },
+-- 1. Global Diagnostic Configuration
+vim.diagnostic.config({
+  virtual_text = { prefix = '●' },
+  update_in_insert = false,
+  underline = true,
+  severity_sort = true,
+  float = {
+    focusable = false,
+    style = 'minimal',
+    border = 'rounded',
+    source = true,
+    header = '',
+    prefix = '',
+  },
+  -- Modern way to set signs in Nvim 0.10+
+  signs = {
+    text = {
+      [vim.diagnostic.severity.ERROR] = " ",
+      [vim.diagnostic.severity.WARN]  = " ",
+      [vim.diagnostic.severity.HINT]  = "󰌵 ",
+      [vim.diagnostic.severity.INFO]  = " ",
     },
   },
-}
+})
 
+-- 2. Modern LspAttach Autocommand
+vim.api.nvim_create_autocmd('LspAttach', {
+  group = vim.api.nvim_create_augroup('UserLspConfig', {}),
+  callback = function(ev)
+    local bufnr = ev.buf
 
--- Setup neovim lua configuration
-require('neodev').setup()
+    local nmap = function(keys, func, desc)
+      vim.keymap.set('n', keys, func, { buffer = bufnr, desc = 'LSP: ' .. desc })
+    end
 
--- nvim-cmp supports additional completion capabilities, so broadcast that to servers
+    -- -- Built-in LSP mappings
+    -- nmap('gd', vim.lsp.buf.definition, 'Goto Definition')
+    -- nmap('gr', vim.lsp.buf.references, 'Find References')
+    -- nmap('<leader>ca', vim.lsp.buf.code_action, 'Code Action')
+    -- nmap('<leader>rn', vim.lsp.buf.rename, 'Rename Symbol')
+    -- nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
+    --
+    -- -- Modern Diagnostic Navigation (Nvim 0.11+ uses jump)
+    -- nmap(']d', function() vim.diagnostic.jump({ count = 1, float = true }) end, 'Next Diagnostic')
+    -- nmap('[d', function() vim.diagnostic.jump({ count = -1, float = true }) end, 'Prev Diagnostic')
+    -- nmap('<leader>dd', vim.diagnostic.setloclist, 'Open Diagnostics List')
+    --
+    -- Create local Format command
+    vim.api.nvim_buf_create_user_command(bufnr, 'Format', function()
+      vim.lsp.buf.format({ async = true })
+    end, { desc = 'Format current buffer with LSP' })
+  end,
+})
+
+-- 3. Capability setup for completion
 local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
+local status_ok, cmp_nvim_lsp = pcall(require, 'cmp_nvim_lsp')
+if status_ok then
+  capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
+end
 
--- Ensure the servers above are installed
-local mason_lspconfig = require 'mason-lspconfig'
+-- 4. Server Configurations
+local servo_path = vim.fn.resolve(os.getenv("HOME") .. "/Documents/servo")
+local is_in_servo = vim.fn.getcwd():find(servo_path, 1, true) == 1
 
-mason_lspconfig.setup {
-  ensure_installed = vim.tbl_keys(servers),
+-- Shared window configuration for UI elements
+local window_config = {
+  hover = { border = "rounded" },
+  signature_help = { border = "rounded" },
 }
 
--- mason_lspconfig.setup_handlers {
---   function(server_name)
---     require('lspconfig')[server_name].setup {
---       capabilities = capabilities,
---       on_attach = on_attach,
---       settings = servers[server_name],
---       filetypes = (servers[server_name] or {}).filetypes,
---     }
---   end
--- }
--- require 'lspconfig'.pyright.setup {
---   settings = {
---     python = {
---       analysis = {
---         diagnosticSeverityOverrides = {
---           reportUnusedExpression = "none",
---         },
---       },
---     },
---   },
--- }
+local servers = {
+  clangd = {
+    cmd = {
+      "clangd",
+      "--background-index",
+      "--clang-tidy",
+      "--header-insertion=never",
+    },
+  },
 
-vim.lsp.config.pylsp = {
-  on_attach = on_attach,
-  capabilities = capabilities,
-  settings = {
-    pylsp = {
-      plugins = {
-        pycodestyle = { maxLineLength = 1250 },
-        pylint = {
-          args = "--errors-only",
-          enabled = true,
+  pylsp = {
+    settings = {
+      pylsp = {
+        plugins = {
+          pycodestyle = { maxLineLength = 1250 },
+          pylint = { args = { "--errors-only" }, enabled = true },
         },
       },
     },
   },
+  html = { filetypes = { 'html', 'twig', 'hbs' } },
+  ts_ls = {},
+  lua_ls = {
+    settings = {
+      Lua = {
+        workspace = { checkThirdParty = false },
+        telemetry = { enable = false },
+        diagnostics = { disable = { 'missing-fields' } },
+      },
+    },
+  },
 }
-vim.lsp.start(vim.lsp.config.pylsp)
--- require'lspconfig'.clangd.setup {
---   cmd = { "clangd", "-pretty","-clang-tidy"},
--- }
---
---
+
+-- Handle Rust specifically for Servo
+local rust_config = {}
+if is_in_servo then
+  vim.notify("LSP: Using Servo project settings", vim.log.levels.INFO)
+  rust_config.settings = {
+    ['rust-analyzer'] = {
+      rustfmt = { overrideCommand = { "./mach", "fmt" } },
+      check = { overrideCommand = { "./mach", "clippy", "--message-format=json", "--target-dir", "target/lsp", "--features", "tracing,tracing-perfetto" } },
+      cargo = { buildScripts = { overrideCommand = { "./mach", "clippy", "--message-format=json", "--target-dir", "target/lsp", "--features", "tracing,tracing-perfetto" } } },
+    },
+  }
+end
+servers.rust_analyzer = rust_config
+
+-- 5. Mason and Initialization
+require('mason').setup()
+require('mason-lspconfig').setup({
+  ensure_installed = vim.tbl_keys(servers),
+})
+
+-- 6. Enable servers using the new Nvim 0.11 API
+for server_name, config in pairs(servers) do
+  -- Merge capabilities and window settings
+  config.capabilities = vim.tbl_deep_extend('force', capabilities, config.capabilities or {})
+  config.window = vim.tbl_deep_extend('force', window_config, config.window or {})
+
+  vim.lsp.config(server_name, config)
+  vim.lsp.enable(server_name)
+end

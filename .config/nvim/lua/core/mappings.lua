@@ -15,6 +15,8 @@ function M.general()
   vim.keymap.set("n", " cc", "<cmd> %y+ <CR>")
   vim.api.nvim_set_keymap("x", "<", "<gv", { noremap = true })
   vim.api.nvim_set_keymap("x", ">", ">gv", { noremap = true })
+
+  vim.keymap.set("n", "<BS>", "<CMD>Oil<CR>", { desc = "Open parent directory" })
 end
 
 function M.movements()

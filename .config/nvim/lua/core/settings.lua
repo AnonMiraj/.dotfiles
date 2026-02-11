@@ -9,7 +9,6 @@ end
 function M.globals()
   vim.g.mapleader = " "
   vim.g.maplocalleader = " "
-
 end
 
 function M.options()
@@ -19,7 +18,7 @@ function M.options()
   vim.opt_local.conceallevel = 2
   -- Enable mouse mode
   vim.o.mouse = 'a'
-  vim.opt.autochdir = true
+  -- vim.opt.autochdir = true
 
   -- Sync clipboard between OS and Neovim.
   vim.o.clipboard = 'unnamedplus'
@@ -71,8 +70,8 @@ function M.options()
   vim.opt.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
   vim.opt.signcolumn = "auto:1-2"
   -- Line breaks
-  vim.opt.linebreak = true    -- Wrap long lines at word boundaries
-  vim.opt.showbreak = '+'     -- Gutter string before wrapped lines
+  vim.opt.linebreak = true      -- Wrap long lines at word boundaries
+  vim.opt.showbreak = '+'       -- Gutter string before wrapped lines
   vim.opt.whichwrap = 'b,s,h,l' -- Keys allowed to move across lines
 
   -- [[ Highlight on yank ]]
@@ -85,7 +84,7 @@ function M.options()
     group = highlight_group,
     pattern = '*',
   })
-  vim.o.background = "light"
+  -- vim.o.background = "light"
 end
 
 function M.commands()
