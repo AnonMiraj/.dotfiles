@@ -1,0 +1,8 @@
+# SSH → age key: ssh-to-age -private-key -i ~/.ssh/id_ed25519 > ~/.age/key.txt
+keys:
+  - &nir_admin_age age173qtdeltuqee762pushn3uk2c3g0mtxufepkf7wxa0u3uqn4z96spy2k62
+creation_rules:
+  - path_regex: secrets/.*\.yaml
+    key_groups:
+      - age:
+          - *nir_admin_age

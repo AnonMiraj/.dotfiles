@@ -1,0 +1,13 @@
+.direnv
+result
+result-*
+node_modules
+.pi/tasks/
+.pi/loops/
+session-*.md
+*.bak
+*.AppImage
+.antigravitycli/
+users/nir/fish-config/fish_variables
+.symlink
+skills-lock.json

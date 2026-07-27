@@ -1,0 +1,23 @@
+name: "CI"
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: determinatesystems/nix-installer-action@v20
+        with:
+          determinate: false
+          diagnostic-endpoint: ""
+          logger: pretty
+          source-url: https://install.lix.systems/lix/lix-installer-x86_64-linux
+      - uses: DeterminateSystems/magic-nix-cache-action@main
+        with:
+          diagnostic-endpoint: ""
+      - name: flake check
+        run: nix flake check

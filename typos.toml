@@ -1,0 +1,13 @@
+[default.extend-words]
+ags = "ags"
+facter = "facter"
+noice = "noice"
+eferences = "eferences"
+ymbols = "ymbols"
+efinition = "efinition"
+ist = "ist"
+hda = "hda"
+als = "als"
+
+[files]
+extend-exclude = ["**/secrets/**/*.yaml", "**/*.patch"]
