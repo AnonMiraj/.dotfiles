@@ -18,6 +18,13 @@
       address = [
         "/niro.lan/192.168.1.6"
       ];
+      # Bind only to loopback + LAN iface, not 0.0.0.0:53. Leaves
+      # 10.42.0.1:53 free for NetworkManager's hotspot (shared) dnsmasq.
+      interface = [
+        "lo"
+        "enp43s0"
+      ];
+      bind-interfaces = true;
     };
   };
 }

@@ -91,7 +91,17 @@
     anki
     (import ../pkgs/subminer { inherit inputs pkgs; })
     # Media
-    mpv-unwrapped
+    (mpv.override {
+      scripts = with mpvScripts; [
+        autoload
+        autosub
+        autosubsync-mpv
+        memo
+        mpris
+        thumbfast
+        uosc
+      ];
+    })
     ffmpeg
     obs-studio
     yazi
@@ -110,7 +120,8 @@
     newsboat
     nsxiv
     readest
-    epub-thumbnailer
+		epub-thumbnailer
+		calibre
     imagemagick
     ghostscript
     zathura
@@ -144,10 +155,6 @@
     protonup-rs
     sshfs
     mkcert
-    linux-wifi-hotspot
-    i2c-tools
-    ddcutil
-
     i2c-tools
     ddcutil
     heimdall
