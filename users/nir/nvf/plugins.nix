@@ -81,7 +81,7 @@
       sleuth.enable = true;
       oil-nvim.enable = true;
       csvview.enable = true;
-      images.image-nvim.enable = true;
+      # images.image-nvim.enable = true;
       motion.leap.enable = true;
     };
 

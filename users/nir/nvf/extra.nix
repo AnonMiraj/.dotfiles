@@ -152,26 +152,28 @@
 
       # image.nvim config (package already in utility.images)
       # We add the config here since utility.images just provides the pkg
-      image-config = {
-        after = ["images"];
-        setup = ''
-          require("image").setup({
-            backend = "kitty",
-            integrations = {
-              markdown = { enabled = true, clear_in_insert_mode = false, download_remote_images = true, only_render_image_at_cursor = false, filetypes = { "markdown", "vimwiki" } },
-              neorg = { enabled = true, clear_in_insert_mode = false, download_remote_images = true, only_render_image_at_cursor = false, filetypes = { "norg" } },
-              typst = { enabled = false },
-            },
-            max_width = 100,
-            max_height = 12,
-            max_height_window_percentage = math.huge,
-            max_width_window_percentage = math.huge,
-            window_overlap_clear_enabled = true,
-            window_overlap_clear_ft_ignore = { "cmp_menu", "cmp_docs", "" },
-            kitty_method = "normal",
-          })
-        '';
-      };
+      # image-config = {
+      #   after = ["images"];
+      #   setup = ''
+      #     require("image").setup({
+      #       backend = "kitty",
+      #       integrations = {
+      #         markdown = { enabled = true, clear_in_insert_mode = false, download_remote_images = true, only_render_image_at_cursor = false, filetypes = { "markdown", "vimwiki" } },
+      #         neorg = { enabled = true, clear_in_insert_mode = false, download_remote_images = true, only_render_image_at_cursor = false, filetypes = { "norg" } },
+      #         typst = { enabled = false },
+      #       },
+      #       max_width = 100,
+      #       max_height = 12,
+      #       max_height_window_percentage = math.huge,
+      #       max_width_window_percentage = math.huge,
+      #       window_overlap_clear_enabled = true,
+      #       window_overlap_clear_ft_ignore = { "cmp_menu", "cmp_docs", "" },
+      #       kitty_method = "normal",
+      #     })
+      #   '';
+      # };
+
+
 
       # competitest.nvim — competitive programming helper
       competitest = {
