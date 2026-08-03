@@ -28,9 +28,6 @@
     };
   };
 
-  # Boost NM hotspot dnsmasq cache (default 150 entries)
-  environment.etc."NetworkManager/dnsmasq-shared.d/cache.conf".text = ''
-    cache-size=1000
-    neg-ttl=60
-  '';
+  # dnsmasq bind-interfaces above frees 0.0.0.0:53 for
+  # NM hotspot dnsmasq (see modules/selfhost/hotspot.nix).
 }
