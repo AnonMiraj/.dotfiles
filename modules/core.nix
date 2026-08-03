@@ -47,6 +47,8 @@
       # interfaces (ap*). NM's own AP activation holds the phy, which would
       # make ip link del fail with EBUSY, so the radio must be off while
       # deleting. Restart radio and re-create the profile afterwards.
+      # Set regulatory domain (unlocks full 5 GHz channels)
+      ${pkgs.iw}/bin/iw reg set EG 2>/dev/null || true
       ${pkgs.networkmanager}/bin/nmcli radio wifi off || true
       i=0
       while [ $i -lt 15 ]; do
