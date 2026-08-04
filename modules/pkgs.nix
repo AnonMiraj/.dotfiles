@@ -53,6 +53,7 @@
     lazygit
     gh
     opencode
+    tuicr
     claude-code
     code-cursor-fhs
     neovim
