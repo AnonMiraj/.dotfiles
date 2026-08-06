@@ -28,6 +28,14 @@
     };
   };
 
+  # Wait for the LAN interface before starting dnsmasq. Without this it
+  # races boot: "unknown interface enp43s0" → 5 fast restarts →
+  # start-limit-hit → service dead (DNS down until manual start).
+  systemd.services.dnsmasq = {
+    after = [ "network-online.target" ];
+    wants = [ "network-online.target" ];
+  };
+
   # dnsmasq bind-interfaces above frees 0.0.0.0:53 for
   # NM hotspot dnsmasq (see modules/selfhost/hotspot.nix).
 }
