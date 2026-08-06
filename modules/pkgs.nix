@@ -51,6 +51,7 @@
     git
     git-lfs
     lazygit
+    diff-so-fancy
     gh
     opencode
     tuicr
