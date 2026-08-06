@@ -5,15 +5,9 @@
   ...
 }: {
   # ── Hotspot (SSID "nir") ──────────────────────────────────────────
-  # NetworkManager native AP mode. Replaces the old create_ap + dispatcher
-  # setup, which died on outages (ethernet-down stopped the AP, NM grabbed
-  # wlan as a client, create_ap VIF add hit EBUSY → restart loop).
-  # NM keeps the AP up through ethernet outages; NAT resumes when the
-  # uplink returns.
-  #
-  # Intel AX211 5 GHz AP mode is broken at the firmware level (iwlwifi
-  # LAR blocks initate-radiation on U-NII-1; U-NII-3 phone can't scan).
-  # Stuck on 2.4 GHz ch 6, WPA2-only, PMF disabled for max compatibility.
+  boot.extraModprobeConfig = ''
+    options iwlwifi bt_coex_active=0 disable_11ax=1
+  '';
 
   systemd.services.nm-hotspot = {
     description = "NetworkManager hotspot profile (nir)";
@@ -27,11 +21,6 @@
     };
     script = ''
       PROFILE=nir-hotspot
-      # Let NM release the wifi phy, then remove leftover create_ap virtual
-      # interfaces (ap*). NM's own AP activation holds the phy, which would
-      # make ip link del fail with EBUSY, so the radio must be off while
-      # deleting. Restart radio and re-create the profile afterwards.
-      # Set regulatory domain (unlocks full 5 GHz channels)
       ${pkgs.iw}/bin/iw reg set EG 2>/dev/null || true
       ${pkgs.networkmanager}/bin/nmcli radio wifi off || true
       i=0

@@ -24,18 +24,25 @@
         "lo"
         "enp43s0"
       ];
-      bind-interfaces = true;
+      # bind-dynamic (not bind-interfaces): tolerates the iface not
+      # existing yet at boot (eth0 → enp43s0 udev rename race) and
+      # tracks address changes via netlink. bind-interfaces crashes
+      # with "unknown interface" and hits start-limit-hit.
+      bind-dynamic = true;
     };
   };
 
-  # Wait for the LAN interface before starting dnsmasq. Without this it
-  # races boot: "unknown interface enp43s0" → 5 fast restarts →
-  # start-limit-hit → service dead (DNS down until manual start).
+  # Best effort: start after the network is up, but don't hard-depend
+  # on it — network-online.target can fire before the wired iface is
+  # renamed/configured, which bind-dynamic now tolerates anyway.
   systemd.services.dnsmasq = {
     after = [ "network-online.target" ];
     wants = [ "network-online.target" ];
   };
 
-  # dnsmasq bind-interfaces above frees 0.0.0.0:53 for
+
+
+
+  # bind-dynamic above frees 0.0.0.0:53 for
   # NM hotspot dnsmasq (see modules/selfhost/hotspot.nix).
 }
