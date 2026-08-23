@@ -1,16 +1,16 @@
 # Service metadata template:
 # servicename = {
 #   port = 1234;                        # required — local port
-#   domain = "sub";                      # required — subdomain.niro.lan
-#   proxyTarget = "localhost:1234";      # optional — override proxy target
-#   homepage.group = "Media";            # optional — Media / Dev / System
-#   homepage.name = "My Service";        # optional — display name (default: capitalized attr name)
-#   homepage.description = "...";        # optional
-#   homepage.icon = "https://...";       # optional — icon URL
-#   gatus.enable = true;                 # optional — default true
-#   gatus.checkPath = "/health";          # optional — default "/"
-#   frp.enable = true;                   # optional — expose via FRP
-#   frp.remotePort = 8881;               # optional — default same as port
+#   domain = "sub";                     # required — subdomain.niro.lan
+#   proxyTarget = "localhost:1234";     # optional — override proxy target
+#   homepage.group = "Media";           # optional — Media / Dev / System
+#   homepage.name = "My Service";       # optional — display name (default: capitalized attr name)
+#   homepage.description = "...";       # optional
+#   homepage.icon = "https://...";      # optional — icon URL
+#   gatus.enable = true;                # optional — default true
+#   gatus.checkPath = "/health";        # optional — default "/"
+#   frp.enable = true;                  # optional — expose via FRP
+#   frp.remotePort = 8881;              # optional — default same as port
 # };
 {...}: {
   my.services = {
@@ -107,6 +107,16 @@
       homepage.group = "core";
       homepage.name = "Homepage";
       gatus.enable = true;
+    };
+    v2raya = {
+      port = 2017;
+      domain = "vpn";
+      homepage.group = "System";
+      homepage.name = "v2rayA";
+      homepage.icon = "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@main/png/v2ray.png";
+      homepage.description = "V2Ray / Xray Web Client";
+      gatus.enable = false;
+      frp.enable = false;
     };
   };
 }

@@ -196,4 +196,8 @@
   systemd.services.suwayomi-server.after = ["mnt-media.mount"];
   systemd.services.suwayomi-server.wants = ["mnt-media.mount"];
 
+  # v2rayA Web GUI & Service
+  services.v2raya = {
+    enable = true;
+  };
 }
