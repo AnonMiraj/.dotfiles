@@ -127,6 +127,7 @@
     imagemagick
     ghostscript
     zathura
+    xournalpp
     typst
     pandoc
 
@@ -172,7 +173,7 @@
     inputs.stasis.packages.${pkgs.stdenv.hostPlatform.system}.stasis
     vicinae
     tremc
-    # antigravity-cli
+    inputs.antigravity-nix.packages.${pkgs.stdenv.hostPlatform.system}.google-antigravity-cli
     trash-cli
     presenterm
     wl-clipboard

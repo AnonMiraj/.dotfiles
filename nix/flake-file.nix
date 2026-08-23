@@ -160,6 +160,11 @@
         url = "github:AnonMiraj/fconv.nvim";
         flake = false;
       };
+
+      antigravity-nix = {
+        url = "github:jacopone/antigravity-nix";
+        inputs.nixpkgs.follows = "nixpkgs";
+      };
     };
   };
 
