@@ -118,5 +118,14 @@
       gatus.enable = false;
       frp.enable = false;
     };
+    aria = {
+      port = 6800;
+      domain = "aria";
+      homepage.group = "Media";
+      homepage.name = "Aria2";
+      homepage.icon = "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@main/png/aria2.png";
+      homepage.description = "Download manager";
+      gatus.enable = false;
+    };
   };
 }

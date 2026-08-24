@@ -91,9 +91,23 @@ in {
             }
           '';
         })
+        # Aria2 / AriaNg — custom static web + RPC routing
+        (nameValuePair "aria.niro.lan" {
+          serverAliases = ["*.aria.niro.lan"];
+          extraConfig = ''
+            ${tlsBlock}
+            handle /jsonrpc* {
+              reverse_proxy localhost:6800
+            }
+            handle {
+              root * ${pkgs.ariang}/share/ariang
+              file_server
+            }
+          '';
+        })
       ];
     in
-      builtins.listToAttrs (generated ++ extras);
+      builtins.listToAttrs (extras ++ generated);
   };
 
   # ── Homepage dashboard entries ────────────────────────────────
@@ -122,6 +136,7 @@ services.frp.instances.frpc = {
     settings = {
         serverAddr = "almiraj.xyz";
         serverPort = 7000;
+        loginFailExit = false;
         proxies = mapAttrsToList (name: svc: {
             inherit name;
             type = "tcp";

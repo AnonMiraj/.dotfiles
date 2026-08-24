@@ -68,7 +68,7 @@
   systemd.services.fix-media-perms = {
     description = "Set ACLs on /mnt/media for shared service access";
     after = ["mnt-media.mount"];
-    before = ["transmission-daemon.service" "sonarr.service" "bazarr.service"];
+    before = ["transmission-daemon.service" "sonarr.service" "bazarr.service" "aria2.service"];
     wantedBy = ["multi-user.target"];
     serviceConfig = {
       Type = "oneshot";
@@ -203,4 +203,26 @@
   systemd.services.v2raya.serviceConfig = {
     TimeoutStopSec = "3s";
   };
+
+  # Aria2 Daemon
+  services.aria2 = {
+    enable = true;
+    openPorts = true;
+    rpcSecretFile = pkgs.writeText "aria2-rpc-secret" "niro-aria2-secret";
+    downloadDirPermission = "0775";
+    serviceUMask = "0002";
+    settings = {
+      dir = "/mnt/media/downloads";
+      max-connection-per-server = 16;
+      min-split-size = "10M";
+      split = 16;
+      max-concurrent-downloads = 5;
+      continue = true;
+      enable-dht = true;
+      rpc-allow-origin-all = true;
+    };
+  };
+  systemd.services.aria2.after = ["mnt-media.mount"];
+  systemd.services.aria2.wants = ["mnt-media.mount"];
+  users.users.aria2.extraGroups = ["users"];
 }
