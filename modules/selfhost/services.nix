@@ -200,4 +200,7 @@
   services.v2raya = {
     enable = true;
   };
+  systemd.services.v2raya.serviceConfig = {
+    TimeoutStopSec = "3s";
+  };
 }

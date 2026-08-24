@@ -19,6 +19,9 @@
         doCheck = false;
         doInstallCheck = false;
       });
+      v2raya = prev.v2raya.overrideAttrs (old: {
+        tags = [ "with_gvisor" ];
+      });
     })
   ];
 

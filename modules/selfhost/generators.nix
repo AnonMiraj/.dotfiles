@@ -197,4 +197,9 @@ services.frp.instances.frpc = {
       RandomizedDelaySec = 30;
     };
   };
+
+  # ── Local hosts resolution for *.niro.lan ─────────────────────
+  networking.hosts."127.0.0.1" =
+    (mapAttrsToList (_: svc: domainOf svc) config.my.services)
+    ++ (builtins.attrNames config.my.caddy.extraVhosts);
 }

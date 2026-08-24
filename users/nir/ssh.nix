@@ -16,6 +16,11 @@
         IdentityFile = "~/.ssh/id_ed25519";
         IdentitiesOnly = "yes";
       };
+      "almiraj.xyz" = {
+        HostName = "152.53.81.54";
+        User = "root";
+        proxyCommand = "nc -X 5 -x 127.0.0.1:20170 %h %p";
+      };
     };
   };
 
