@@ -167,6 +167,7 @@
     android-tools
     adb-sync
     (import ../pkgs/odin4 { inherit (pkgs) lib stdenv fetchurl unzip autoPatchelfHook libusb1; })
+    (import ../pkgs/hiddify { inherit (pkgs) lib appimageTools fetchurl; })
 
     # System
     cachix
