@@ -181,6 +181,9 @@
     trash-cli
     presenterm
     wl-clipboard
+    wtype
+    hyprwhspr-rs
+    whisper-cpp
     libnotify
     xxhash
     xdg-desktop-portal-termfilechooser

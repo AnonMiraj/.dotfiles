@@ -158,6 +158,10 @@
       action.spawn = ["vicinae" "vicinae://launch/@anonmiraj/vicinae-extension-jellyfin-browser-0/jellyfin-browser"];
       repeat = false;
     };
+    "Super+Alt+D" = {
+      action.spawn = ["hyprwhspr-rs" "record" "toggle"];
+      repeat = false;
+    };
     "Super+Shift+Q" = {
       action.spawn = ["noctalia" "msg" "panel-toggle" "session"];
       repeat = false;

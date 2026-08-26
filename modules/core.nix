@@ -54,7 +54,7 @@
   users.users.nir = {
     isNormalUser = true;
     description = "nir";
-    extraGroups = ["networkmanager" "wheel" "adbusers" "docker" "i2c"];
+    extraGroups = ["networkmanager" "wheel" "adbusers" "docker" "i2c" "input" "audio"];
     shell = pkgs.fish;
     packages = with pkgs; [
     ];

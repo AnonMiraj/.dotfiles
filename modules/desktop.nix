@@ -28,6 +28,9 @@
   programs.niri.enable = true;
   programs.niri.package = pkgs.niri;
 
+  # Speech-to-text dictation
+  services.hyprwhspr-rs.enable = true;
+
   # Ly TUI display manager config
   services.displayManager.ly.settings = {
     animation = "colormix";
