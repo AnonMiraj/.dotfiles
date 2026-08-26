@@ -41,6 +41,10 @@ in {
       };
       launcher_window = {
         opacity = 0.98;
+        layer_shell = {
+          enabled = true;
+          layer = "overlay";
+        };
       };
       providers = {
         applications = {
