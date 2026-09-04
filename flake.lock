@@ -634,6 +634,27 @@
         "type": "github"
       }
     },
+    "niri-zoom": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1788504279,
+        "narHash": "sha256-rzPuPbohjEO8SwagzrxJAleFgk0jcgSyVeLmknqnGeY=",
+        "owner": "AnonMiraj",
+        "repo": "niri-zoom",
+        "rev": "7fe35941a22463245fcff79e1e9bd48dfb75f37b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "AnonMiraj",
+        "ref": "add-flake",
+        "repo": "niri-zoom",
+        "type": "github"
+      }
+    },
     "nix-test-runner": {
       "flake": false,
       "locked": {
@@ -873,6 +894,7 @@
         "llm-agents": "llm-agents",
         "make-shell": "make-shell",
         "niri": "niri",
+        "niri-zoom": "niri-zoom",
         "nixpkgs": "nixpkgs",
         "noctalia": "noctalia",
         "nvf": "nvf",

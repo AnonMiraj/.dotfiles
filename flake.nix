@@ -91,6 +91,10 @@
       url = "github:epireyn/niri-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    niri-zoom = {
+      url = "github:AnonMiraj/niri-zoom/add-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     noctalia = {
       url = "git+https://github.com/noctalia-dev/noctalia-shell";

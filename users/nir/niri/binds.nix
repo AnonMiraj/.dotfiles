@@ -1,4 +1,6 @@
-{...}: {
+{pkgs, inputs, ...}: let
+  niri-zoomctl = "${inputs.niri-zoom.packages.${pkgs.stdenv.hostPlatform.system}.default}/bin/niri-zoomctl";
+in {
   programs.niri.settings.binds = {
     # ── Media keys ─────────────────────────────────────────
     "XF86AudioRaiseVolume" = {
@@ -190,6 +192,16 @@
     };
     "Mod+WheelScrollRight".action.focus-column-right = [];
     "Mod+WheelScrollLeft".action.focus-column-left = [];
+    # ── Mouse wheel + Ctrl — niri-zoom ──────────────────────
+    "Ctrl+WheelScrollUp" = {
+      action.spawn = [niri-zoomctl "in"];
+      cooldown-ms = 0;
+    };
+    "Ctrl+WheelScrollDown" = {
+      action.spawn = [niri-zoomctl "out"];
+      cooldown-ms = 0;
+    };
+    "Ctrl+Mod+Z".action.spawn = [niri-zoomctl "reset"];
     "Mod+shift+WheelScrollRight".action.move-column-right = [];
     "Mod+shift+WheelScrollLeft".action.move-column-left = [];
 

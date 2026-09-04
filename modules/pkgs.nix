@@ -146,6 +146,7 @@
     mesa-demos
     xrandr
     xwayland-satellite
+    inputs.niri-zoom.packages.${pkgs.stdenv.hostPlatform.system}.default
     xdotool
     xwininfo
 

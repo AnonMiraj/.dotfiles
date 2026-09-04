@@ -95,6 +95,11 @@
         inputs.nixpkgs.follows = "nixpkgs";
       };
 
+      niri-zoom = {
+        url = "github:AnonMiraj/niri-zoom/add-flake";
+        inputs.nixpkgs.follows = "nixpkgs";
+      };
+
       stasis = {
         url = "github:saltnpepper97/stasis";
         inputs.nixpkgs.follows = "nixpkgs";
