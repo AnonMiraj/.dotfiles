@@ -39,6 +39,30 @@
     LANG = "en_US.UTF-8";
   };
 
+  xdg.mimeApps = {
+    enable = true;
+    defaultApplications = {
+      "image/png" = ["nsxiv.desktop"];
+      "image/jpeg" = ["nsxiv.desktop"];
+      "image/gif" = ["nsxiv.desktop"];
+      "image/webp" = ["nsxiv.desktop"];
+      "image/bmp" = ["nsxiv.desktop"];
+      "image/tiff" = ["nsxiv.desktop"];
+      "image/svg+xml" = ["nsxiv.desktop"];
+      "image/x-icon" = ["nsxiv.desktop"];
+      "application/pdf" = ["org.pwmt.zathura-pdf-mupdf.desktop" "org.pwmt.zathura.desktop"];
+      "application/epub+zip" = ["org.pwmt.zathura.desktop" "readest.desktop"];
+      "video/mp4" = ["mpv.desktop"];
+      "video/mkv" = ["mpv.desktop"];
+      "video/webm" = ["mpv.desktop"];
+      "video/x-matroska" = ["mpv.desktop"];
+      "audio/mpeg" = ["mpv.desktop"];
+      "audio/flac" = ["mpv.desktop"];
+      "audio/ogg" = ["mpv.desktop"];
+      "audio/wav" = ["mpv.desktop"];
+    };
+  };
+
   xdg.configFile."xdg-desktop-portal-termfilechooser/config".text = let
     wrapper =
       pkgs.runCommand "yazi-wrapper.sh"

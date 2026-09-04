@@ -25,7 +25,7 @@
       prepend_keymap = [
         {
           on = ["g" "a"];
-          run = "shell 'adb-sync \"$@\" /sdcard/acv/ && notify-send ADB \"Files synced successfully\" || notify-send ADB \"Sync failed\"' --confirm";
+          run = "shell 'adb-sync %s /sdcard/acv/ && notify-send ADB \"Files synced successfully\" || notify-send ADB \"Sync failed\"' --confirm";
           desc = "ADB sync";
         }
         {
@@ -110,7 +110,7 @@
         }
         {
           on = "<C-d>";
-          run = "shell 'ripdrag \"$@\" -n -a -x 2>/dev/null &' --confirm";
+          run = "shell 'ripdrag %s -n -a -x 2>/dev/null &' --confirm";
           desc = "Drag files";
         }
         {

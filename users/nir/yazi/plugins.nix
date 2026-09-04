@@ -14,8 +14,8 @@ let
         src = fetchFromGitHub {
           owner = "AminurAlam";
           repo = "yazi-plugins";
-          rev = "0fd127f";
-          hash = "sha256-AW7PQJ9P6oYZHyH2Vp8CgWGGDy/yhscOl5PWFiv+mqA=";
+          rev = "9997d5ba641314a83ed225a73c0293bd013e1bfc";
+          hash = "sha256-KDH3Ix8ymqDtxH31NnlVeceaLn8MZy1OSDFLrHbn+IM=";
         };
       }
       ''
@@ -105,6 +105,9 @@ in
     "preview-git" = {
       package = fromYaziPlugins "preview-git";
     };
+    "preview-epub" = {
+      package = fromYaziPlugins "preview-epub";
+    };
     "fchar" = {
       package = fromYaziPlugins "fchar";
     };
@@ -114,8 +117,8 @@ in
         pname = "pref-by-location";
         owner = "boydaihungst";
         repo = "pref-by-location.yazi";
-        rev = "8d355f5";
-        hash = "sha256-8LPPU9MGiFOavVMLtMalbbumc+mutLPHdAHX4rxZnfQ=";
+        rev = "0248cfe9737fccfdc11bac485f7a19c440e53e46";
+        hash = "sha256-POC/a1DfOsYCctI43611wCqsFxGNu11tfcdFj+Nlx5E=";
       };
       setup = true;
       settings = {
@@ -144,8 +147,8 @@ in
         pname = "what-size";
         owner = "pirafrank";
         repo = "what-size.yazi";
-        rev = "179ebf6";
-        hash = "sha256-7q/45TopqbojNRvYDmP9+hgSGPmiyLHBcV051qpOB2Y=";
+        rev = "ec94d9a8496241d91dcfb2a864214871c326ddc5";
+        hash = "sha256-slM9qypEy8A4l3KodE7bmyixA+1c4X7hgoGcQP7R25k=";
       };
     };
 
@@ -154,8 +157,8 @@ in
         pname = "duck-radar";
         owner = "nsavvide";
         repo = "duck-radar.yazi";
-        rev = "95530e9";
-        hash = "sha256-rZcyBvZ4Vl/SoCBgYRB3D0Nro9tMhJIIM2stojck/Zk=";
+        rev = "92d21c1973c819d8903b2566632d22b5e6ec55eb";
+        hash = "sha256-P1Uz6PVZMRXzC+nkXsD/7pge0YPfsG8DJ1nVRpG62j8=";
       };
     };
 
@@ -164,8 +167,8 @@ in
         pname = "ucp";
         owner = "simla33";
         repo = "ucp.yazi";
-        rev = "a4b5ce1";
-        hash = "sha256-jIvooR00smQb8bmS3slj87k4yM9aTeruvhu/1krigZ8=";
+        rev = "79043fbbfd39b7b9ae0142d11b315272dd90d33b";
+        hash = "sha256-oL3fss8/U6IH2y5B/YdK17h4LvN4XsPypmC+yzJBMnE=";
       };
     };
 
@@ -174,8 +177,8 @@ in
         pname = "fs-usage";
         owner = "walldmtd";
         repo = "fs-usage.yazi";
-        rev = "4f4992b";
-        hash = "sha256-GsvFylogF2GU2i/aGwE1ML2ePcFlW2C4VLS44Cj9xf4=";
+        rev = "1b420837c66499d5745fb2ea9d06b13e91f2ca3f";
+        hash = "sha256-Y33Qi0jQjvNfvbP+6lqTP4f94Wzy8RQJjlMfCoHNM9Y=";
       };
       setup = true;
     };
@@ -185,7 +188,7 @@ in
         pname = "fuzzy-search";
         owner = "onelocked";
         repo = "fuzzy-search.yazi";
-        rev = "main";
+        rev = "7be2437b45be1da9b3be0ed2f244709c9b9be242";
         hash = "sha256-vW6o5vbYXr++cFAcyvl7E2tYHQMV5lGK2rEOG5iiRPg=";
       };
     };
@@ -195,7 +198,7 @@ in
         pname = "fr";
         owner = "lpnh";
         repo = "fr.yazi";
-        rev = "main";
+        rev = "aa88cd4d4345c07345275291c1a236343f834c86";
         hash = "sha256-3D1mIQpEDik0ppPQo+/NIhCxEu/XEnJMJ0HiAFxlOE4=";
       };
     };
@@ -205,7 +208,7 @@ in
         pname = "parent-arrow";
         owner = "moxuze";
         repo = "parent-arrow.yazi";
-        rev = "main";
+        rev = "1fdb8b491321597c01327505bff46c9bd5bd7044";
         hash = "sha256-AjdUCgWkq6zQ/23qGKLKuCCgM3S6IL1CsS1ZhQWesWo=";
       };
     };

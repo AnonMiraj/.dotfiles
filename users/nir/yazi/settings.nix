@@ -9,60 +9,15 @@
     };
 
     opener = {
-      folder = [
+      image = [
         {
-          run = "fish -c 'nvim \"$1\"'";
-          block = true;
-          desc = "neovim";
-          for = "linux";
-        }
-        {
-          run = "kitty --detach nvim \"$@\"";
+          run = "nsxiv -a %s";
           orphan = true;
-          desc = "neovim (detached)";
+          desc = "nsxiv";
           for = "linux";
         }
         {
-          run = "fish -c 'lazygit -p \"$1\"'";
-          block = true;
-          desc = "lazygit";
-          for = "linux";
-        }
-        {
-          run = "kitty \"$@\"";
-          orphan = true;
-          desc = "kitty";
-          for = "linux";
-        }
-        {
-          run = "xdg-open \"$@\"";
-          orphan = true;
-          desc = "xdg-open";
-          for = "linux";
-        }
-      ];
-      extract = [
-        {
-          run = "ouch d -y \"$@\"";
-          desc = "Extract here with ouch";
-          for = "unix";
-        }
-      ];
-      text = [
-        {
-          run = "nvim \"$@\"";
-          block = true;
-          desc = "neovim";
-          for = "linux";
-        }
-        {
-          run = "kitty --detach nvim \"$@\"";
-          block = true;
-          desc = "neovim (detached)";
-          for = "linux";
-        }
-        {
-          run = "xdg-open \"$@\"";
+          run = "xdg-open %s";
           orphan = true;
           desc = "xdg-open";
           for = "linux";
@@ -70,27 +25,25 @@
       ];
       document = [
         {
-          run = "zathura \"$@\"";
+          run = "zathura %s";
           orphan = true;
           desc = "zathura";
           for = "linux";
         }
         {
-          run = "xdg-open \"$@\"";
-          orphan = true;
-          desc = "xdg-open";
-          for = "linux";
-        }
-        {
-          run = "xournalpp \"$@\"";
+          run = "xournalpp %s";
           orphan = true;
           desc = "xournal++";
           for = "linux";
         }
-      ];
-      image = [
         {
-          run = "xdg-open \"$@\"";
+          run = "readest %s";
+          orphan = true;
+          desc = "readest";
+          for = "linux";
+        }
+        {
+          run = "xdg-open %s";
           orphan = true;
           desc = "xdg-open";
           for = "linux";
@@ -98,27 +51,104 @@
       ];
       video = [
         {
-          run = "mpv \"$@\"";
+          run = "mpv %s";
           orphan = true;
           desc = "mpv";
           for = "linux";
         }
         {
-          run = "xdg-open \"$@\"";
+          run = "xdg-open %s";
           orphan = true;
           desc = "xdg-open";
+          for = "linux";
+        }
+        {
+          run = "mediainfo %s; echo 'Press enter to exit'; read _";
+          block = true;
+          desc = "mediainfo";
           for = "linux";
         }
       ];
       audio = [
         {
-          run = "mpv \"$@\"";
+          run = "mpv %s";
           orphan = true;
           desc = "mpv";
           for = "linux";
         }
         {
-          run = "xdg-open \"$@\"";
+          run = "xdg-open %s";
+          orphan = true;
+          desc = "xdg-open";
+          for = "linux";
+        }
+        {
+          run = "mediainfo %s; echo 'Press enter to exit'; read _";
+          block = true;
+          desc = "mediainfo";
+          for = "linux";
+        }
+      ];
+      text = [
+        {
+          run = "nvim %s";
+          block = true;
+          desc = "neovim";
+          for = "linux";
+        }
+        {
+          run = "kitty --detach nvim %s";
+          orphan = true;
+          desc = "neovim (detached)";
+          for = "linux";
+        }
+        {
+          run = "xdg-open %s";
+          orphan = true;
+          desc = "xdg-open";
+          for = "linux";
+        }
+      ];
+      folder = [
+        {
+          run = "nvim %s";
+          block = true;
+          desc = "neovim";
+          for = "linux";
+        }
+        {
+          run = "kitty --detach nvim %s";
+          orphan = true;
+          desc = "neovim (detached)";
+          for = "linux";
+        }
+        {
+          run = "fish -c 'lazygit -p %s1'";
+          block = true;
+          desc = "lazygit";
+          for = "linux";
+        }
+        {
+          run = "kitty %s";
+          orphan = true;
+          desc = "kitty";
+          for = "linux";
+        }
+        {
+          run = "xdg-open %s";
+          orphan = true;
+          desc = "xdg-open";
+          for = "linux";
+        }
+      ];
+      extract = [
+        {
+          run = "ouch d -y %s";
+          desc = "Extract here with ouch";
+          for = "unix";
+        }
+        {
+          run = "xdg-open %s";
           orphan = true;
           desc = "xdg-open";
           for = "linux";
@@ -126,19 +156,19 @@
       ];
       fallback = [
         {
-          run = "nvim \"$@\"";
+          run = "nvim %s";
           block = true;
           desc = "neovim";
           for = "linux";
         }
         {
-          run = "kitty --detach nvim \"$@\"";
-          block = true;
+          run = "kitty --detach nvim %s";
+          orphan = true;
           desc = "neovim (detached)";
           for = "linux";
         }
         {
-          run = "xdg-open \"$@\"";
+          run = "xdg-open %s";
           orphan = true;
           desc = "xdg-open";
           for = "linux";
@@ -148,27 +178,66 @@
 
     open = {
       prepend_rules = [
+        # Folder
+        {
+          url = "*/";
+          use = ["folder" "reveal"];
+        }
+        # Documents / Ebooks
+        {
+          url = "*.pdf";
+          use = ["document" "reveal"];
+        }
         {
           mime = "application/pdf";
-          use = "document";
+          use = ["document" "reveal"];
+        }
+        {
+          url = "*.epub";
+          use = ["document" "reveal"];
         }
         {
           mime = "application/epub+zip";
-          use = "document";
+          use = ["document" "reveal"];
         }
         {
           mime = "application/x-mobipocket-ebook";
-          use = "document";
+          use = ["document" "reveal"];
+        }
+        # Images
+        {
+          mime = "image/*";
+          use = ["image" "reveal"];
+        }
+        # Video
+        {
+          mime = "video/*";
+          use = ["video" "reveal"];
+        }
+        # Audio
+        {
+          mime = "audio/*";
+          use = ["audio" "reveal"];
+        }
+        # Text & Code
+        {
+          mime = "text/*";
+          use = ["text" "reveal"];
+        }
+        {
+          mime = "application/{json,ndjson,javascript,wine-extension-ini}";
+          use = ["text" "reveal"];
+        }
+        # Archives
+        {
+          mime = "application/{zip,rar,7z*,tar,gzip,xz,zstd,bzip*,lzma,compress,archive,cpio,arj,xar,ms-cab*}";
+          use = ["extract" "reveal"];
         }
       ];
       append_rules = [
         {
-          mime = "audio/*";
-          use = "audio";
-        }
-        {
           url = "*";
-          use = "fallback";
+          use = ["fallback" "reveal"];
         }
       ];
     };
@@ -239,11 +308,11 @@
         }
         {
           mime = "application/epub+zip";
-          run = "epub-preview";
+          run = "preview-epub";
         }
         {
           url = "*.epub";
-          run = "epub-preview";
+          run = "preview-epub";
         }
         {
           url = "*.typ";
