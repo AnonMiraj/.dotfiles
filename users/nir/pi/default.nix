@@ -41,29 +41,15 @@ in {
   home.file.".pi/agent/settings.json" = {
     force = true;
     text = builtins.toJSON {
-      defaultProvider = "opencode-go";
-      defaultModel = "deepseek-v4-flash";
+      defaultProvider = "oc-sdk-go";
+      defaultModel = "oc-sdk-go/deepseek-v4-flash";
       hideThinkingBlock = false;
       defaultThinkingLevel = "medium";
-      enabledModels = [
-        "opencode-go/deepseek-v4-flash"
-        "opencode-go/deepseek-v4-pro"
-        "opencode-go/glm-5.1"
-        "opencode-go/glm-5.2"
-        "opencode-go/kimi-k2.6"
-        "opencode-go/kimi-k2.7-code"
-        "opencode-go/mimo-v2.5"
-        "opencode-go/mimo-v2.5-pro"
-        "opencode-go/minimax-m2.7"
-        "opencode-go/minimax-m3"
-        "opencode-go/qwen3.6-plus"
-        "opencode-go/qwen3.7-max"
-        "opencode-go/qwen3.7-plus"
-      ];
       steeringMode = "all";
       followUpMode = "all";
       enableInstallTelemetry = false;
       packages = [
+        "npm:pi-opencode-bridge@0.2.1"
         "npm:@llblab/pi-telegram@0.19.3"
         "npm:@ff-labs/pi-fff@0.9.6"
         "npm:pi-ask-user@0.11.2"

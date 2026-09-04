@@ -2196,7 +2196,7 @@ function registerBackgroundCommands(
 		},
 	})
 
-	pi.registerShortcut("ctrl+x", {
+	pi.registerShortcut("ctrl+alt+x", {
 		description: "Kill most recent running background task",
 		handler: async (ctx) => {
 			const uiCtx = ctx as unknown as UiContext
