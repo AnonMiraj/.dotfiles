@@ -641,11 +641,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1788504279,
-        "narHash": "sha256-rzPuPbohjEO8SwagzrxJAleFgk0jcgSyVeLmknqnGeY=",
+        "lastModified": 1788508625,
+        "narHash": "sha256-R5mKuVhoQCO/6Ir+sDzbMbJ0fnj56IwqAUhzCvCdEQo=",
         "owner": "AnonMiraj",
         "repo": "niri-zoom",
-        "rev": "7fe35941a22463245fcff79e1e9bd48dfb75f37b",
+        "rev": "56b135ec61040141319f1b2ee07af00c7204575c",
         "type": "github"
       },
       "original": {
