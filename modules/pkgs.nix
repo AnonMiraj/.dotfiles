@@ -109,6 +109,7 @@
     })
     ffmpeg
     obs-studio
+    kdenlive
     yazi
     ouch
     unar

@@ -42,7 +42,7 @@ in {
     force = true;
     text = builtins.toJSON {
       defaultProvider = "oc-sdk-go";
-      defaultModel = "oc-sdk-go/deepseek-v4-flash";
+      defaultModel = "deepseek-v4-flash";
       hideThinkingBlock = false;
       defaultThinkingLevel = "medium";
       steeringMode = "all";
