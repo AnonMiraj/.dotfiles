@@ -31,7 +31,6 @@
         environment = {
           XRAY_DISABLE_SYSTEMD = "true";
         };
-        extraOptions = ["--restart=always"];
       };
     };
 
