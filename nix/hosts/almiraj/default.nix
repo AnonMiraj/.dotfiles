@@ -21,6 +21,7 @@
           ../../../modules/base.nix
           (inputs.import-tree.filterNot (path: lib.hasSuffix "default.nix" path) ../../../modules/server)
           inputs.sops-nix.nixosModules.sops
+          inputs.disko.nixosModules.disko
         ];
 
         system.stateVersion = "26.05";
@@ -28,8 +29,8 @@
         networking.hostName = "almiraj";
 
         # netcup networking is static (no DHCP). Addresses from SCP are filled
-        # in during Phase 3; the ZFS root + boot loader come with the disko
-        # config and its generated hardware-configuration.nix.
+        # in during Phase 3. The ZFS root + boot loader are declared by the
+        # disko config (modules/server/disko.nix).
         networking.useDHCP = false;
         networking.networkmanager.enable = false;
 
