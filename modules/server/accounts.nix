@@ -18,8 +18,7 @@
     description = "VPS admin";
     extraGroups = ["wheel" "docker"];
     openssh.authorizedKeys.keys = [
-      # TODO: replace with a real pubkey (ezz) before Phase 3 cutover.
-      "ssh-ed25519 AAAA...FIXME admin@almiraj"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMbSLj6t8hoUSosDojStzA/o04KeeHo0gy9k3X8Q+rvx nabilmalek48@gmail.com"
     ];
   };
 }

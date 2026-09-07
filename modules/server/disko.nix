@@ -14,6 +14,12 @@
   boot.supportedFilesystems = ["zfs"];
   boot.zfs.forceImportRoot = true;
 
+  # Swap on zram (VPS had memory pressure; no disk swap), and cap the ZFS
+  # ARC so it doesn't starve Dovecot/Rspamd on the 8 GiB box.
+  zramSwap.enable = true;
+  boot.kernelParams = ["zfs.zfs_arc_max=1073741824"]; # 1 GiB ARC
+
+
   # UEFI boot loader on the ESP. systemd-boot gives ZFS snapshot rollback later.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
