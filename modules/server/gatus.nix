@@ -30,7 +30,24 @@
           description = "Service health monitoring";
         };
         # external-endpoints = [ ... ];   # wire from backup config.yaml in Phase 3
-        # primary / endpoints from config.my.publicServices in Phase 3
+        # At least one endpoint is required for gatus to start.
+        endpoints = [
+          {
+            name = "almiraj blog";
+            group = "web";
+            url = "https://almiraj.xyz";
+            interval = "1m";
+            conditions = ["[STATUS] == 200"];
+            client = {insecure = true;}; # behind Cloudflare/origin
+          }
+          {
+            name = "status";
+            group = "system";
+            url = "http://127.0.0.1:8099";
+            interval = "1m";
+            conditions = ["[STATUS] == 200"];
+          }
+        ];
       };
     };
   };
