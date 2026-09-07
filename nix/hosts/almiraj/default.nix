@@ -26,6 +26,11 @@
 
         system.stateVersion = "26.05";
 
+        # Public-facing site (Caddy + ACME): serves almiraj.xyz blog + other vhosts
+        # once their stacks are enabled.
+        my.server.public = true;
+
+
         networking.hostName = "almiraj";
 
         # netcup networking is STATIC (no DHCP). Classic approach, proven on
