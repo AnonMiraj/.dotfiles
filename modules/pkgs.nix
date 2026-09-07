@@ -4,8 +4,9 @@
   inputs,
   ...
 }: {
-  nixpkgs.config = {
-    allowUnfree = true;
+  # PC-only packages (desktop niro). GLOBAL set lives in modules/base.nix;
+# VPS-only packages live in modules/server/pkgs.nix.
+nixpkgs.config = {
     permittedInsecurePackages = [
       "pnpm-10.29.2"
       "electron-39.8.10"

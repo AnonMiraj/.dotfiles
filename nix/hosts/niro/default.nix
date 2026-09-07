@@ -16,7 +16,10 @@
         imports = [
           ./hardware-configuration.nix
           ../../../cachix.nix
-          (inputs.import-tree.filterNot (path: lib.hasSuffix "default.nix" path) ../../../modules)
+          (inputs.import-tree.filterNot (path:
+            lib.hasSuffix "default.nix" path
+            || lib.hasInfix "server/" (toString path)
+          ) ../../../modules)
 
           inputs.paseo.nixosModules.paseo
           inputs.copyparty.nixosModules.default
