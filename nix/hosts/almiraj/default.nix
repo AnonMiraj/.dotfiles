@@ -28,11 +28,35 @@
 
         networking.hostName = "almiraj";
 
-        # netcup networking is static (no DHCP). Addresses from SCP are filled
-        # in during Phase 3. The ZFS root + boot loader are declared by the
-        # disko config (modules/server/disko.nix).
-        networking.useDHCP = false;
-        networking.networkmanager.enable = false;
+        # netcup networking is STATIC (no DHCP; native no SLAAC assist).
+        # Configured via systemd-networkd matched on the NIC MAC so we don't
+        # depend on the virtio interface name (ens3/enp1s0/eth0).
+        networking = {
+          useDHCP = false;
+          useNetworkd = true;
+          networkmanager.enable = false;
+          nameservers = ["1.1.1.1" "9.9.9.9"];
+        };
+
+        systemd.network.networks."10-uplink" = {
+          matchConfig.MACAddress = "66:cb:80:e8:72:ab";
+          address = [
+            "152.53.81.54/22"
+            "2a0a:4cc0:2000:38bf::/64"
+          ];
+          routes = [
+            {
+              Destination = "default";
+              Gateway = "152.53.80.1";
+            }
+            {
+              Destination = "default";
+              Gateway = "fe80::1";
+              GatewayOnLink = true;
+            }
+          ];
+          networkConfig.IPv6AcceptRA = false;
+        };
 
         sops = {
           gnupg.sshKeyPaths = [];
