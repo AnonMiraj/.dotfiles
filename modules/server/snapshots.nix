@@ -6,16 +6,17 @@
 }: let
   snapScript = pkgs.writeShellScript "btrfs-snapshots" ''
     set -euo pipefail
+    BTRFS="${pkgs.btrfs-progs}/bin/btrfs"
     TS=$(date +%Y%m%d-%H%M)
     DEST=/var/btrfs-snapshots
     mkdir -p "$DEST"
     N=14 # keep this many
     # docker data subvol (@docker mounted at /var/lib/docker)
-    btrfs subvolume snapshot -r /var/lib/docker "$DEST/docker-$TS"
+    $BTRFS subvolume snapshot -r /var/lib/docker "$DEST/docker-$TS"
     # prune oldest
     ls -d "$DEST"/docker-* 2>/dev/null \
       | sort | head -n -$N \
-      | xargs -r -n1 btrfs subvolume delete -c
+      | xargs -r -n1 $BTRFS subvolume delete -c
   '';
 in {
   config = lib.mkIf config.my.server.public {
