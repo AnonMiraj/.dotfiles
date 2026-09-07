@@ -3,23 +3,66 @@
   lib,
   pkgs,
   ...
-}: {
+}: let
+  domain = "almiraj.xyz";
+in {
   config = lib.mkIf config.my.server.mail.enable {
-    # G6a — native NixOS mail: postfix + dovecot2 + rspamd + roundcube.
-    # Migration: maildir is already dovecot format under
-    #   mailcow_vmail-vol-1/_data/<domain>/<user>/Maildir  → copy + doveadm import.
+    # G6a — native NixOS mail: postfix + dovecot2 + rspamd.
+    # PRIMARY domain = almiraj.xyz (user preference). Dovecot Maildirs live at
+    # /var/vmail/<domain>/<user>/Maildir (restored from almiraj-wipe-backup).
+    # Accounts/aliases are rebuilt from the mailcow DB dump; existing
+    # icpczagazig.org addresses can be carried over as an extra vdomain if wanted.
     #
-    # TODO(Phase 3): fill in from MIGRATION-BACKUP-INVENTORY.md:
-    # - services.postfix: mydestination/mydomain, virtual domains, DKIM via opendkim
-    # - services.dovecot2: maildir, passdb (passwd-file/sqlite — no MySQL), sieve
-    # - services.rspamd: local + DKIM signing, quarantine
-    # - services.roundcube: webmail vhost via Caddy (mail.icpczagazig.org + autodiscover/autoconfig)
-    # - DNS: MX (mail.icpczagazig.org), SPF, DKIM, DMARC, PTR — unchanged domains
-    # - Caddy tls = auto (LE)
-    # - firewall: 25/110/143/465/587/993/995/4190
-    # sops secrets below.
-    services.postfix.enable = true;
+    # Webmail (roundcube) is NOT in this nixpkgs — defer to Phase 3 (add as an
+    # OCI container or the nixos-mailserver module) with Caddy fronting it.
 
-    networking.firewall.allowedTCPPorts = [25 110 143 465 587 993 995 4190];
+    services.postfix = {
+      enable = true;
+      settings.main = {
+        myhostname = "mail.${domain}";
+        myorigin = domain;
+        mydestination = ["localhost" "localhost.localdomain"];
+        # domains we host → virtual mailbox, not local delivery
+        virtual_mailbox_domains = domain;
+        virtual_mailbox_base = "/var/vmail";
+        # delivery via dovecot LMTP
+        virtual_transport = "lmtp:unix:private/dovecot-lmtp";
+      };
+    };
+
+    services.dovecot2 = {
+      enable = true;
+      enableImap = true;
+      enablePop3 = true;
+      enableLmtp = true;
+      mailUser = "vmail";
+      mailGroup = "vmail";
+      mailLocation = "maildir:/var/vmail/%d/%n";
+      enablePAM = false;
+      # passdb/userdb from a passwd-file recreated from the mailcow DB (Phase 3).
+    };
+    users.users.vmail = {
+      isSystemUser = true;
+      group = "vmail";
+      createHome = true;
+      home = "/var/vmail";
+      shell = "/run/current-system/sw/bin/nologin";
+    };
+    users.groups.vmail = {};
+
+    # rspamd: spam + DKIM signing. Key generation + quarantine wired in Phase 3.
+    services.rspamd.enable = true;
+
+    # SMTP/IMAP/etc.
+    networking.firewall.allowedTCPPorts = [
+      25
+      110
+      143
+      465
+      587
+      993
+      995
+      4190
+    ];
   };
 }
