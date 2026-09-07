@@ -108,8 +108,7 @@
       ];
     })
     ffmpeg
-    obs-studio
-    kdenlive
+    kdePackages.kdenlive
     yazi
     ouch
     unar
@@ -203,6 +202,7 @@
     # Gaming
     lutris
     umu-launcher
+    wine
     steam
   ];
 
@@ -211,6 +211,19 @@
     enable = true;
     remotePlay.openFirewall = true;
     dedicatedServer.openFirewall = true;
+  };
+
+  programs.obs-studio = {
+    enable = true;
+    plugins = with pkgs.obs-studio-plugins; [
+      obs-vkcapture
+      obs-pipewire-audio-capture
+      obs-wayland-hotkeys
+      obs-source-record
+      obs-gstreamer
+      obs-vaapi
+      obs-composite-blur
+    ];
   };
 
   # ── Shell ──────────────────────────────────────────────────────
