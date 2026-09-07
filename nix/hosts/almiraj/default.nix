@@ -28,34 +28,28 @@
 
         networking.hostName = "almiraj";
 
-        # netcup networking is STATIC (no DHCP; native no SLAAC assist).
-        # Configured via systemd-networkd matched on the NIC MAC so we don't
-        # depend on the virtio interface name (ens3/enp1s0/eth0).
-        networking = {
-          useDHCP = false;
-          useNetworkd = true;
-          networkmanager.enable = false;
-          nameservers = ["1.1.1.1" "9.9.9.9"];
-        };
+        # netcup networking is STATIC (no DHCP). Classic approach, proven on
+        # netcup: predictable interface names OFF so the NIC is `eth0` (the same
+        # name Grml uses on this box), then standard networking.interfaces.
+        networking.usePredictableInterfaceNames = false;
+        networking.useDHCP = false;
+        networking.networkmanager.enable = false;
+        networking.nameservers = ["1.1.1.1" "9.9.9.9"];
 
-        systemd.network.networks."10-uplink" = {
-          matchConfig.MACAddress = "66:cb:80:e8:72:ab";
-          address = [
-            "152.53.81.54/22"
-            "2a0a:4cc0:2000:38bf::/64"
-          ];
-          routes = [
-            {
-              Destination = "default";
-              Gateway = "152.53.80.1";
-            }
-            {
-              Destination = "default";
-              Gateway = "fe80::1";
-              GatewayOnLink = true;
-            }
-          ];
-          networkConfig.IPv6AcceptRA = false;
+        networking.interfaces.eth0 = {
+          ipv4.addresses = [{
+            address = "152.53.81.54";
+            prefixLength = 22;
+          }];
+          ipv6.addresses = [{
+            address = "2a0a:4cc0:2000:38bf::";
+            prefixLength = 64;
+          }];
+        };
+        networking.defaultGateway = "152.53.80.1";
+        networking.defaultGateway6 = {
+          address = "fe80::1";
+          interface = "eth0";
         };
 
         sops = {
