@@ -5,14 +5,33 @@
   ...
 }: {
   config = lib.mkIf config.my.server.gatus.enable {
-    # gatus uptime monitor — declarative on the VPS (status.niro.almiraj.xyz).
-    # Home `niro` pushes service health into it via external-endpoints.
+    # gatus uptime monitor (status.niro.almiraj.xyz). Serves the health checks
+    # pushed from home `niro` (external-endpoints keyed `group_Name`) plus its
+    # own local checks. Existing config is in backup root-gatus/config.yaml —
+    # migrate its external-endpoints + auth into this module in Phase 3.
     #
-    # TODO(Phase 3):
-    # - reuse modules/selfhost/gatus.nix origin/config on the almiraj site,
-    #   replacing the hand-edited /root/gatus/config.yaml (deletes the manual
-    #   AGENTS.md step)
-    # - keep external-endpoints matching the push keys from home (core_, media_, …)
-    # - Caddy vhost status.niro.almiraj.xyz (LE tls)
+    # Tokens used by the home push come from the push-status side (niro); the
+    # matching token keys live in secrets (home secrets.yaml), so nothing secret
+    # is needed here beyond the config grant.
+    services.gatus = {
+      enable = true;
+      openFirewall = false; # fronted by Caddy (public.nix `status`)
+      settings = {
+        web = {
+          port = 8099;
+          address = "127.0.0.1";
+        };
+        storage = {
+          type = "sqlite";
+          path = "/var/lib/gatus/data.db";
+        };
+        ui = {
+          title = "Status | almiraj";
+          description = "Service health monitoring";
+        };
+        # external-endpoints = [ ... ];   # wire from backup config.yaml in Phase 3
+        # primary / endpoints from config.my.publicServices in Phase 3
+      };
+    };
   };
 }

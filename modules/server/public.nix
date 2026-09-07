@@ -41,7 +41,7 @@ mkIf config.my.server.public {
   # they are NOT listed here to keep one Caddy vhost per hostname.
   my.publicServices = {
     mail = {
-      domain = "mail.icpczagazig.org";
+      domain = "mail.almiraj.xyz";
       port = 8080; # roundcube (G6a) behind Caddy
       checkPath = "/";
       group = "mail";

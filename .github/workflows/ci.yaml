@@ -21,3 +21,18 @@ jobs:
           diagnostic-endpoint: ""
       - name: flake check
         run: nix flake check
+
+  # Build the aarch64 almiraj host on the VPS self-hosted runner.
+  # Only the arm64 runner on the box can build aarch64 closures natively.
+  almiraj-build:
+    runs-on: [self-hosted, linux, arm64, almiraj]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: determinatesystems/nix-installer-action@v20
+        with:
+          determinate: false
+          diagnostic-endpoint: ""
+          logger: pretty
+          source-url: https://install.lix.systems/lix/lix-installer-aarch64-linux
+      - name: build almiraj
+        run: nix build .#nixosConfigurations.almiraj.config.system.build.toplevel --no-link
