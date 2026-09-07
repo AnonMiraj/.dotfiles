@@ -8,6 +8,7 @@
   # PC-only (desktop niro) set lives in modules/pkgs.nix.
   environment.systemPackages = with pkgs; [
     vim # quick edit on the server
+    btrfs-progs # btrfs subvolume snapshots
     yazi # terminal file manager (neovim already in the GLOBAL set)
 
 
