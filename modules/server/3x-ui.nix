@@ -5,14 +5,36 @@
   ...
 }: {
   config = lib.mkIf config.my.server."3x-ui".enable {
-    # 3x-ui VPN/panel container — grey-area proxy, kept containerized per plan.
-    #
-    # TODO(Phase 3): from /root/3x-ui:
-    # - copy /root/3x-ui/db/* (sqlite) + /root/3x-ui/cert/* → persistent dataset
-    # - ports: VLESS ws 10001, panel 2053, subs 2096 (+ the handful actually used)
-    # - Caddy vhosts: vpn.almiraj.xyz + playstation.net/*.sony.com spoof hosts,
-    #   static /var/www/html landing
-    # - panel binds localhost → reach via SSH tunnel / tailscale (hardening §7)
-    # - envelope these ports explicitly in the firewall, nothing else
+    # 3x-ui VPN proxy panel — kept containerized (grey-area proxy, per plan).
+    # DB + TLS live in /var/lib/3x-ui/db (restored from backup x-ui.db).
+    # Ports (from the old deployment): panel 2053, VLESS ws 10001, subs 2096.
+    # The panel binds localhost-facing; Caddy vhosts vpn.almiraj.xyz (public.nix).
+
+    users.users.threexui = {
+      isSystemUser = true;
+      group = "threexui";
+    };
+    users.groups.threexui = {};
+
+    virtualisation.oci-containers = {
+      backend = "docker";
+      containers."3xui" = {
+        image = "ghcr.io/mhsanaei/3x-ui:latest";
+        ports = [
+          "2053:2053"
+          "10001:10001"
+          "2096:2096"
+        ];
+        volumes = [
+          "/var/lib/3x-ui/db:/etc/x-ui"
+        ];
+        environment = {
+          XRAY_DISABLE_SYSTEMD = "true";
+        };
+        extraOptions = ["--restart=always"];
+      };
+    };
+
+    networking.firewall.allowedTCPPorts = [2053 10001 2096];
   };
 }
