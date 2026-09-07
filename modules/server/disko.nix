@@ -20,9 +20,16 @@
   boot.kernelParams = ["zfs.zfs_arc_max=1073741824"]; # 1 GiB ARC
 
 
-  # UEFI boot loader on the ESP. systemd-boot gives ZFS snapshot rollback later.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+  # UEFI boot loader: GRUB-EFI as a REMOVABLE binary on the ESP. Robust with a
+  # ZFS root and netcup VM UEFI (avoids systemd-boot's ESP-mountpoint check
+  # failing during the install chroot, and removable EFI needs no NVRAM entry).
+  boot.loader.grub = {
+    enable = true;
+    device = "nodev";
+    efiSupport = true;
+    efiInstallAsRemovable = true;
+    zfsSupport = true;
+  };
 
   disko.devices = {
     disk.main = {
