@@ -23,7 +23,7 @@
         volumes = [
           "/var/lib/3x-ui/db:/etc/x-ui"
         ];
-        extraOptions = ["--network host"]; # panel binds 127.0.0.1:2053 in-container; host-net makes it Caddy's loopback
+        extraOptions = ["--network=host"]; # panel binds 127.0.0.1:2053 in-container; host-net makes it Caddy's loopback
         environment = {
           XRAY_DISABLE_SYSTEMD = "true";
         };
