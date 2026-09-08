@@ -20,14 +20,10 @@
       backend = "docker";
       containers."3xui" = {
         image = "ghcr.io/mhsanaei/3x-ui:latest";
-        ports = [
-          "2053:2053"
-          "10001:10001"
-          "2096:2096"
-        ];
         volumes = [
           "/var/lib/3x-ui/db:/etc/x-ui"
         ];
+        extraOptions = ["--network host"]; # panel binds 127.0.0.1:2053 in-container; host-net makes it Caddy's loopback
         environment = {
           XRAY_DISABLE_SYSTEMD = "true";
         };
