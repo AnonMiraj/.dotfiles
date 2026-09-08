@@ -19,6 +19,8 @@
     openssh.authorizedKeys.keys = [
       # laptop key(s) allowed to hop
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMbSLj6t8hoUSosDojStzA/o04KeeHo0gy9k3X8Q+rvx nabilmalek48@gmail.com"
+      # phone (Termux) key
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOCrzgiSAX7lDWlWsfuoMrA87y7K58Y99QfGSWk3Ng+s u0_a291@localhost"
     ];
   };
 }
