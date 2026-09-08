@@ -26,7 +26,7 @@ mkIf config.my.server.public {
     enable = true;
     virtualHosts =
       (builtins.listToAttrs
-        (map (name: nameValuePair name {
+        (map (name: nameValuePair config.my.publicServices.${name}.domain {
           extraConfig = ''
             reverse_proxy ${targetOf config.my.publicServices.${name}}
           '';
