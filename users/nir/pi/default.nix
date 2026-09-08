@@ -50,12 +50,12 @@ in {
       enableInstallTelemetry = false;
       packages = [
         "npm:pi-opencode-bridge@0.2.1"
-        "npm:@llblab/pi-telegram@0.19.3"
-        "npm:@ff-labs/pi-fff@0.9.6"
-        "npm:pi-ask-user@0.11.2"
-        "npm:@tintinweb/pi-tasks@0.7.1"
-        "npm:@trevonistrevon/pi-loop@0.6.0"
-        "npm:pi-web-access@0.13.0"
+        "npm:@llblab/pi-telegram@0.44.0"
+        "npm:@ff-labs/pi-fff@0.10.6"
+        "npm:pi-ask-user@0.15.0"
+        "npm:@tintinweb/pi-tasks@0.9.0"
+        "npm:@trevonistrevon/pi-loop@0.7.14"
+        "npm:pi-web-access@0.28.0"
       ];
     };
   };
