@@ -11,14 +11,6 @@ in {
       default = false;
     };
 
-    mail = {
-      enable = mkEnableOption "mail stack (postfix + dovecot2 + rspamd + roundcube) — G6a";
-      domains = mkOption {
-        type = types.listOf types.str;
-        default = [];
-        description = "Mail domains served (e.g. icpczagazig.org).";
-      };
-    };
     bosla = {
       enable = mkEnableOption "bosla containers (frontend, api, typst-worker)";
     };
