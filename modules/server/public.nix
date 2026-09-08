@@ -12,7 +12,6 @@
 
   # Map each public service to the stack that gates it (my.server.<x>.enable).
   stackOf = {
-    mail = "mail";
     "bosla-api" = "bosla";
     "bosla-frontend" = "bosla";
     "bosla-me" = "bosla";
@@ -59,12 +58,6 @@ mkIf config.my.server.public {
   # bosla *:7443 pipeline, vpn VLESS :10001) need named matchers in Phase 3, so
   # they are NOT listed here to keep one Caddy vhost per hostname.
   my.publicServices = {
-    mail = {
-      domain = "mail.almiraj.xyz";
-      port = 8080; # roundcube (G6a) behind Caddy
-      checkPath = "/";
-      group = "mail";
-    };
 
     "bosla-api" = {
       domain = "bosla.almiraj.xyz";
