@@ -72,27 +72,34 @@ NixOS configuration for host `niro`, managed with `flake-parts`, `flake-file`, a
   sops writes it to `~/.pi/web-search.json` (symlink to `/run/secrets/brave-api-key`).
 ## VPS Status Page (status.niro.almiraj.xyz)
 
-Gatus on the VPS receives pushed status from all local services with `gatus.enable = true`.
-The push runs via `push-status.service` (triggered by `push-status.timer`).
+Gatus on the VPS (`almiraj`) receives pushed status from all home services with
+`gatus.enable = true`. The push runs via `push-status.service`
+(triggered by `push-status.timer`).
 
 **Sync mechanism**:
-- Local `push-status` checks each service's port, then POSTs to VPS Gatus external API
-- VPS Gatus has `external-endpoints` in `/root/gatus/config.yaml` that match by key (`group_Name`)
-- Keys must match between local push and VPS config: `core_Homepage`, `media_Jellyfin`, etc.
+- Home `push-status` checks each service's port, then POSTs to VPS Gatus external API
+- VPS gatus config is **declarative** (`modules/server/gatus.nix`) — `external-endpoints`
+  match pushes by key (`group_Name`), tokens are inline there
+- Keys must match between home push and VPS module: `core_Homepage`, `media_Jellyfin`, etc.
 
 **When adding/removing a service**:
 1. Update `modules/selfhost/metadata.nix` (add/remove block)
-2. Run `sudo nixos-rebuild switch`
-3. **Manually update VPS config**:
-   ```bash
-   ssh root@almiraj.xyz
-   nano /root/gatus/config.yaml  # add/remove external-endpoints matching the keys
-   ```
-4. Push-status starts/stops sending automatically
+2. `sudo nixos-rebuild switch` on the desktop
+3. Update the matching `external-endpoints` in `modules/server/gatus.nix`
+4. Redeploy the VPS (deploy recipe in README.md); push-status then starts/stops automatically
 
-**Tokens**: stored in `secrets/secrets.yaml` under `gatus-push-tokens`.
+**Tokens** (home side): in `secrets/secrets.yaml` under `gatus-push-tokens`.
 Edit with `SOPS_AGE_KEY_FILE=$HOME/.age/key.txt sops secrets/secrets.yaml`.
-Token must match between local secrets and VPS config.
+Must match the values in `modules/server/gatus.nix` on the VPS.
 
-**Current VPS endpoints**: all `my.services` with `gatus.enable = true`.
+## VPS (almiraj) two-host notes
+
+- Access: `ssh admin@152.53.81.54` (passwordless sudo; desktop key `~/.ssh/id_ed25519`).
+  `root` is locked.
+- VPS services live in `modules/server/` (`my.server.<x>.enable`), enable in
+  `nix/hosts/almiraj/default.nix`. `niro` excludes that dir at import.
+- Secrets for the VPS are in `secrets/vps.yaml` (sops, age = box host key + desktop key).
+- Deploy recipe + what's running: see README.md and `../Documents/servernetcup/todo.txt`.
+- Off-box backup: `modules/backup.nix` on `niro` pulls VPS data
+  (`/etc/nixos`, 3x-ui, caddy, gatus) to `/mnt/media/backups/almiraj` daily.
 
