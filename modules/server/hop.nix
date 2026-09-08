@@ -8,7 +8,7 @@
   # tunnel (127.0.0.1:2222) into the home box (as nir). No port exposed.
   users.users.home = {
     isSystemUser = true;
-    description = "ssh hop -> home (frp tunnel :2222)";
+    description = "ssh hop to home via frp tunnel";
     group = "users";
     home = "/home/home";
     createHome = true;
