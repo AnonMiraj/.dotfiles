@@ -30,6 +30,9 @@
         };
         typst-worker = {
           image = "bosla26/typst-worker:latest";
+          # the image's baked healthcheck tests a typst binary path that isn't in
+          # the image -> falsely 'unhealthy'. The worker runs fine; disable it.
+          extraOptions = ["--no-healthcheck"];
         };
       };
     };
