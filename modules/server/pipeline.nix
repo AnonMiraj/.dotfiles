@@ -25,7 +25,7 @@
         # /opt/bosla-pipeline is unchanged).
         ExecStartPre = [
           "${pkgs.docker}/bin/docker rm -f bosla-pipeline || true"
-          "${pkgs.docker}/bin/docker build -t bosla-pipeline:almiraj /opt/bosla-pipeline"
+          "${pkgs.docker}/bin/docker build -f /opt/bosla-pipeline/Dockerfile.almiraj -t bosla-pipeline:almiraj /opt/bosla-pipeline"
         ];
         ExecStart = "${pkgs.docker}/bin/docker run -d --name bosla-pipeline -p 7860:7860 --restart unless-stopped bosla-pipeline:almiraj";
         ExecStop = "${pkgs.docker}/bin/docker rm -f bosla-pipeline";
