@@ -63,8 +63,10 @@ in {
       "d /var/lib/qbittorrent/downloads 0750 qbittorrent qbittorrent -"
     ];
 
-    # Expose the peer port only (WebUI stays behind Caddy on 443).
+    # Expose the peer port only (WebUI stays behind Caddy on 443). UDP carries
+    # DHT + uTP traffic on the same port.
     networking.firewall.allowedTCPPorts = [51414];
+    networking.firewall.allowedUDPPorts = [51414];
 
     # Public vhost for the WebUI, via the shared Caddy generator.
     my.publicServices.qb = {
