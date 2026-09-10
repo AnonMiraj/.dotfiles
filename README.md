@@ -1,10 +1,11 @@
 # NixOS Config
 
+NixOS configuration (flake) for two hosts:
 
-NixOS configuration for `niro`.
+- **`niro`** — desktop (x86_64-linux), the control machine.
+- **`almiraj`** — netcup ARM VPS (aarch64-linux), public services.
 
-
-## Programs used
+## Programs used (desktop)
 
 - Distro - [NixOS](https://nixos.org/)
 - Shell - [Noctalia](https://github.com/noctalia-dev/noctalia-shell)

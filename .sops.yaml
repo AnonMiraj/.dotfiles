@@ -1,8 +1,11 @@
 # SSH → age key: ssh-to-age -private-key -i ~/.ssh/id_ed25519 > ~/.age/key.txt
 keys:
   - &nir_admin_age age173qtdeltuqee762pushn3uk2c3g0mtxufepkf7wxa0u3uqn4z96spy2k62
+  # netcup VPS host key (ssh_host_ed25519) → allows almiraj to decrypt vps.yaml
+  - &almiraj_host_age age1thdmnuwe7588unh60m07a3t3t4cl6tdyujf2yt8z9wz2skgw9gxqcrzk6a
 creation_rules:
   - path_regex: secrets/.*\.yaml
     key_groups:
       - age:
           - *nir_admin_age
+          - *almiraj_host_age

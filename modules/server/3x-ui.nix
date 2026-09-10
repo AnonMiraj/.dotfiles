@@ -1,0 +1,31 @@
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}: {
+  config = lib.mkIf config.my.server."3x-ui".enable {
+
+    users.users.threexui = {
+      isSystemUser = true;
+      group = "threexui";
+    };
+    users.groups.threexui = {};
+
+    virtualisation.oci-containers = {
+      backend = "docker";
+      containers."3xui" = {
+        image = "ghcr.io/mhsanaei/3x-ui:latest";
+        volumes = [
+          "/var/lib/3x-ui/db:/etc/x-ui"
+        ];
+        extraOptions = ["--network=host"]; # panel binds 127.0.0.1:2053 in-container; host-net makes it Caddy's loopback
+        environment = {
+          XRAY_DISABLE_SYSTEMD = "true";
+        };
+      };
+    };
+
+    networking.firewall.allowedTCPPorts = [2053 10001 2096];
+  };
+}

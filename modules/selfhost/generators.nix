@@ -130,13 +130,20 @@ in {
     }) (builtins.attrNames groups);
 
 # ── FRP client ────────────────────────────────────────────────
+sops.secrets.frpc-token = {
+  path = "/run/secrets/frpc-token";
+  restartUnits = ["frp-frpc.service"]; # re-auth frp tunnel when the token rotates
+};
+
 services.frp.instances.frpc = {
     enable = true;
     role = "client";
     settings = {
-        serverAddr = "almiraj.xyz";
+        serverAddr = "152.53.81.54";
         serverPort = 7000;
         loginFailExit = false;
+        log.level = "info";
+        auth.token = "\${FRPC_TOKEN}";
         proxies = mapAttrsToList (name: svc: {
             inherit name;
             type = "tcp";
@@ -145,6 +152,23 @@ services.frp.instances.frpc = {
             remotePort = remotePortOf svc;
         }) (lib.filterAttrs (_: svc: svc.frp.enable) config.my.services);
     };
+    environmentFiles = [config.sops.secrets.frpc-token.path];
+};
+
+# frp does not expand \${ENV} in TOML configs, so bake the real token into a
+# runtime copy in preStart (token comes from the sops EnvironmentFile).
+systemd.services.frp-frpc = let
+    frpcBaseToml = (pkgs.formats.toml { }).generate "frp-frpc-base.toml"
+      config.services.frp.instances.frpc.settings;
+in {
+    serviceConfig = {
+        RuntimeDirectory = "frp-frpc";
+        ExecStart = lib.mkForce
+          "${config.services.frp.package}/bin/frpc --strict_config -c /run/frp-frpc/frpc.toml";
+    };
+    preStart = ''
+      sed 's/''${FRPC_TOKEN}/'"$FRPC_TOKEN"'/g' ${frpcBaseToml} > /run/frp-frpc/frpc.toml
+    '';
 };
 
   # ── Gatus endpoints ───────────────────────────────────────────

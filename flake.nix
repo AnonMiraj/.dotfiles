@@ -52,6 +52,10 @@
       url = "github:9001/copyparty/hovudstraum";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     fconv-nvim = {
       url = "github:AnonMiraj/fconv.nvim";
       flake = false;

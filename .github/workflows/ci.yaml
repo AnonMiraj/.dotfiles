@@ -21,3 +21,22 @@ jobs:
           diagnostic-endpoint: ""
       - name: flake check
         run: nix flake check
+
+  # Update the VPS directly: SSH in and rebuild from the pushed flake.
+  # The box builds aarch64 natively, so no self-hosted runner is needed.
+  # Requires repo secret ALMIRAJ_DEPLOY_KEY: an SSH key authorized for
+  # admin@almiraj.xyz (passwordless sudo).
+  almiraj-deploy:
+    needs: check
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master'
+    steps:
+      - uses: actions/checkout@v4
+      - name: setup ssh key
+        run: |
+          install -m 600 /dev/stdin ~/.ssh/id_ed25519 <<< "${{ secrets.ALMIRAJ_DEPLOY_KEY }}"
+          ssh-keyscan -H almiraj.xyz >> ~/.ssh/known_hosts 2>/dev/null
+      - name: deploy
+        run: |
+          ssh admin@almiraj.xyz 'sudo nixos-rebuild switch \
+            --flake github:AnonMiraj/.dotfiles/master#almiraj'

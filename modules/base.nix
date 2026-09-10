@@ -1,4 +1,4 @@
-{
+{ config, lib, pkgs, ... }: {
   # Shared NixOS base — imported by every host (desktop `niro` + VPS `almiraj`).
   # Keep only genuinely cross-host settings here; host-specific things live in
   # each host's default.nix or per-host modules (e.g. modules/server/*).
@@ -30,4 +30,43 @@
 
   # OpenSSH server on every host. Keys-only / account policy is per-host.
   services.openssh.enable = true;
+
+  # ── GLOBAL packages — useful on every host (desktop niro + VPS almiraj) ──
+  nixpkgs.config.allowUnfree = true;
+  environment.systemPackages = with pkgs; [
+    curl
+    wget
+    jq
+    git
+    git-lfs
+    ripgrep
+    fd
+    fzf
+    eza
+    bat
+    htop
+    btop
+    tmux
+    tree
+    unzip
+    zip
+    xz
+    openssl
+    socat
+    netcat-openbsd
+    dnsutils
+    traceroute
+    mtr
+    rsync
+    fastfetch
+    neovim
+    python3
+    age
+    sops
+    ssh-to-age
+    direnv
+    tldr
+    strace
+    sysstat
+  ];
 }

@@ -117,7 +117,7 @@ in {
     pushStatus = {
       vpsUrl = mkOption {
         type = types.str;
-        default = "https://status.niro.almiraj.xyz";
+        default = "https://status.almiraj.xyz";
         description = "VPS Gatus URL for push-status";
       };
       tokenFile = mkOption {

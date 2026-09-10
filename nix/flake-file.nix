@@ -151,6 +151,11 @@
         url = "github:Mic92/sops-nix";
         inputs.nixpkgs.follows = "nixpkgs";
       };
+      disko = {
+        url = "github:nix-community/disko";
+        inputs.nixpkgs.follows = "nixpkgs";
+      };
+
       subminer = {
         url = "github:AnonMiraj/SubMiner/niri_back";
         inputs.nixpkgs.follows = "nixpkgs";
