@@ -46,6 +46,10 @@
         my.server.bosla.enable = true;
         my.server.runner.enable = true;
         my.server."3x-ui".enable = true;
+        my.server.qbittorrent = {
+          enable = true;
+          passwordHash = "@ByteArray(XNnG/RkDLPGSDx/bByHJXw==:5BmWht4lNccFVa9CCRNyuUz2dmyvjBc0AWZOUkP3c7crkQELhgDRUNRYhyQwPPVdWijz8f415FM9mL/iVkAUTQ==)";
+        };
 
 
 

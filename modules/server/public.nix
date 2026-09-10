@@ -17,6 +17,7 @@
     "bosla-me" = "bosla";
     "3xui-panel" = "3x-ui";
     status = "gatus";
+    qb = "qbittorrent";
   };
   enabled = name: config.my.server.${stackOf.${name}}.enable;
 in
