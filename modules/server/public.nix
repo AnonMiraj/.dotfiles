@@ -48,6 +48,17 @@ mkIf config.my.server.public {
             }
           '';
         };
+
+        "http://playstation.net, http://*.playstation.net, http://playstation.com, http://*.playstation.com, http://sony.com, http://*.sony.com, http://152.53.81.54, http://ssh.almiraj.xyz" = {
+          extraConfig = ''
+            handle /vless* {
+              reverse_proxy 127.0.0.1:10001
+            }
+            handle {
+              respond "OK" 200
+            }
+          '';
+        };
       };
   };
 
