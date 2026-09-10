@@ -33,9 +33,12 @@
         # Services enabled now (mail + github-runner deferred):
         # - frps: frp tunnel terminus for home (sops frps-toml)
         # - gatus: status page behind Caddy
+        # - bosla: docker app stack (images must exist for the containers to start)
         # - 3x-ui: containerized VPN panel
         my.server.frps.enable = true;
         my.server.gatus.enable = true;
+        my.server.bosla.enable = true;
+        my.server.runner.enable = true;
         my.server."3x-ui".enable = true;
 
 
