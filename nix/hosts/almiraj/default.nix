@@ -26,6 +26,12 @@
 
         system.stateVersion = "26.05";
 
+        # Accept flake nixConfig (silences the "untrusted flake configuration"
+        # warning on CI deploys). Granular trusted-substituters/trusted-public-keys
+        # lists did not satisfy nix's flake-config trust check; root-only box,
+        # so blanket-accept is fine.
+        nix.settings.accept-flake-config = true;
+
         # Public-facing site (Caddy + ACME): serves almiraj.xyz blog + other vhosts
         # once their stacks are enabled.
         my.server.public = true;
