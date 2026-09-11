@@ -5,8 +5,13 @@
   ...
 }: let
   docroot = "/var/www/aldebaran"; # deployed static site (the repo's `src/`)
+  downloadDir = "/var/www/aldebaran-downloads"; # stable; not wiped by site re-clone
   repo = "https://github.com/AbuUqba/aldebaran-site.git";
   vhost = ''
+    handle_path /download/* {
+      root * ${downloadDir}
+      file_server
+    }
     root * ${docroot}
     encode zstd gzip
     try_files {path} {path}/ /index.html
@@ -18,6 +23,8 @@ in {
     # is what deploys. Served read-only on two hostnames:
     #   aldebaran.moe        (direct DNS → this box)
     #   sciadv.almiraj.xyz   (proxied through Cloudflare with almiraj.xyz)
+    # Patch downloads (SG-AR-v1.1.zip) are served from ${downloadDir}, a
+    # separate tree that survives site re-clones (see the mirror step below).
     services.caddy.virtualHosts = {
       "aldebaran.moe" = {
         extraConfig = vhost;
@@ -32,28 +39,45 @@ in {
       };
     };
 
-    # Pull the repo's `src/` into ${docroot}. On every nixos-rebuild (and boot)
-    # the activation script refreshes it only when the default branch moved.
-    system.activationScripts.aldebaran-site = let
+    # Updates the site + mirrors the patch archive.
+    #  - site: pull the repo's `src/` into ${docroot}; refresh only when the
+    #    default branch moved (so we don't wipe the site on every boot).
+    #  - mirror: the team drops the build at /home/admin/SG-AR-v1.1.zip; copy it
+    #    into the stable download dir when newer. Keeps /download working after
+    #    a site re-clone.
+    system.activationScripts.aldebaran = let
       update = pkgs.writeShellScript "aldebaran-site-update" ''
         set -eu
         state=/var/lib/aldebaran/rev
         head="$(${pkgs.git}/bin/git ls-remote ${repo} refs/heads/main | cut -f1)"
         [ -n "$head" ] || exit 0
-        [ "$head" = "$(cat "$state" 2>/dev/null)" ] && exit 0
-        tmp=$(mktemp -d)
-        trap 'rm -rf "$tmp"' EXIT
-        ${pkgs.git}/bin/git clone -q --depth 1 ${repo} "$tmp/src"
-        rm -rf ${docroot}
-        mkdir -p ${docroot} /var/lib/aldebaran
-        cp -a "$tmp/src/src/." ${docroot}/
-        chown -R caddy:caddy ${docroot}
-        echo "$head" > "$state"
-        echo "aldebaran-site: updated ${docroot} to $head"
+        if [ "$head" != "$(cat "$state" 2>/dev/null)" ]; then
+          tmp=$(mktemp -d)
+          trap 'rm -rf "$tmp"' EXIT
+          ${pkgs.git}/bin/git clone -q --depth 1 ${repo} "$tmp/src"
+          rm -rf ${docroot}
+          mkdir -p ${docroot} /var/lib/aldebaran
+          cp -a "$tmp/src/src/." ${docroot}/
+          chown -R caddy:caddy ${docroot}
+          echo "$head" > "$state"
+          echo "aldebaran-site: updated ${docroot} to $head"
+        fi
+      '';
+      mirror = pkgs.writeShellScript "aldebaran-download-mirror" ''
+        set -eu
+        src=/home/admin/SG-AR-v1.1.zip
+        mkdir -p ${downloadDir}
+        if [ -f "$src" ]; then
+          if [ ! -f ${downloadDir}/SG-AR-v1.1.zip ] || [ "$src" -nt ${downloadDir}/SG-AR-v1.1.zip ]; then
+            cp -a "$src" ${downloadDir}/SG-AR-v1.1.zip
+          fi
+          chown -R caddy:caddy ${downloadDir}
+        fi
       '';
     in {
       text = ''
         ${update} || true
+        ${mirror} || true
       '';
     };
   };
