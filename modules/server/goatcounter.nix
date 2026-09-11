@@ -46,7 +46,7 @@ in {
         Type = "oneshot";
         RemainAfterExit = true;
       };
-      script = pkgs.writeShellScript "goatcounter-init" ''
+      script = ''
         set -e
         GC=${pkgs.goatcounter}/bin/goatcounter
         pwfile=/var/lib/goatcounter/admin-password
