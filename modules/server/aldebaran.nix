@@ -8,14 +8,16 @@
   downloadDir = "/var/www/aldebaran-downloads"; # stable; not wiped by site re-clone
   repo = "https://github.com/AbuUqba/aldebaran-site.git";
   vhost = ''
-    handle_path /download/* {
+    handle /download/* {
       root * ${downloadDir}
       file_server
     }
-    root * ${docroot}
-    encode zstd gzip
-    try_files {path} {path}/ /index.html
-    file_server
+    handle {
+      root * ${docroot}
+      encode zstd gzip
+      try_files {path} {path}/ /index.html
+      file_server
+    }
   '';
 in {
   config = lib.mkIf config.my.server.aldebaran.enable {
