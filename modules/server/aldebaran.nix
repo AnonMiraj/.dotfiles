@@ -8,7 +8,7 @@
   downloadDir = "/var/www/aldebaran-downloads"; # stable; not wiped by site re-clone
   repo = "https://github.com/AbuUqba/aldebaran-site.git";
   vhost = ''
-    handle /download/* {
+    handle_path /download/* {
       root * ${downloadDir}
       file_server
     }
