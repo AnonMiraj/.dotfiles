@@ -24,6 +24,8 @@
           inputs.disko.nixosModules.disko
         ];
 
+        my.server.aldebaran.enable = true;
+
         system.stateVersion = "26.05";
 
         # Accept flake nixConfig (silences the "untrusted flake configuration"
