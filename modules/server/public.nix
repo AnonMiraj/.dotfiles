@@ -18,6 +18,7 @@
     "3xui-panel" = "3x-ui";
     status = "gatus";
     qb = "qbittorrent";
+    analytics = "goatcounter";
   };
   enabled = name: config.my.server.${stackOf.${name}}.enable;
 in
@@ -99,6 +100,14 @@ mkIf config.my.server.public {
       port = 8099;
       checkPath = "/";
       group = "system";
+    };
+
+    analytics = {
+      domain = "analytics.almiraj.xyz";
+      port = 8050;
+      checkPath = "/status";
+      group = "system";
+      openFirewall = false; # GoatCounter binds 127.0.0.1; Caddy fronts it
     };
   };
 }

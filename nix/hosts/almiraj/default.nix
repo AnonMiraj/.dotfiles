@@ -25,6 +25,7 @@
         ];
 
         my.server.aldebaran.enable = true;
+        my.server.goatcounter.enable = true;
 
         system.stateVersion = "26.05";
 
