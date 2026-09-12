@@ -43,6 +43,14 @@
             interval = "1m";
             conditions = ["[STATUS] == 200"];
           }
+          {
+            name = "aldebaran";
+            group = "web";
+            url = "https://aldebaran.moe";
+            interval = "1m";
+            conditions = ["[STATUS] == 200"];
+            client = {insecure = true;};
+          }
         ];
         # Token values are injected at runtime from the `gatus-tokens` env vars.
         external-endpoints = [

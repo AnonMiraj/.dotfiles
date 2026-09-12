@@ -26,6 +26,12 @@ in {
     runner = {
       enable = mkEnableOption "GitHub self-hosted runner (Bosla-Ai)";
     };
+    aldebaran = {
+      enable = mkEnableOption "Aldebaran static site (aldebaran.moe + sciadv.almiraj.xyz)";
+    };
+    goatcounter = {
+      enable = mkEnableOption "GoatCounter analytics (analytics.almiraj.xyz)";
+    };
   };
 
   # ── VPS public service registry (parallel to niro's modules/selfhost
