@@ -16,6 +16,7 @@
     "bosla-frontend" = "bosla";
     "bosla-me" = "bosla";
     "3xui-panel" = "3x-ui";
+    cashflow = "cashflow";
     status = "gatus";
     qb = "qbittorrent";
     analytics = "goatcounter";
@@ -39,16 +40,6 @@ mkIf config.my.server.public {
           '';
         }) others))
       // {
-        "cashflow.almiraj.xyz" = {
-          extraConfig = ''
-            reverse_proxy 127.0.0.1:3100
-          '';
-        };
-        "poorup.almiraj.xyz" = {
-          extraConfig = ''
-            reverse_proxy 127.0.0.1:3100
-          '';
-        };
         # 3x-ui: WebSocket VLESS (/vless) → loopback inbound :10001; rest → panel :2053
         "vpn.almiraj.xyz" = {
           extraConfig = ''
