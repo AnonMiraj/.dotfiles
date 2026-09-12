@@ -16,6 +16,7 @@
     "bosla-frontend" = "bosla";
     "bosla-me" = "bosla";
     "3xui-panel" = "3x-ui";
+    cashflow = "cashflow";
     status = "gatus";
     qb = "qbittorrent";
     analytics = "goatcounter";

@@ -51,6 +51,13 @@
             conditions = ["[STATUS] == 200"];
             client = {insecure = true;};
           }
+          {
+            name = "cashflow";
+            group = "games";
+            url = "http://127.0.0.1:3100/api/health";
+            interval = "1m";
+            conditions = ["[STATUS] == 200"];
+          }
         ];
         # Token values are injected at runtime from the `gatus-tokens` env vars.
         external-endpoints = [
