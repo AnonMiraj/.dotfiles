@@ -42,9 +42,9 @@ in {
     force = true;
     text = builtins.toJSON {
       defaultProvider = "oc-sdk-go";
-      defaultModel = "deepseek-v4-flash";
+      defaultModel = "deepseek-v4.1-flash";
       hideThinkingBlock = false;
-      defaultThinkingLevel = "medium";
+      defaultThinkingLevel = "low";
       steeringMode = "all";
       followUpMode = "all";
       enableInstallTelemetry = false;
