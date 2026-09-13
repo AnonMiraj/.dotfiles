@@ -26,6 +26,8 @@
 
         my.server.aldebaran.enable = true;
         my.server.goatcounter.enable = true;
+        # gsoc: Netlify-blocked GSoC organizations site proxied via the VPS
+        my.server.gsoc.enable = true;
 
         system.stateVersion = "26.05";
 

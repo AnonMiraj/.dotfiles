@@ -32,6 +32,9 @@ in {
     goatcounter = {
       enable = mkEnableOption "GoatCounter analytics (analytics.almiraj.xyz)";
     };
+    gsoc = {
+      enable = mkEnableOption "GSoC organizations mirror (gsoc.almiraj.xyz → www.gsocorganizations.dev)";
+    };
   };
 
   # ── VPS public service registry (parallel to niro's modules/selfhost
