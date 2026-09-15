@@ -14,7 +14,12 @@ jobs:
     if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
     steps:
       - uses: actions/checkout@v7
-      - uses: determinatesystems/nix-installer-action@v23
+      # Stay on v20: v21+ unconditionally passes --prefer-upstream-nix when
+      # `determinate: false`, and the Lix installer from install.lix.systems
+      # has no such flag ("unexpected argument '--prefer-upstream-nix'"), so
+      # the install step fails. Revisit when Lix's installer accepts it or CI
+      # stops using Lix. Its node20 deprecation warning is cosmetic.
+      - uses: determinatesystems/nix-installer-action@v20
         with:
           determinate: false
           diagnostic-endpoint: ""
