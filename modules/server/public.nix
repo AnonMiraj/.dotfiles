@@ -47,6 +47,7 @@
     status = "gatus";
     qb = "qbittorrent";
     analytics = "goatcounter";
+    cashflow = "cashflow";
   };
   enabled = name: config.my.server.${stackOf.${name}}.enable;
 in

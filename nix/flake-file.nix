@@ -175,6 +175,14 @@
         url = "github:jacopone/antigravity-nix";
         inputs.nixpkgs.follows = "nixpkgs";
       };
+
+      # Private app repo (not a flake). Built by pkgs/cashflow; the repo is
+      # fetched over ssh on the eval machine, so no key is needed on the VPS.
+      cashflow = {
+        url = "git+ssh://git@github.com/MooSayed1/Cash-Flow.git";
+        flake = false;
+      };
+
     };
   };
 

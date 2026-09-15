@@ -83,6 +83,14 @@
             conditions = ["[STATUS] == 200"];
             client = {insecure = true;};
           }
+          {
+            name = "cashflow";
+            group = "games";
+            url = "https://cashflow.almiraj.xyz/api/health";
+            interval = "1m";
+            conditions = ["[STATUS] == 200"];
+            client = {insecure = true;};
+          }
         ];
         # Token values are injected at runtime from the `gatus-tokens` env vars.
         external-endpoints = [

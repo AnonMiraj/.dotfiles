@@ -51,11 +51,13 @@
         # - bosla: docker app stack (images must exist for the containers to start)
         # - 3x-ui: containerized VPN panel
         # - stats: GoAccess HTML reports built from the Caddy access logs
+        # - cashflow: nix-built game server behind Caddy (see modules/server/cashflow.nix)
         my.server.frps.enable = true;
         my.server.gatus.enable = true;
         my.server.bosla.enable = true;
         my.server.runner.enable = true;
         my.server."3x-ui".enable = true;
+        my.server.cashflow.enable = true;
         my.server.qbittorrent = {
           enable = true;
           passwordHash = "@ByteArray(XNnG/RkDLPGSDx/bByHJXw==:5BmWht4lNccFVa9CCRNyuUz2dmyvjBc0AWZOUkP3c7crkQELhgDRUNRYhyQwPPVdWijz8f415FM9mL/iVkAUTQ==)";

@@ -14,6 +14,9 @@ in {
     bosla = {
       enable = mkEnableOption "bosla containers (frontend, api, typst-worker)";
     };
+    cashflow = {
+      enable = mkEnableOption "Cash Flow game server (cashflow.almiraj.xyz)";
+    };
     "3x-ui" = {
       enable = mkEnableOption "3x-ui VPN/panel container";
     };

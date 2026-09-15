@@ -76,6 +76,22 @@
         "type": "github"
       }
     },
+    "cashflow": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1789305728,
+        "narHash": "sha256-96PhacQmXoS1ECTEuu88PY+KCF3jA9MjtWgZ3/uNm44=",
+        "ref": "refs/heads/main",
+        "rev": "91dfd23b46edb2a93d7e3839636454e0bb67e5ef",
+        "revCount": 4,
+        "type": "git",
+        "url": "ssh://git@github.com/MooSayed1/Cash-Flow.git"
+      },
+      "original": {
+        "type": "git",
+        "url": "ssh://git@github.com/MooSayed1/Cash-Flow.git"
+      }
+    },
     "copyparty": {
       "inputs": {
         "flake-utils": "flake-utils_2",
@@ -902,6 +918,7 @@
       "inputs": {
         "antigravity-nix": "antigravity-nix",
         "awww": "awww",
+        "cashflow": "cashflow",
         "copyparty": "copyparty",
         "disko": "disko",
         "fconv-nvim": "fconv-nvim",
