@@ -51,6 +51,38 @@
             conditions = ["[STATUS] == 200"];
             client = {insecure = true;};
           }
+          {
+            name = "gsoc mirror";
+            group = "web";
+            url = "https://gsoc.almiraj.xyz";
+            interval = "1m";
+            conditions = [
+              "[STATUS] == 200"
+              "[BODY] == pat(*GSoC Organizations*)"
+            ];
+            client = {insecure = true;};
+          }
+          {
+            name = "access stats";
+            group = "system";
+            url = "https://stats.almiraj.xyz/";
+            interval = "1m";
+            # 401 for non-browser clients = vhost alive and tinyauth refusing.
+            # (Browser navigations get a 302 to auth.almiraj.xyz.)
+            conditions = ["[STATUS] == 401"];
+            client = {
+              insecure = true;
+              ignore-redirect = true;
+            };
+          }
+          {
+            name = "auth (tinyauth)";
+            group = "system";
+            url = "https://auth.almiraj.xyz/";
+            interval = "1m";
+            conditions = ["[STATUS] == 200"];
+            client = {insecure = true;};
+          }
         ];
         # Token values are injected at runtime from the `gatus-tokens` env vars.
         external-endpoints = [

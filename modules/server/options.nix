@@ -35,6 +35,17 @@ in {
     gsoc = {
       enable = mkEnableOption "GSoC organizations mirror (gsoc.almiraj.xyz → www.gsocorganizations.dev)";
     };
+    stats = {
+      enable = mkEnableOption "GoAccess access-log reports (stats.almiraj.xyz)";
+    };
+    tinyauth = {
+      enable = mkEnableOption "Tinyauth forward-auth login server (auth.almiraj.xyz)";
+      port = mkOption {
+        type = types.port;
+        default = 3000;
+        description = "Loopback port tinyauth listens on; used for forward_auth upstreams.";
+      };
+    };
   };
 
   # ── VPS public service registry (parallel to niro's modules/selfhost
@@ -72,6 +83,14 @@ in {
           type = types.nullOr types.str;
           default = null;
           description = "Gatus group label.";
+        };
+        auth = mkOption {
+          type = types.bool;
+          default = false;
+          description = ''
+            Gate this vhost behind tinyauth (forward_auth). Path exceptions are
+            declared per app in modules/server/tinyauth.nix.
+          '';
         };
         openFirewall = mkOption {
           type = types.bool;

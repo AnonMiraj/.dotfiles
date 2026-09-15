@@ -26,8 +26,12 @@
 
         my.server.aldebaran.enable = true;
         my.server.goatcounter.enable = true;
-        # gsoc: Netlify-blocked GSoC organizations site proxied via the VPS
         my.server.gsoc.enable = true;
+        my.server.stats = {
+          enable = true;
+          anonymizeIp = false; # report sits behind tinyauth
+        };
+        my.server.tinyauth.enable = true;
 
         system.stateVersion = "26.05";
 
@@ -46,6 +50,7 @@
         # - gatus: status page behind Caddy
         # - bosla: docker app stack (images must exist for the containers to start)
         # - 3x-ui: containerized VPN panel
+        # - stats: GoAccess HTML reports built from the Caddy access logs
         my.server.frps.enable = true;
         my.server.gatus.enable = true;
         my.server.bosla.enable = true;

@@ -74,6 +74,10 @@ in {
       port = 8080;
       checkPath = "/";
       group = "media";
+      # WebUI behind tinyauth; /api/v2 (qBittorrent's own API, used by the
+      # *arr download clients) stays reachable via the allowlist in
+      # modules/server/tinyauth.nix.
+      auth = true;
     };
   };
 }
