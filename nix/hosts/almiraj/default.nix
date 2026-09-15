@@ -92,7 +92,44 @@
           gnupg.sshKeyPaths = [];
           defaultSopsFile = ../../../secrets/vps.yaml;
           age.sshKeyPaths = ["/etc/ssh/ssh_host_ed25519_key"];
-          secrets = {};
+          secrets = {
+            # Read-only automation key for the private cashflow flake input.
+            # The CI deploy runs `nixos-rebuild --flake github:...#almiraj` as
+            # root on this box, so Nix has to fetch that input over ssh while
+            # evaluating. Kept root-only, out of the world-readable store.
+            cashflow-deploy-key = {
+              path = "/run/secrets/cashflow-deploy-key";
+              mode = "0400";
+            };
+          };
+        };
+
+        # Public github.com host key, for root's ssh while fetching that input.
+        programs.ssh.knownHosts.github = {
+          hostNames = ["github.com"];
+          publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl";
+        };
+
+        # Put the key where root's ssh (and libgit2) look for it, and copy the
+        # known-hosts file into root's home too, since the system file is not
+        # always consulted by the fetcher.
+        systemd.services.cashflow-deploy-key = {
+          description = "Install the read-only key for the private cashflow flake input";
+          after = ["sops-nix.service"];
+          wants = ["sops-nix.service"];
+          wantedBy = ["multi-user.target"];
+          path = [pkgs.coreutils];
+          serviceConfig = {
+            Type = "oneshot";
+            RemainAfterExit = true;
+          };
+          script = ''
+            install -d -m 0700 /root/.ssh
+            install -m 0600 ${config.sops.secrets.cashflow-deploy-key.path} /root/.ssh/id_ed25519
+            printf 'Host github.com\n  IdentityFile /root/.ssh/id_ed25519\n  IdentitiesOnly yes\n' > /root/.ssh/config
+            chmod 0600 /root/.ssh/config
+            install -m 0600 /etc/ssh/ssh_known_hosts /root/.ssh/known_hosts
+          '';
         };
       };
       homeManager = {};

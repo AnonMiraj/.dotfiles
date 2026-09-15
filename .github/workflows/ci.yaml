@@ -19,6 +19,21 @@ jobs:
       - uses: DeterminateSystems/magic-nix-cache-action@main
         with:
           diagnostic-endpoint: ""
+      # The cashflow input is a private repo. Install the read-only automation
+      # key (also present on the VPS) where both ssh and libgit2 look for it,
+      # so `nix flake check` can fetch it. The key is written from an env var to
+      # keep it out of the command text in the job log.
+      - name: Configure ssh for the private cashflow input
+        env:
+          CASHFLOW_DEPLOY_KEY: ${{ secrets.CASHFLOW_DEPLOY_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          printf '%s\n' "$CASHFLOW_DEPLOY_KEY" > ~/.ssh/cashflow_deploy_key
+          cp ~/.ssh/cashflow_deploy_key ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/cashflow_deploy_key ~/.ssh/id_ed25519
+          printf 'Host github.com\n  IdentityFile ~/.ssh/cashflow_deploy_key\n  IdentitiesOnly yes\n' > ~/.ssh/config
+          chmod 600 ~/.ssh/config
+          ssh-keyscan -t ed25519 github.com >> ~/.ssh/known_hosts 2>/dev/null
       - name: flake check
         run: nix flake check
 

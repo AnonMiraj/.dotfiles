@@ -176,8 +176,9 @@
         inputs.nixpkgs.follows = "nixpkgs";
       };
 
-      # Private app repo (not a flake). Built by pkgs/cashflow; the repo is
-      # fetched over ssh on the eval machine, so no key is needed on the VPS.
+      # Private app repo (not a flake), built by pkgs/cashflow. Fetched over
+      # ssh: this desktop uses its normal key, while CI and the VPS use the
+      # read-only automation key from secrets (see nix/hosts/*/default.nix).
       cashflow = {
         url = "git+ssh://git@github.com/MooSayed1/Cash-Flow.git";
         flake = false;
