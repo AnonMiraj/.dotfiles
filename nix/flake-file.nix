@@ -156,11 +156,6 @@
         inputs.nixpkgs.follows = "nixpkgs";
       };
 
-      subminer = {
-        url = "github:AnonMiraj/SubMiner/niri_back";
-        inputs.nixpkgs.follows = "nixpkgs";
-      };
-
       jellyfin-vicinae = {
         url = "github:AnonMiraj/Jellyfin-vicinae";
         flake = false;

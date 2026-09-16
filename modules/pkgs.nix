@@ -93,7 +93,6 @@ nixpkgs.config = {
     python3Packages.guessit
     mecab
     anki
-    (import ../pkgs/subminer { inherit inputs pkgs; })
     # Media
     (mpv.override {
       scripts = with mpvScripts; [
@@ -165,7 +164,7 @@ nixpkgs.config = {
     ddcutil
     heimdall
     android-tools
-    adb-sync
+    better-adb-sync
     (import ../pkgs/odin4 { inherit (pkgs) lib stdenv fetchurl unzip autoPatchelfHook libusb1; })
     (import ../pkgs/hiddify { inherit (pkgs) lib appimageTools fetchurl; })
 

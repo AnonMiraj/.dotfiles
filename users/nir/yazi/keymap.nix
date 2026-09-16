@@ -25,7 +25,7 @@
       prepend_keymap = [
         {
           on = ["g" "a"];
-          run = "shell 'adb-sync %s /sdcard/acv/ && notify-send ADB \"Files synced successfully\" || notify-send ADB \"Sync failed\"' --confirm";
+          run = "shell 'adbsync %s /sdcard/acv/ && notify-send ADB \"Files synced successfully\" || notify-send ADB \"Sync failed\"' --confirm";
           desc = "ADB sync";
         }
         {

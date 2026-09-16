@@ -23,16 +23,6 @@
       shadow.color = "#7d0d2d70";
     }
 
-
-    # SubMiner overlay — floating above mpv
-    {
-      matches = [{app-id = "^SubMiner$";}];
-      open-floating = true;
-      background-effect = {
-        blur = false;
-        xray = false;
-      };
-    }
     # Telegram
     {
       matches = [{app-id = "^org\\.telegram\\.desktop$";}];
