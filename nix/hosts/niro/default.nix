@@ -71,9 +71,6 @@
               path = "/var/lib/secrets/gatus-push.tokens";
               owner = "nir";
             };
-            hotspot-env = {
-              path = "/var/lib/secrets/hotspot.env";
-            };
             brave-api-key = {
               path = "${config.users.users.nir.home}/.pi/web-search.json";
               owner = "nir";

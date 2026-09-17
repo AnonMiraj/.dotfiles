@@ -65,11 +65,29 @@ NixOS configuration for host `niro`, managed with `flake-parts`, `flake-file`, a
   When re-encrypting, use `sops --encrypt --config .sops.yaml <file>` with the file
   under `secrets/` so creation rules match.
 - **Push-status**: Add `gatus.enable = false` to skip services without push tokens.
-- **Pi Extensions**: npm pi packages (telegram, memory, tasks, etc.) listed in `packages` array
-  in `users/nir/pi/default.nix` under `home.file.".pi/agent/settings.json"`.
-  pi auto-installs them via npm on startup.
+- **Pi Extensions**: npm pi packages (telegram, memory, tasks, etc.) listed in `piSettings.packages`
+  in `users/nir/pi/default.nix`. pi auto-installs them via npm on startup.
+  `settings.json`/`keybindings.json` are **seeded once** by `home.activation.piConfig`,
+  then owned by pi — do NOT `home.file`-symlink them (read-only store symlink breaks
+  pi's atomic writes and litters `settings.json.tmp.*`). Add plugins with `pi install`.
 - **Brave API key** (pi-web-access): stored in `secrets/secrets.yaml` as `brave-api-key`.
   sops writes it to `~/.pi/web-search.json` (symlink to `/run/secrets/brave-api-key`).
+- **qBittorrent WebUI login page**: deliberately skipped. `LocalHostAuth = false`
+  (`modules/server/qbittorrent.nix`) makes qBittorrent treat Caddy's loopback
+  connection as pre-authenticated, so tinyauth is the only gate. Because that
+  bypass applies to `/api/v2` too, `modules/server/tinyauth.nix` must NOT
+  `PATH_ALLOW` any qBittorrent path. Machine clients use HTTP Basic auth
+  (tinyauth user + password) instead of qBittorrent credentials.
+  Related: qBittorrent 5.2 parses any `Authorization` header it receives, so
+  stale browser basic-auth creds for `qb.almiraj.xyz` made the WebUI reject
+  even a correct password with `401 Unauthorized` (the login page showed
+  `Invalid Username or Password.\nServer response: Unauthorized`).
+- **qBittorrent WebUI frontend**: VueTorrent (`pkgs.vuetorrent`, fetched from
+  cache.nixos.org for aarch64), enabled by `my.server.qbittorrent.alternativeWebUi`
+  (default true) → `WebUI\AlternativeUIEnabled` + `WebUI\RootFolder`. qBittorrent
+  needs the folder to contain `public/`, which is why the module points at
+  `${pkgs.vuetorrent}/share/vuetorrent`. It is a PWA, so add it to the phone's
+  home screen. Flip `alternativeWebUi = false` to get the stock UI back.
 ## VPS Status Page (status.niro.almiraj.xyz)
 
 Gatus on the VPS (`almiraj`) receives pushed status from all home services with
