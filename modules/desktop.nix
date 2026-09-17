@@ -22,13 +22,18 @@
     pulse.enable = true;
   };
 
-  # Desktop: Niri + Ly (TUI DM)
+  # Desktop: Hyprland + Niri (rollback) + Ly (TUI DM)
   services.desktopManager.cosmic.enable = true;
   services.displayManager.ly.enable = true;
+
+  programs.hyprland = {
+    enable = true;
+  };
+
+  # Kept until Hyprland parity is confirmed; drop once it is.
   programs.niri.enable = true;
   programs.niri.package = pkgs.niri;
 
-  # Speech-to-text dictation
   services.hyprwhspr-rs.enable = true;
 
   # Ly TUI display manager config
@@ -52,18 +57,19 @@
   };
 
   # Portals
+  # Hyprland ships its own portal, so xdg-desktop-portal-wlr is not needed
+  # (the NixOS module also sets enableWlrPortal = false).
   xdg.portal = {
     enable = true;
     extraPortals = with pkgs; [
       xdg-desktop-portal-gnome
       xdg-desktop-portal-gtk
       xdg-desktop-portal-termfilechooser
-      xdg-desktop-portal-wlr
     ];
-    config.niri = {
-      default = pkgs.lib.mkForce ["gtk" "gnome" "*"];
-      "org.freedesktop.impl.portal.ScreenCast" = pkgs.lib.mkForce ["gnome"];
-      "org.freedesktop.impl.portal.Screenshot" = pkgs.lib.mkForce ["gnome"];
+    config.hyprland = {
+      default = pkgs.lib.mkForce ["gtk" "hyprland" "*"];
+      "org.freedesktop.impl.portal.ScreenCast" = pkgs.lib.mkForce ["hyprland"];
+      "org.freedesktop.impl.portal.Screenshot" = pkgs.lib.mkForce ["hyprland"];
       "org.freedesktop.impl.portal.FileChooser" = pkgs.lib.mkForce ["termfilechooser"];
     };
     config.common = {

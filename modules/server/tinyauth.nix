@@ -27,13 +27,13 @@ in {
         UI_TITLE = "almiraj";
         SERVER_PORT = config.my.server.tinyauth.port;
 
-        # Per-app rules. Only requests whose Host matches CONFIG_DOMAIN are
-        # governed by these; everything else still needs a login. PATH_ALLOW is
-        # a regex of paths that skip auth entirely (machine clients).
-        # qBittorrent WebUI: dashboard gated, its own API open (the *arr
-        # download clients authenticate against qBittorrent itself).
+        # qBittorrent WebUI: every path is gated, no PATH_ALLOW. qBittorrent
+        # runs with LocalHostAuth=false (see modules/server/qbittorrent.nix),
+        # so Caddy's loopback connection skips qBittorrent's own login page —
+        # which would also leave /api/v2 wide open, so tinyauth has to cover
+        # it. Machine clients authenticate with HTTP Basic (accepted by
+        # default) or a tinyauth session cookie.
         APPS_QB_CONFIG_DOMAIN = "qb.almiraj.xyz";
-        APPS_QB_PATH_ALLOW = "^/api/v2";
         # GoatCounter: dashboard gated, tracking endpoints public.
         APPS_ANALYTICS_CONFIG_DOMAIN = "analytics.almiraj.xyz";
         APPS_ANALYTICS_PATH_ALLOW = "^/(count|api/v0/count)";

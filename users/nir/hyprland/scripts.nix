@@ -1,15 +1,10 @@
-{
-  config,
-  pkgs,
-  lib,
-  ...
-}: {
+{...}: {
   xdg.configFile = {
-    "niri/scripts/kitty-sessions.sh" = {
+    "hypr/scripts/kitty-sessions.sh" = {
       source = ../scripts/kitty-sessions.sh;
       executable = true;
     };
-    "niri/scripts/phoneMirror" = {
+    "hypr/scripts/phoneMirror" = {
       source = ../scripts/phoneMirror;
       executable = true;
     };

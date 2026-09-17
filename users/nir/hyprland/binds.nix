@@ -1,0 +1,170 @@
+{lib, ...}: let
+  lua = lib.generators.mkLuaInline;
+
+  # keys -> raw Lua dispatcher expression
+  mkb = keys: expr: {_args = [keys (lua expr)];};
+
+  # keys -> command string, run through `sh -c`
+  exec = keys: cmd: mkb keys "hl.dsp.exec_cmd(${builtins.toJSON cmd})";
+
+  # noctalia IPC helper
+  noctalia = keys: args: exec keys "noctalia msg ${args}";
+
+  # direction helpers
+  focusDir = keys: dir: mkb keys "hl.dsp.focus({ direction = ${builtins.toJSON dir} })";
+  moveToMonitor = keys: dir: mkb keys "hl.dsp.window.move({ monitor = ${builtins.toJSON dir} })";
+  focusMonitor = keys: dir: mkb keys "hl.dsp.focus({ monitor = ${builtins.toJSON dir} })";
+  focusWs = keys: ws: mkb keys "hs.dsp.focus({ workspace = ${builtins.toJSON ws} })";
+  moveToWs = keys: ws: mkb keys "hs.dsp.window.move({ workspace = ${builtins.toJSON ws}, follow = false })";
+
+  # Workspace range 1..10 per monitor. Key 10 is `0`, matching upstream's
+  # example (i % 10). Move uses SUPER+SHIFT, as upstream suggests and as the
+  # move-to-workspace wheel binds already do.
+  wsKeys = map (n:
+    if n == 10
+    then "0"
+    else toString n) (lib.range 1 10);
+  wsFocus = map (n: focusWs "SUPER + ${n}" "${n}") wsKeys;
+  # Windows move to workspace N on the current monitor (follow = false keeps
+  # focus where it is, as niri's move-column-to-workspace did).
+  wsMove = map (n: moveToWs "SUPER + SHIFT + ${n}" "${n}") wsKeys;
+in {
+  wayland.windowManager.hyprland.settings.bind =
+    [
+      # ── Media keys ───────────────────────────────────────
+      (noctalia "XF86AudioRaiseVolume" "volume-up 3")
+      (noctalia "XF86AudioLowerVolume" "volume-down 3")
+      (noctalia "XF86AudioMute" "volume-mute")
+      (noctalia "XF86AudioMicMute" "mic-mute")
+      (noctalia "XF86MonBrightnessUp" "brightness-up current 5")
+      (noctalia "XF86MonBrightnessDown" "brightness-down current 5")
+      (noctalia "XF86AudioPlay" "media toggle")
+      (noctalia "XF86AudioPause" "media toggle")
+      (noctalia "XF86AudioNext" "media next")
+      (noctalia "XF86AudioPrev" "media previous")
+      (noctalia "XF86AudioStop" "media stop")
+
+      # ── Clipboard & tools ────────────────────────────────
+      # niri had both `Mod+V` (vicinae) and `Super+V` (noctalia) on the same
+      # key; they are split here so no bind is shadowed.
+      (exec "SUPER + V" "vicinae vicinae://launch/clipboard/history")
+      (exec "SUPER + CTRL + V" "vicinae vicinae://launch/clipboard/history")
+      (noctalia "SUPER + CTRL + N" "panel-toggle control-center")
+      (noctalia "SUPER + ALT + L" "session lock")
+
+      # ── Window management ────────────────────────────────
+      (mkb "SUPER + F" "hl.dsp.window.fullscreen({ mode = \"maximized\" })")
+      (mkb "SUPER + SHIFT + F" "hl.dsp.window.fullscreen()")
+      (mkb "SUPER + S" "hl.dsp.window.float()")
+      (mkb "SUPER + Q" "hl.dsp.window.close()")
+
+      # ── Apps ─────────────────────────────────────────────
+      (exec "SHIFT + SUPER + R" "kitty -e btop")
+      (exec "SUPER + Return" "kitty")
+      (exec "SUPER + W" "zen-beta")
+      (exec "SUPER + N" "kitty -e nvim")
+      (exec "SUPER + R" "kitty -e fish -ic y")
+      (exec "SUPER + Grave" "vicinae vicinae://launch/core/search-emojis")
+      (exec "SUPER + M" "kitty -e ncmpcpp")
+
+      # ── Function keys ────────────────────────────────────
+      (exec "SUPER + F1" "~/.config/hypr/scripts/kitty-sessions.sh")
+      (exec "SUPER + F2" "~/.config/hypr/scripts/phoneMirror")
+      (exec "SUPER + F3" "kitty -e pulsemixer")
+      (exec "SUPER + F4" "kitty -e tremc")
+
+      # ── Wallpaper & screenshots ──────────────────────────
+      (noctalia "SUPER + F8" "panel-toggle wallpaper")
+      (noctalia "SUPER + F9" "wallpaper-random")
+      (noctalia "SUPER + SHIFT + S" "screenshot-region")
+      (noctalia "Print" "screenshot-fullscreen")
+
+      # ── Overview ─────────────────────────────────────────
+      (mkb "SUPER + Tab" ''
+        function()
+          hl.plugin.scrolloverview.overview("toggle all")
+        end
+      '')
+
+      # ── Misc ─────────────────────────────────────────────
+      (exec "SUPER + D" "vicinae toggle")
+      (exec "SUPER + SHIFT + M" "vicinae vicinae://launch/@anonmiraj/vicinae-extension-jellyfin-browser-0/jellyfin-browser")
+      (exec "SUPER + ALT + D" "hyprwhspr-rs record toggle")
+      (noctalia "SUPER + SHIFT + Q" "panel-toggle session")
+      (noctalia "SUPER + b" "bar-toggle")
+
+      # ── Scrolling layout ─────────────────────────────────
+      # The scrolling layout gives columns on an infinite tape. These expose
+      # the column operations our config never bound, so the layout behaves
+      # like niri's columns rather than a plain tiling WM.
+      #
+      # `layout` messages are documented on the Scrolling layout wiki page.
+      #
+      # -conf/+conf cycles the explicit_column_widths set in core.nix
+      # (0.333 / 0.5 / 0.667) instead of a free-form resize.
+      (mkb "SUPER + equal" "hl.dsp.layout(\"colresize +conf\")")
+      (mkb "SUPER + minus" "hl.dsp.layout(\"colresize -conf\")")
+      # fit expand: grow the column to take the remaining free space
+      (mkb "SUPER + SHIFT + equal" "hl.dsp.layout(\"fit expand\")")
+      # move/swap columns along the tape
+      (mkb "SUPER + period" "hl.dsp.layout(\"move +col\")")
+      (mkb "SUPER + comma" "hl.dsp.layout(\"move -col\")")
+      (mkb "SUPER + SHIFT + period" "hl.dsp.layout(\"swapcol r\")")
+      (mkb "SUPER + SHIFT + comma" "hl.dsp.layout(\"swapcol l\")")
+      # consume_or_expel: fold the focused window into the previous column,
+      # or expel it back out when it is already alone. This is niri's core
+      # column manipulation and the one worth learning.
+      (mkb "SUPER + C" "hl.dsp.layout(\"consume_or_expel prev\")")
+      # promote: give the focused window its own column
+      (mkb "SUPER + CTRL + C" "hl.dsp.layout(\"promote\")")
+      # inhibit_scroll: freeze the tape so the view stops following focus
+      (mkb "SUPER + i" "hl.dsp.layout(\"inhibit_scroll\")")
+
+      # ── Vim-style navigation ─────────────────────────────────
+      (focusDir "SUPER + H" "l")
+      (focusDir "SUPER + J" "d")
+      (focusDir "SUPER + K" "u")
+      (focusDir "SUPER + L" "r")
+      (focusMonitor "SUPER + SHIFT + H" "l")
+      (focusMonitor "SUPER + SHIFT + J" "d")
+      (focusMonitor "SUPER + SHIFT + K" "u")
+      (focusMonitor "SUPER + SHIFT + L" "r")
+      (moveToMonitor "SUPER + SHIFT + CTRL + H" "l")
+      (moveToMonitor "SUPER + SHIFT + CTRL + J" "d")
+      (moveToMonitor "SUPER + SHIFT + CTRL + K" "u")
+      (moveToMonitor "SUPER + SHIFT + CTRL + L" "r")
+
+      # ── Workspaces ───────────────────────────────────────
+    ]
+    ++ wsFocus
+    ++ wsMove
+    ++ [
+      # ── Mouse wheel — workspace / column navigation ──────
+      (focusWs "SUPER + mouse_down" "r+1")
+      (focusWs "SUPER + mouse_up" "r-1")
+      (moveToWs "SUPER + SHIFT + mouse_down" "r+1")
+      (moveToWs "SUPER + SHIFT + mouse_up" "r-1")
+      (mkb "SUPER + mouse_left" "hl.dsp.focus({ direction = \"l\" })")
+      (mkb "SUPER + mouse_right" "hl.dsp.focus({ direction = \"r\" })")
+      (mkb "SUPER + SHIFT + mouse_left" "hl.dsp.layout(\"move +col\")")
+      (mkb "SUPER + SHIFT + mouse_right" "hl.dsp.layout(\"move -col\")")
+
+      (mkb "SUPER + CTRL + mouse_up" ''
+        function()
+          local cur = hl.get_config("cursor.zoom_factor")
+          hl.config({ ["cursor.zoom_factor"] = math.min(cur + 0.5, 10.0) })
+        end
+      '')
+      (mkb "SUPER + CTRL + mouse_down" ''
+        function()
+          local cur = hl.get_config("cursor.zoom_factor")
+          hl.config({ ["cursor.zoom_factor"] = math.max(cur - 0.5, 1.0) })
+        end
+      '')
+      (mkb "CTRL + SUPER + Z" ''
+        function()
+          hl.config({ ["cursor.zoom_factor"] = 1.0 })
+        end
+      '')
+    ];
+}

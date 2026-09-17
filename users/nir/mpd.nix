@@ -28,4 +28,6 @@
       playlist_directory "~/.config/mpd/playlists"
     '';
   };
+
+  services.mpd-mpris.enable = true;
 }

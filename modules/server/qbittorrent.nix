@@ -8,10 +8,27 @@
   # PBKDF2-HMAC-SHA512 (100k iters) hash for the WebUI password, generated
   # offline — see the "Web-UI-password-locked-on-qBittorrent-NO-X" wiki.
   # Plaintext password lives in secrets/vps.yaml (`qb-webui-password`).
+  # Only used if LocalHostAuth is ever turned back on; with the bypass below
+  # the WebUI login page is skipped entirely (tinyauth is the only gate).
   passwordHash = config.my.server.qbittorrent.passwordHash;
+  # VueTorrent is what qBittorrent serves when AlternativeUIEnabled is on.
+  # Its layout ($out/share/vuetorrent/{public,version.txt}) is exactly what
+  # qBittorrent expects for WebUI\RootFolder.
+  webuiRoot =
+    if cfg.alternativeWebUi
+    then "${pkgs.vuetorrent}/share/vuetorrent"
+    else "";
 in {
   options.my.server.qbittorrent = {
     enable = lib.mkEnableOption "qbittorrent-nox BitTorrent client (public WebUI on qb.almiraj.xyz)";
+    alternativeWebUi = lib.mkOption {
+      type = lib.types.bool;
+      default = true;
+      description = ''
+        Serve VueTorrent (a mobile-friendly PWA, packaged as pkgs.vuetorrent)
+        instead of the stock qBittorrent WebUI.
+      '';
+    };
     passwordHash = lib.mkOption {
       type = lib.types.str;
       description = "@ByteArray(...) PBKDF2 hash for the qBittorrent WebUI password.";
@@ -37,6 +54,13 @@ in {
             Port = "8080";
             Username = "nir";
             Password_PBKDF2 = passwordHash;
+            AlternativeUIEnabled = cfg.alternativeWebUi;
+            RootFolder = webuiRoot;
+            # Caddy always connects to the WebUI from 127.0.0.1, so every
+            # request counts as loopback and skips qBittorrent's own login
+            # page. tinyauth (see modules/server/tinyauth.nix) is the only
+            # gate — which is why /api/v2 must NOT be allowlisted there.
+            LocalHostAuth = false;
             HostHeaderValidationEnabled = false; # behind Caddy reverse proxy
             CSRFProtection = false;
             MaxAuthenticationFailCount = 10;
