@@ -173,8 +173,6 @@
       #   '';
       # };
 
-
-
       # competitest.nvim — competitive programming helper
       competitest = {
         package = pkgs.vimPlugins.competitest-nvim;

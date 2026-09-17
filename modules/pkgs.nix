@@ -116,7 +116,7 @@
     mediainfo
     yt-dlp
     ffsubsync
-    (import ../pkgs/alass {inherit (pkgs) lib stdenv fetchurl autoPatchelfHook;})
+    (pkgs.callPackage ../pkgs/alass {})
     cava
     newsboat
     nsxiv
@@ -163,7 +163,7 @@
     heimdall
     android-tools
     better-adb-sync
-    (import ../pkgs/hiddify {inherit (pkgs) lib appimageTools fetchurl;})
+    (pkgs.callPackage ../pkgs/hiddify {})
 
     # System
     cachix

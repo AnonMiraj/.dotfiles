@@ -4,7 +4,6 @@
   nodejs_22,
   cashflowSrc,
 }:
-
 buildNpmPackage {
   pname = "cashflow";
   version = "unstable-${cashflowSrc.shortRev or "unknown"}";

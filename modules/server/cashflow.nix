@@ -5,10 +5,7 @@
   inputs,
   ...
 }: let
-  cashflow = import ../../pkgs/cashflow {
-    inherit (pkgs) lib buildNpmPackage nodejs_22;
-    cashflowSrc = inputs.cashflow;
-  };
+  cashflow = pkgs.callPackage ../../pkgs/cashflow {cashflowSrc = inputs.cashflow;};
 in {
   config = lib.mkIf config.my.server.cashflow.enable {
     # GOOGLE_CLIENT_ID only (own file so the value can be rotated alone).
@@ -55,13 +52,13 @@ in {
       };
     };
 
-    # public.nix turns this entry into the Caddy vhost (see its `stackOf` map).
+    # public.nix turns this entry into the Caddy vhost (gated by the `stack` field).
     my.publicServices.cashflow = {
       domain = "cashflow.almiraj.xyz";
       port = 3100;
       checkPath = "/api/health";
       group = "games";
-      openFirewall = false; # binds 127.0.0.1; Caddy fronts it
+      stack = "cashflow";
     };
   };
 }

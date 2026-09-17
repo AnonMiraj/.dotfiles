@@ -1,4 +1,4 @@
-{...}: {
+{config, ...}: {
   networking.firewall.allowedTCPPorts = [53 80 443 6767 6768 8880];
   networking.firewall.allowedUDPPorts = [53];
 
@@ -16,12 +16,12 @@
       domain = "niro.lan";
       local = "/niro.lan/";
       address = [
-        "/niro.lan/192.168.1.6"
+        "/niro.lan/${config.my.lan.address}"
       ];
       # Bind only to loopback + LAN iface, not 0.0.0.0:53.
       interface = [
         "lo"
-        "enp43s0"
+        config.my.lan.interface
       ];
       # bind-dynamic (not bind-interfaces): tolerates the iface not
       # existing yet at boot (eth0 → enp43s0 udev rename race) and
@@ -35,9 +35,7 @@
   # on it — network-online.target can fire before the wired iface is
   # renamed/configured, which bind-dynamic now tolerates anyway.
   systemd.services.dnsmasq = {
-    after = [ "network-online.target" ];
-    wants = [ "network-online.target" ];
+    after = ["network-online.target"];
+    wants = ["network-online.target"];
   };
-
-
 }

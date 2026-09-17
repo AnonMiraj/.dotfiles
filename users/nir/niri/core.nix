@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }: let
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}: let
   cfg = config.programs.niri;
 in {
   programs.niri.settings = {
@@ -74,7 +79,6 @@ in {
       noise = 0.05;
       saturation = 3;
     };
-
 
     # ── Overview ───────────────────────────────────────────
     overview.workspace-shadow.enable = false;
@@ -193,8 +197,8 @@ in {
   xdg.configFile.niri-config.source = lib.mkForce (
     pkgs.runCommand "niri-config-kdl" {
       inherit (cfg) finalConfig;
-      passAsFile = [ "finalConfig" ];
-      buildInputs = [ cfg.package ];
+      passAsFile = ["finalConfig"];
+      buildInputs = [cfg.package];
     } ''
       cat $finalConfigPath > $out
       printf '\ninclude optional=true "noctalia.kdl"\n' >> $out

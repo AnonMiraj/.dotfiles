@@ -68,7 +68,6 @@ in {
           echo "aldebaran-site: updated ${docroot} to $head"
         fi
       '';
-
     in {
       # The key comes from sops, which is materialised by this activation script.
       deps = ["setupSecrets"];

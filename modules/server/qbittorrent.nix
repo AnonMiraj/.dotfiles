@@ -36,7 +36,6 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-
     services.qbittorrent = {
       enable = true;
       user = "qbittorrent";
@@ -98,9 +97,11 @@ in {
       port = 8080;
       checkPath = "/";
       group = "media";
-      # WebUI behind tinyauth; /api/v2 (qBittorrent's own API, used by the
-      # *arr download clients) stays reachable via the allowlist in
-      # modules/server/tinyauth.nix.
+      stack = "qbittorrent";
+      # WebUI behind tinyauth; every path, including /api/v2, is gated.
+      # There is deliberately no PATH_ALLOW for qb in
+      # modules/server/tinyauth.nix: machine clients authenticate with
+      # tinyauth HTTP Basic auth (or a session cookie).
       auth = true;
     };
   };

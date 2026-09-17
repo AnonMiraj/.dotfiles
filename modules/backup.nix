@@ -1,4 +1,9 @@
-{config, lib, pkgs, ...}: let
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}: let
   vps = "admin@152.53.81.54";
   dest = "/mnt/media/backups/almiraj";
   sshOpts = [

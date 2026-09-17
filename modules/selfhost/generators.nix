@@ -112,64 +112,68 @@ in {
 
   # ── Homepage dashboard entries ────────────────────────────────
   services.homepage-dashboard.services = let
-    svcList =
-      lib.filter (svc: svc.homepage.enable)
-      (mapAttrsToList (n: v: v) config.my.services);
-    groups = builtins.groupBy (svc: groupOf svc) svcList;
+    enabledNames =
+      builtins.attrNames
+      (lib.filterAttrs (_: svc: svc.homepage.enable) config.my.services);
+    groups = builtins.groupBy (name: groupOf config.my.services.${name}) enabledNames;
   in
     map (group: {
-      "${group}" = map (name: let
-        svc = config.my.services.${name};
-      in {
-        "${displayName name svc}" = {
-          href = "https://${domainOf svc}";
-          description = descOf svc;
-          icon = iconOf svc;
-        };
-      }) (builtins.attrNames (lib.filterAttrs (_: svc: groupOf svc == group) config.my.services));
+      "${group}" =
+        map (name: let
+          svc = config.my.services.${name};
+        in {
+          "${displayName name svc}" = {
+            href = "https://${domainOf svc}";
+            description = descOf svc;
+            icon = iconOf svc;
+          };
+        })
+        groups.${group};
     }) (builtins.attrNames groups);
 
-# ── FRP client ────────────────────────────────────────────────
-sops.secrets.frpc-token = {
-  path = "/run/secrets/frpc-token";
-  restartUnits = ["frp-frpc.service"]; # re-auth frp tunnel when the token rotates
-};
+  # ── FRP client ────────────────────────────────────────────────
+  sops.secrets.frpc-token = {
+    path = "/run/secrets/frpc-token";
+    restartUnits = ["frp-frpc.service"]; # re-auth frp tunnel when the token rotates
+  };
 
-services.frp.instances.frpc = {
+  services.frp.instances.frpc = {
     enable = true;
     role = "client";
     settings = {
-        serverAddr = "152.53.81.54";
-        serverPort = 7000;
-        loginFailExit = false;
-        log.level = "info";
-        auth.token = "\${FRPC_TOKEN}";
-        proxies = mapAttrsToList (name: svc: {
-            inherit name;
-            type = "tcp";
-            localIP = "127.0.0.1";
-            localPort = svc.port;
-            remotePort = remotePortOf svc;
-        }) (lib.filterAttrs (_: svc: svc.frp.enable) config.my.services);
+      serverAddr = "152.53.81.54";
+      serverPort = 7000;
+      loginFailExit = false;
+      log.level = "info";
+      auth.token = "\${FRPC_TOKEN}";
+      proxies = mapAttrsToList (name: svc: {
+        inherit name;
+        type = "tcp";
+        localIP = "127.0.0.1";
+        localPort = svc.port;
+        remotePort = remotePortOf svc;
+      }) (lib.filterAttrs (_: svc: svc.frp.enable) config.my.services);
     };
     environmentFiles = [config.sops.secrets.frpc-token.path];
-};
+  };
 
-# frp does not expand \${ENV} in TOML configs, so bake the real token into a
-# runtime copy in preStart (token comes from the sops EnvironmentFile).
-systemd.services.frp-frpc = let
-    frpcBaseToml = (pkgs.formats.toml { }).generate "frp-frpc-base.toml"
+  # frp does not expand \${ENV} in TOML configs, so bake the real token into a
+  # runtime copy in preStart (token comes from the sops EnvironmentFile).
+  systemd.services.frp-frpc = let
+    frpcBaseToml =
+      (pkgs.formats.toml {}).generate "frp-frpc-base.toml"
       config.services.frp.instances.frpc.settings;
-in {
+  in {
     serviceConfig = {
-        RuntimeDirectory = "frp-frpc";
-        ExecStart = lib.mkForce
-          "${config.services.frp.package}/bin/frpc --strict_config -c /run/frp-frpc/frpc.toml";
+      RuntimeDirectory = "frp-frpc";
+      ExecStart =
+        lib.mkForce
+        "${config.services.frp.package}/bin/frpc --strict_config -c /run/frp-frpc/frpc.toml";
     };
     preStart = ''
       sed 's/''${FRPC_TOKEN}/'"$FRPC_TOKEN"'/g' ${frpcBaseToml} > /run/frp-frpc/frpc.toml
     '';
-};
+  };
 
   # ── Gatus endpoints ───────────────────────────────────────────
   services.gatus.settings.endpoints = mapAttrsToList (name: svc: {
@@ -229,7 +233,7 @@ in {
 
   systemd.timers.push-status = {
     description = "Push service health every ${config.my.pushStatus.interval}";
-    wantedBy = ["multi-user.target"];
+    wantedBy = ["timers.target"];
     timerConfig = {
       OnUnitActiveSec = config.my.pushStatus.interval;
       OnBootSec = config.my.pushStatus.interval;

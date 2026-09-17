@@ -1,6 +1,9 @@
-{ config, lib, pkgs, ... }:
-
-let
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}: let
   cfg = config.my.batterySuspend;
 
   # Returns "1" if any Mains power supply is online, "0" otherwise
@@ -84,7 +87,7 @@ in {
     };
 
     suspendMode = lib.mkOption {
-      type = lib.types.enum [ "mem" "disk" "freeze" ];
+      type = lib.types.enum ["mem" "disk" "freeze"];
       default = "mem";
       description = ''
         Suspend mode:
@@ -97,9 +100,8 @@ in {
 
   config = lib.mkIf cfg.enable {
     systemd.services.battery-suspend = {
-      description =
-        "Battery power-loss handler — wait grace period then suspend with periodic RTC wake";
-      after = [ "local-fs.target" ];
+      description = "Battery power-loss handler — wait grace period then suspend with periodic RTC wake";
+      after = ["local-fs.target"];
       serviceConfig = {
         Type = "oneshot";
         ExecStart = "${suspendScript}";

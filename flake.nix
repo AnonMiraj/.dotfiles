@@ -52,10 +52,6 @@
       url = "git+ssh://git@github.com/MooSayed1/Cash-Flow.git";
       flake = false;
     };
-    copyparty = {
-      url = "github:9001/copyparty/hovudstraum";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     disko = {
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";

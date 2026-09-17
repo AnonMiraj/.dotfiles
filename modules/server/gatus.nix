@@ -94,19 +94,62 @@
         ];
         # Token values are injected at runtime from the `gatus-tokens` env vars.
         external-endpoints = [
-          { name = "Bazarr"; group = "media"; token = "\${GATUS_BAZARR_TOKEN}"; }
-          { name = "File Server"; group = "media"; token = "\${GATUS_FILESERVER_TOKEN}"; }
-          { name = "FlareSolverr"; group = "media"; token = "\${GATUS_FLARESOLVERR_TOKEN}"; }
-          { name = "System Monitor"; group = "system"; token = "\${GATUS_GLANCES_TOKEN}"; }
-          { name = "Homepage"; group = "core"; token = "\${GATUS_HOMEPAGE_TOKEN}"; }
-          { name = "Jellyfin"; group = "media"; token = "\${GATUS_JELLYFIN_TOKEN}"; }
-          { name = "Kokoro TTS"; group = "dev"; token = "\${GATUS_KOKORO_TOKEN}"; }
-          { name = "Paseo"; group = "dev"; token = "\${GATUS_PASEO_TOKEN}"; }
-          { name = "Prowlarr"; group = "media"; token = "\${GATUS_PROWLARR_TOKEN}"; }
-          { name = "Sonarr"; group = "media"; token = "\${GATUS_SONARR_TOKEN}"; }
-          { name = "Transmission"; group = "media"; token = "\${GATUS_TRANSMISSION_TOKEN}"; }
+          {
+            name = "Bazarr";
+            group = "media";
+            token = "\${GATUS_BAZARR_TOKEN}";
+          }
+          {
+            name = "File Server";
+            group = "media";
+            token = "\${GATUS_FILESERVER_TOKEN}";
+          }
+          {
+            name = "FlareSolverr";
+            group = "media";
+            token = "\${GATUS_FLARESOLVERR_TOKEN}";
+          }
+          {
+            name = "System Monitor";
+            group = "system";
+            token = "\${GATUS_GLANCES_TOKEN}";
+          }
+          {
+            name = "Homepage";
+            group = "core";
+            token = "\${GATUS_HOMEPAGE_TOKEN}";
+          }
+          {
+            name = "Jellyfin";
+            group = "media";
+            token = "\${GATUS_JELLYFIN_TOKEN}";
+          }
+          {
+            name = "Kokoro TTS";
+            group = "dev";
+            token = "\${GATUS_KOKORO_TOKEN}";
+          }
+          {
+            name = "Paseo";
+            group = "dev";
+            token = "\${GATUS_PASEO_TOKEN}";
+          }
+          {
+            name = "Prowlarr";
+            group = "media";
+            token = "\${GATUS_PROWLARR_TOKEN}";
+          }
+          {
+            name = "Sonarr";
+            group = "media";
+            token = "\${GATUS_SONARR_TOKEN}";
+          }
+          {
+            name = "Transmission";
+            group = "media";
+            token = "\${GATUS_TRANSMISSION_TOKEN}";
+          }
         ];
-
       };
     };
   };
