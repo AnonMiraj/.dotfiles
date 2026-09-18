@@ -37,6 +37,10 @@
   services.openssh.enable = true;
 
   # ── GLOBAL packages — useful on every host (desktop niro + VPS almiraj) ──
+  #
+  # Ownership rule: anything here is present on both hosts, so it must not
+  # be repeated in modules/packages/* (desktop-only) or modules/server/pkgs.nix
+  # (VPS-only). Cosmetic desktop extras belong in modules/packages/shell.nix.
   nixpkgs.config.allowUnfree = true;
   environment.systemPackages = with pkgs; [
     curl
@@ -63,7 +67,6 @@
     traceroute
     mtr
     rsync
-    fastfetch
     neovim
     python3
     age

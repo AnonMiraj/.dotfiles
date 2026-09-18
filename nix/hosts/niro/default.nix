@@ -26,12 +26,6 @@
             ../../../modules)
 
           inputs.paseo.nixosModules.paseo
-          {
-            nixpkgs.overlays = [
-              (import ../../../overlays/fish-compat.nix)
-            ];
-          }
-
           inputs.sops-nix.nixosModules.sops
 
           inputs.niri.nixosModules.niri

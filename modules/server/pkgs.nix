@@ -5,11 +5,11 @@
   ...
 }: {
   # VPS-only packages (almiraj). GLOBAL set lives in modules/base.nix;
-  # PC-only (desktop niro) set lives in modules/pkgs.nix.
+  # PC-only (desktop niro) set lives in modules/packages/*.
   environment.systemPackages = with pkgs; [
     vim # quick edit on the server
     btrfs-progs # btrfs subvolume snapshots
-    yazi # terminal file manager (neovim already in the GLOBAL set)
+    yazi # terminal file manager
 
     # Networking / diagnostics
     tcpdump
@@ -20,10 +20,8 @@
     ethtool
     netselect
 
-    # System monitoring
-    sysstat # iostat / sar / pidstat
+    # System monitoring (sysstat and btop are in the GLOBAL set)
     iotop
-    btop
 
     # Misc ops
     pv
