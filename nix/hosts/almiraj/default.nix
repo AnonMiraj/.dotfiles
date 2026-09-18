@@ -59,6 +59,8 @@
           enable = true;
           passwordHash = "@ByteArray(XNnG/RkDLPGSDx/bByHJXw==:5BmWht4lNccFVa9CCRNyuUz2dmyvjBc0AWZOUkP3c7crkQELhgDRUNRYhyQwPPVdWijz8f415FM9mL/iVkAUTQ==)";
         };
+        my.server.downloads.enable = true;
+        my.server.aria2.enable = true;
 
         networking.hostName = "almiraj";
 
