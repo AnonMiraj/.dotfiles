@@ -25,6 +25,7 @@
       "https://yazi.cachix.org"
       "https://vicinae.cachix.org"
       "https://nvf.cachix.org"
+      "https://noctalia.cachix.org"
     ];
     trusted-public-keys = [
       "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
@@ -36,6 +37,7 @@
       "yazi.cachix.org-1:Dcdz63NZKfvUCbDGngQDAZq6kOroIrFoyO064uvLh8k="
       "vicinae.cachix.org-1:1kDrfienkGHPYbkpNj1mWTr7Fm1+zcenzgTizIcI3oc="
       "nvf.cachix.org-1:7D+YxLvO0ZtsY+MKZwq9JngtftxPtk+WXoHI5q7uO0Y="
+      "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
     ];
   };
 

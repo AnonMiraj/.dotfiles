@@ -1,5 +1,10 @@
 {inputs, ...}: {
   flake-file = {
+    # Flake-level substituters. This is the counterpart of ./cachix.nix, which
+    # sets the same caches as *system* `nix.settings` so the running daemon uses
+    # them even without `accept-flake-config` (only almiraj sets that). Both are
+    # load-bearing: this list covers evaluation/first build, cachix.nix covers
+    # the switched system. Keep the two in sync when adding a cache.
     nixConfig = {
       substituters = [
         "https://cache.nixos.org"
@@ -11,6 +16,7 @@
         "https://yazi.cachix.org"
         "https://vicinae.cachix.org"
         "https://nvf.cachix.org"
+        "https://noctalia.cachix.org"
       ];
       trusted-public-keys = [
         "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
@@ -22,6 +28,7 @@
         "yazi.cachix.org-1:Dcdz63NZKfvUCbDGngQDAZq6kOroIrFoyO064uvLh8k="
         "vicinae.cachix.org-1:1kDrfienkGHPYbkpNj1mWTr7Fm1+zcenzgTizIcI3oc="
         "nvf.cachix.org-1:7D+YxLvO0ZtsY+MKZwq9JngtftxPtk+WXoHI5q7uO0Y="
+        "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
       ];
     };
     outputs =
