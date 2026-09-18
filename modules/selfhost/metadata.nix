@@ -96,10 +96,10 @@
       homepage.name = "Kokoro TTS";
       homepage.icon = "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@main/png/kokoro.png";
       homepage.description = "TTS engine";
-      # Kokoro is started on demand (see modules/selfhost/containers.nix).
-      # Any periodic probe would start it again before it could idle out, so
-      # this also keeps push-status from probing it.
-      gatus.enable = false;
+      # VRAM is freed by the container's own idle unload, not by stopping it,
+      # so probing it is safe: health checks are not inference and neither
+      # delay the unload nor reload the model.
+      gatus.checkPath = "/health";
       frp.enable = true;
       frp.remotePort = 8881;
     };
