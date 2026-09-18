@@ -3,45 +3,41 @@
   pkgs,
   lib,
   ...
-}:
-let
+}: let
   inherit (pkgs) yaziPlugins fetchFromGitHub runCommand;
 
-  fromYaziPlugins =
-    name:
+  fromYaziPlugins = name:
     runCommand name
-      {
-        src = fetchFromGitHub {
-          owner = "AminurAlam";
-          repo = "yazi-plugins";
-          rev = "9997d5ba641314a83ed225a73c0293bd013e1bfc";
-          hash = "sha256-KDH3Ix8ymqDtxH31NnlVeceaLn8MZy1OSDFLrHbn+IM=";
-        };
-      }
-      ''
-        cp -r $src/${name}.yazi $out
-      '';
-
-  fetchPlugin =
     {
-      pname,
-      owner,
-      repo,
-      rev,
-      hash,
-    }:
+      src = fetchFromGitHub {
+        owner = "AminurAlam";
+        repo = "yazi-plugins";
+        rev = "9997d5ba641314a83ed225a73c0293bd013e1bfc";
+        hash = "sha256-KDH3Ix8ymqDtxH31NnlVeceaLn8MZy1OSDFLrHbn+IM=";
+      };
+    }
+    ''
+      cp -r $src/${name}.yazi $out
+    '';
+
+  fetchPlugin = {
+    pname,
+    owner,
+    repo,
+    rev,
+    hash,
+  }:
     runCommand pname
-      {
-        src = fetchFromGitHub {
-          inherit owner repo rev;
-          hash = hash;
-        };
-      }
-      ''
-        cp -r $src $out
-      '';
-in
-{
+    {
+      src = fetchFromGitHub {
+        inherit owner repo rev;
+        hash = hash;
+      };
+    }
+    ''
+      cp -r $src $out
+    '';
+in {
   programs.yazi.plugins = {
     chmod = yaziPlugins.chmod;
     ouch = yaziPlugins.ouch;

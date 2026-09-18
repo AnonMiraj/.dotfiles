@@ -135,10 +135,9 @@
       variable-refresh-rate = true;
       default-column-width = {};
       # open-floating = true;
-      open-maximized-to-edges =true;
+      open-maximized-to-edges = true;
       open-on-output = "HDMI-A-1";
       opacity = 1.0;
-      
     }
 
     # Quickshell (DMS) — floating

@@ -110,11 +110,6 @@
         inputs.nixpkgs.follows = "nixpkgs";
       };
 
-      copyparty = {
-        url = "github:9001/copyparty/hovudstraum";
-        inputs.nixpkgs.follows = "nixpkgs";
-      };
-
       llm-agents = {
         url = "github:numtide/llm-agents.nix";
         inputs = {
@@ -178,7 +173,6 @@
         url = "git+ssh://git@github.com/MooSayed1/Cash-Flow.git";
         flake = false;
       };
-
     };
   };
 

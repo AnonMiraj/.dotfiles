@@ -17,6 +17,8 @@
       name = "nixos-config";
       packages = with pkgs; [
         nixos-facter
+        statix
+        deadnix
         inputs'.flint.packages.default
       ];
     };

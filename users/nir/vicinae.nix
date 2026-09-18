@@ -1,11 +1,16 @@
-{ config, pkgs, inputs, ... }: let
+{
+  config,
+  pkgs,
+  inputs,
+  ...
+}: let
   system = pkgs.stdenv.hostPlatform.system;
   vicinae-lib = inputs.vicinae.lib.${system};
 
   jellyfin-ext = vicinae-lib.mkVicinaeExtension {
     pname = "vicinae-extension-jellyfin-browser";
     src = inputs.jellyfin-vicinae;
-    npmFlags = [ "--legacy-peer-deps" ];
+    npmFlags = ["--legacy-peer-deps"];
   };
 in {
   programs.vicinae = {

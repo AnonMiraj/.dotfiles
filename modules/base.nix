@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }: {
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}: {
   # Shared NixOS base — imported by every host (desktop `niro` + VPS `almiraj`).
   # Keep only genuinely cross-host settings here; host-specific things live in
   # each host's default.nix or per-host modules (e.g. modules/server/*).

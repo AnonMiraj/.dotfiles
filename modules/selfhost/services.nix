@@ -108,7 +108,7 @@
       watch-dir-enabled = true;
       rpc-port = 9091;
       rpc-bind-address = "0.0.0.0";
-      rpc-host-whitelist = "torr.niro.lan,torr.nir.lan";
+      rpc-host-whitelist = "torr.niro.lan";
       rpc-whitelist = "127.0.0.1,192.168.1.*";
       peer-port = 51413;
       umask = 2;
@@ -204,11 +204,13 @@
     TimeoutStopSec = "3s";
   };
 
+  sops.secrets."aria2-rpc-secret" = {};
+
   # Aria2 Daemon
   services.aria2 = {
     enable = true;
     openPorts = true;
-    rpcSecretFile = pkgs.writeText "aria2-rpc-secret" "niro-aria2-secret";
+    rpcSecretFile = config.sops.secrets."aria2-rpc-secret".path;
     downloadDirPermission = "0775";
     serviceUMask = "0002";
     settings = {

@@ -11,7 +11,6 @@
     btrfs-progs # btrfs subvolume snapshots
     yazi # terminal file manager (neovim already in the GLOBAL set)
 
-
     # Networking / diagnostics
     tcpdump
     nmap

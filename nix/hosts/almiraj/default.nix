@@ -5,10 +5,7 @@
 }: {
   flake.nixosConfigurations.almiraj = self.lib.configs.nixos "aarch64-linux" "almiraj";
 
-  flake.aspects = {
-    aspects,
-    ...
-  }: {
+  flake.aspects = {aspects, ...}: {
     almiraj = {
       nixos = {
         config,
@@ -63,8 +60,6 @@
           passwordHash = "@ByteArray(XNnG/RkDLPGSDx/bByHJXw==:5BmWht4lNccFVa9CCRNyuUz2dmyvjBc0AWZOUkP3c7crkQELhgDRUNRYhyQwPPVdWijz8f415FM9mL/iVkAUTQ==)";
         };
 
-
-
         networking.hostName = "almiraj";
 
         networking.usePredictableInterfaceNames = false;
@@ -73,14 +68,18 @@
         networking.nameservers = ["1.1.1.1" "9.9.9.9"];
 
         networking.interfaces.eth0 = {
-          ipv4.addresses = [{
-            address = "152.53.81.54";
-            prefixLength = 22;
-          }];
-          ipv6.addresses = [{
-            address = "2a0a:4cc0:2000:38bf::";
-            prefixLength = 64;
-          }];
+          ipv4.addresses = [
+            {
+              address = "152.53.81.54";
+              prefixLength = 22;
+            }
+          ];
+          ipv6.addresses = [
+            {
+              address = "2a0a:4cc0:2000:38bf::";
+              prefixLength = 64;
+            }
+          ];
         };
         networking.defaultGateway = "152.53.80.1";
         networking.defaultGateway6 = {

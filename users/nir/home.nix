@@ -86,7 +86,15 @@
     inputs.zen-browser.homeModules.beta
     inputs.noctalia.homeModules.default
     inputs.nvf.homeManagerModules.default
-    (inputs.import-tree.filterNot (path: lib.hasSuffix "home.nix" path) ./.)
+    (inputs.import-tree.filterNot (
+        path: let
+          p = toString path;
+        in
+          lib.hasSuffix "home.nix" p
+          || lib.hasInfix "/hyprland/" p
+          || lib.hasInfix "/niri/" p
+      )
+      ./.)
     ./hyprland
     ./niri
   ];

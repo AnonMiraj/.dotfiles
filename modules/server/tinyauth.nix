@@ -3,24 +3,22 @@
   lib,
   pkgs,
   ...
-}: let
-  # Tinyauth is a tiny forward-auth server: it shows a real HTML login page
-  # (password-manager friendly, unlike the HTTP basic-auth dialog) and issues a
-  # session cookie for `.almiraj.xyz`, so several vhosts can share one login.
-  #
-  # bcrypt hash of the password; rotate with:
-  #   caddy hash-password --plaintext 'new-password'
-  # Username: anonmiraj.
-  authHash = "$2a$14$1MMeJDz.EJVEz3SgxSj44OPsIyL8Gu/Bf0bpYiA.ri4wfVaZaaP8S";
-in {
+}: {
   config = lib.mkIf config.my.server.tinyauth.enable {
+    # Username is anonmiraj; the bcrypt hash lives in secrets/vps.yaml under
+    # `tinyauth-env` (TINYAUTH_AUTH_USERS). Rotate with:
+    #   caddy hash-password --plaintext 'new-password'
+    sops.secrets."tinyauth-env" = {
+      path = "/run/secrets/tinyauth-env";
+      restartUnits = ["tinyauth.service"];
+    };
+
     services.tinyauth = {
       enable = true;
+      environmentFile = config.sops.secrets."tinyauth-env".path;
       settings = {
         APPURL = "https://auth.almiraj.xyz";
         SERVER_ADDRESS = "127.0.0.1";
-        # Comma-separated username:bcrypt-hash list.
-        AUTH_USERS = "anonmiraj:${authHash}";
         AUTH_SECURECOOKIE = true;
         AUTH_TRUSTEDPROXIES = "127.0.0.1";
         AUTH_SESSIONEXPIRY = 604800; # 7 days

@@ -130,5 +130,17 @@ in {
         description = "Timer interval (e.g. 2m, 5m)";
       };
     };
+    lan = {
+      address = mkOption {
+        type = types.str;
+        default = "192.168.1.6";
+        description = "LAN IP of this host, advertised by dnsmasq for niro.lan.";
+      };
+      interface = mkOption {
+        type = types.str;
+        default = "enp43s0";
+        description = "LAN interface dnsmasq binds to (in addition to lo).";
+      };
+    };
   };
 }

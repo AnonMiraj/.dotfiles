@@ -1,5 +1,9 @@
-{ lib, stdenv, fetchurl, autoPatchelfHook }:
-
+{
+  lib,
+  stdenv,
+  fetchurl,
+  autoPatchelfHook,
+}:
 stdenv.mkDerivation rec {
   pname = "alass";
   version = "2.0.0";
@@ -11,7 +15,7 @@ stdenv.mkDerivation rec {
 
   dontUnpack = true;
 
-  nativeBuildInputs = [ autoPatchelfHook ];
+  nativeBuildInputs = [autoPatchelfHook];
 
   installPhase = ''
     install -Dm755 $src $out/bin/alass

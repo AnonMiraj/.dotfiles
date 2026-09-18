@@ -13,7 +13,7 @@
           options = ["NOPASSWD" "SETENV"];
         }
         {
-          command = "/nix/var/nix/profiles/default/bin/nix";
+          command = "/run/current-system/sw/bin/nix";
           options = ["NOPASSWD"];
         }
       ];
@@ -25,7 +25,6 @@
   # Enable networking
   networking.networkmanager.enable = true;
   networking.networkmanager.wifi.macAddress = "random";
-
 
   swapDevices = [
     {
@@ -41,7 +40,7 @@
   users.users.nir = {
     isNormalUser = true;
     description = "nir";
-    extraGroups = ["networkmanager" "wheel" "adbusers" "docker" "i2c" "input" "audio"];
+    extraGroups = ["networkmanager" "wheel" "docker" "i2c" "input" "audio"];
     shell = pkgs.fish;
     packages = with pkgs; [
     ];
@@ -57,19 +56,13 @@
     SUBSYSTEM=="usb", ATTR{idVendor}=="04e8", ATTR{idProduct}=="685d", MODE="0666", TAG+="uaccess"
   '';
 
-
   # Open ports in the firewall.
   networking.firewall.allowedTCPPorts = [22 5000 8000 9999];
 
   nix.settings = {
-    substituters = ["https://cache.nixos-cuda.org" "https://vicinae.cachix.org"];
-    trusted-public-keys = ["cache.nixos-cuda.org:74DUi4Ye579gUqzH4ziL9IyiJBlDpMRn9MBN8oNan9M=" "vicinae.cachix.org-1:1kDrfienkGHPYbkpNj1mWTr7Fm1+zcenzgTizIcI3oc="];
     trusted-users = ["root" "nir"];
-    # subminer source build needs sandbox disabled for bun install (network)
-    sandbox = false;
   };
 
   # ── AppImage support ────────────────────────────────────────
   programs.appimage.enable = true;
 }
-

@@ -1,4 +1,8 @@
-{pkgs, inputs, ...}: let
+{
+  pkgs,
+  inputs,
+  ...
+}: let
   niri-zoomd = "${inputs.niri-zoom.packages.${pkgs.stdenv.hostPlatform.system}.default}/bin/niri-zoomd";
 in {
   programs.niri.settings.spawn-at-startup = [

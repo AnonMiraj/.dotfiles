@@ -5,7 +5,6 @@
   ...
 }: {
   config = lib.mkIf config.my.server."3x-ui".enable {
-
     users.users.threexui = {
       isSystemUser = true;
       group = "threexui";

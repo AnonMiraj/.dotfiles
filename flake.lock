@@ -93,28 +93,6 @@
         "url": "ssh://git@github.com/MooSayed1/Cash-Flow.git"
       }
     },
-    "copyparty": {
-      "inputs": {
-        "flake-utils": "flake-utils_2",
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1788840090,
-        "narHash": "sha256-X9esxhmOHPuDC65S2g3qfR+YlJsDvWp6UXzVLkzRp7I=",
-        "owner": "9001",
-        "repo": "copyparty",
-        "rev": "bfc3cff8482a70653ad380bd94660013d2569ff5",
-        "type": "github"
-      },
-      "original": {
-        "owner": "9001",
-        "ref": "hovudstraum",
-        "repo": "copyparty",
-        "type": "github"
-      }
-    },
     "crate2nix": {
       "inputs": {
         "cachix": [
@@ -371,21 +349,6 @@
         "owner": "numtide",
         "repo": "flake-utils",
         "rev": "11707dc2f618dd54ca8739b309ec4fc024de578b",
-        "type": "github"
-      },
-      "original": {
-        "owner": "numtide",
-        "repo": "flake-utils",
-        "type": "github"
-      }
-    },
-    "flake-utils_2": {
-      "locked": {
-        "lastModified": 1678901627,
-        "narHash": "sha256-U02riOqrKKzwjsxc/400XnElV+UtPUQWpANPlyazjH0=",
-        "owner": "numtide",
-        "repo": "flake-utils",
-        "rev": "93a2b84fc4b70d9e089d029deacc3583435c2ed6",
         "type": "github"
       },
       "original": {
@@ -871,7 +834,6 @@
         "antigravity-nix": "antigravity-nix",
         "awww": "awww",
         "cashflow": "cashflow",
-        "copyparty": "copyparty",
         "disko": "disko",
         "fconv-nvim": "fconv-nvim",
         "flake-aspects": "flake-aspects",

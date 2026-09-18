@@ -1,7 +1,4 @@
-{
-  lib,
-  ...
-}: let
+{lib, ...}: let
   inherit (lib) types mkOption mkEnableOption;
 in {
   options.my.server = {
@@ -72,10 +69,9 @@ in {
           default = null;
           description = "Override upstream target (default: localhost:<port>).";
         };
-        tls = mkOption {
-          type = types.enum ["auto" "internal"];
-          default = "auto";
-          description = "auto = Let's Encrypt via Caddy; internal = not exposed publicly.";
+        stack = mkOption {
+          type = types.str;
+          description = "my.server.<stack>.enable flag that gates this public service.";
         };
         checkPath = mkOption {
           type = types.str;
@@ -94,11 +90,6 @@ in {
             Gate this vhost behind tinyauth (forward_auth). Path exceptions are
             declared per app in modules/server/tinyauth.nix.
           '';
-        };
-        openFirewall = mkOption {
-          type = types.bool;
-          default = true;
-          description = "Whether this upstream port is reachable from the public interface.";
         };
       };
     }));

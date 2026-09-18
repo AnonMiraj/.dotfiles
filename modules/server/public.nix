@@ -38,124 +38,121 @@
     then svc.proxyTarget
     else "localhost:${toString svc.port}";
 
-  # Map each public service to the stack that gates it (my.server.<x>.enable).
-  stackOf = {
-    "bosla-api" = "bosla";
-    "bosla-frontend" = "bosla";
-    "bosla-me" = "bosla";
-    "3xui-panel" = "3x-ui";
-    status = "gatus";
-    qb = "qbittorrent";
-    analytics = "goatcounter";
-    cashflow = "cashflow";
-  };
-  enabled = name: config.my.server.${stackOf.${name}}.enable;
+  enabled = name: config.my.server.${config.my.publicServices.${name}.stack}.enable;
 in
-mkIf config.my.server.public {
-  services.caddy = {
-    enable = true;
-    globalConfig = lib.mkAfter ''
-      servers {
-        trusted_proxies static ${lib.concatStringsSep " " cloudflareRanges}
-        trusted_proxies_strict
-      }
-    '';
-    # vpn.almiraj.xyz is custom (panel + VLESS ws split), so it's added
-    # explicitly below and excluded from the generic generator.
-    virtualHosts = let
-      others = attrNames (lib.filterAttrs (name: svc:
-        enabled name && name != "3xui-panel"
-      ) config.my.publicServices);
-    in
-      (builtins.listToAttrs
-        (map (name: nameValuePair config.my.publicServices.${name}.domain {
-          extraConfig = let
-            svc = config.my.publicServices.${name};
-          in ''
-            ${lib.optionalString svc.auth ''
-              # tinyauth login (see modules/server/tinyauth.nix for the
-              # per-app path exceptions).
-              forward_auth 127.0.0.1:${toString config.my.server.tinyauth.port} {
-                uri /api/auth/caddy
+  mkIf config.my.server.public {
+    services.caddy = {
+      enable = true;
+      globalConfig = lib.mkAfter ''
+        servers {
+          trusted_proxies static ${lib.concatStringsSep " " cloudflareRanges}
+          trusted_proxies_strict
+        }
+      '';
+      # vpn.almiraj.xyz is custom (panel + VLESS ws split), so it's added
+      # explicitly below and excluded from the generic generator.
+      virtualHosts = let
+        others = attrNames (lib.filterAttrs (
+            name: svc:
+              enabled name && name != "3xui-panel"
+          )
+          config.my.publicServices);
+      in
+        (builtins.listToAttrs
+          (map (name:
+            nameValuePair config.my.publicServices.${name}.domain {
+              extraConfig = let
+                svc = config.my.publicServices.${name};
+              in ''
+                ${lib.optionalString svc.auth ''
+                  # tinyauth login (see modules/server/tinyauth.nix for the
+                  # per-app path exceptions).
+                  forward_auth 127.0.0.1:${toString config.my.server.tinyauth.port} {
+                    uri /api/auth/caddy
+                  }
+                ''}
+                reverse_proxy ${targetOf svc}
+              '';
+            })
+          others))
+        // {
+          # 3x-ui: WebSocket VLESS (/vless) → loopback inbound :10001; rest → panel :2053
+          "vpn.almiraj.xyz" = {
+            extraConfig = ''
+              handle /vless* {
+                reverse_proxy 127.0.0.1:10001
               }
-            ''}
-            reverse_proxy ${targetOf svc}
-          '';
-        }) others))
-      // {
-        # 3x-ui: WebSocket VLESS (/vless) → loopback inbound :10001; rest → panel :2053
-        "vpn.almiraj.xyz" = {
-          extraConfig = ''
-            handle /vless* {
-              reverse_proxy 127.0.0.1:10001
-            }
-            handle {
-              reverse_proxy 127.0.0.1:2053
-            }
-          '';
-        };
+              handle {
+                reverse_proxy 127.0.0.1:2053
+              }
+            '';
+          };
 
-        "http://playstation.net, http://*.playstation.net, http://playstation.com, http://*.playstation.com, http://sony.com, http://*.sony.com, http://152.53.81.54, http://ssh.almiraj.xyz" = {
-          extraConfig = ''
-            handle /vless* {
-              reverse_proxy 127.0.0.1:10001
-            }
-            handle {
-              respond "OK" 200
-            }
-          '';
+          "http://playstation.net, http://*.playstation.net, http://playstation.com, http://*.playstation.com, http://sony.com, http://*.sony.com, http://152.53.81.54, http://ssh.almiraj.xyz" = {
+            extraConfig = ''
+              handle /vless* {
+                reverse_proxy 127.0.0.1:10001
+              }
+              handle {
+                respond "OK" 200
+              }
+            '';
+          };
         };
+    };
+
+    networking.firewall.allowedTCPPorts = [80 443];
+
+    my.publicServices = {
+      "bosla-api" = {
+        domain = "bosla.almiraj.xyz";
+        port = 5280;
+        proxyTarget = "localhost:5280";
+        checkPath = "/";
+        group = "bosla";
+        stack = "bosla";
       };
-  };
+      "bosla-frontend" = {
+        domain = "front.bosla.almiraj.xyz";
+        port = 3001;
+        checkPath = "/";
+        group = "bosla";
+        stack = "bosla";
+      };
+      "bosla-me" = {
+        domain = "bosla.me";
+        port = 3001;
+        checkPath = "/";
+        group = "bosla";
+        stack = "bosla";
+      };
 
-  networking.firewall.allowedTCPPorts = [80 443];
+      "3xui-panel" = {
+        domain = "vpn.almiraj.xyz";
+        port = 2053;
+        checkPath = "/";
+        group = "vpn";
+        stack = "3x-ui";
+      };
 
-  my.publicServices = {
+      status = {
+        domain = "status.almiraj.xyz";
+        port = 8099;
+        checkPath = "/";
+        group = "system";
+        stack = "gatus";
+      };
 
-    "bosla-api" = {
-      domain = "bosla.almiraj.xyz";
-      port = 5280;
-      proxyTarget = "localhost:5280";
-      checkPath = "/";
-      group = "bosla";
+      analytics = {
+        domain = "analytics.almiraj.xyz";
+        port = 8050;
+        checkPath = "/status";
+        group = "system";
+        stack = "goatcounter";
+        # Dashboard behind tinyauth; /count, /count.js and /api/v0/count stay
+        # public (site trackers + backend pushes) via the allowlist in
+        # modules/server/tinyauth.nix.
+        auth = true;
+      };
     };
-    "bosla-frontend" = {
-      domain = "front.bosla.almiraj.xyz";
-      port = 3001;
-      checkPath = "/";
-      group = "bosla";
-    };
-    "bosla-me" = {
-      domain = "bosla.me";
-      port = 3001;
-      checkPath = "/";
-      group = "bosla";
-    };
-
-    "3xui-panel" = {
-      domain = "vpn.almiraj.xyz";
-      port = 2053;
-      checkPath = "/";
-      group = "vpn";
-    };
-
-    status = {
-      domain = "status.almiraj.xyz";
-      port = 8099;
-      checkPath = "/";
-      group = "system";
-    };
-
-    analytics = {
-      domain = "analytics.almiraj.xyz";
-      port = 8050;
-      checkPath = "/status";
-      group = "system";
-      openFirewall = false; # GoatCounter binds 127.0.0.1; Caddy fronts it
-      # Dashboard behind tinyauth; /count, /count.js and /api/v0/count stay
-      # public (site trackers + backend pushes) via the allowlist in
-      # modules/server/tinyauth.nix.
-      auth = true;
-    };
-  };
-}
+  }
