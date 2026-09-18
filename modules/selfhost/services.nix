@@ -2,7 +2,9 @@
   config,
   pkgs,
   ...
-}: {
+}: let
+  domain = config.my.lan.domain;
+in {
   systemd.services.glances = {
     description = "Glances system monitor";
     after = ["network.target"];
@@ -20,12 +22,12 @@
     enable = true;
     user = "nir";
     group = "users";
-    hostnames = ["paseo.niro.lan" "paseo.almiraj.xyz"];
+    hostnames = ["paseo.${domain}" "paseo.almiraj.xyz"];
     listenAddress = "0.0.0.0";
     port = 6767;
     openFirewall = true;
     environment = {
-      PASEO_CORS_ORIGINS = "https://paseo.niro.lan,http://localhost:6767,http://127.0.0.1:6767,http://paseo.almiraj.xyz";
+      PASEO_CORS_ORIGINS = "https://paseo.${domain},http://localhost:6767,http://127.0.0.1:6767,http://paseo.almiraj.xyz";
     };
   };
   systemd.services.paseo.serviceConfig.ExecStartPre = [
@@ -77,21 +79,6 @@
       RemainAfterExit = true;
     };
   };
-
-  virtualisation.oci-containers = {
-    backend = "docker";
-    containers.kokoro = {
-      image = "ghcr.io/remsky/kokoro-fastapi-gpu:latest";
-      ports = ["8880:8880"];
-      extraOptions = [
-        "--device=nvidia.com/gpu=all"
-      ];
-    };
-    containers.flaresolverr = {
-      image = "ghcr.io/flaresolverr/flaresolverr:latest";
-      ports = ["8191:8191"];
-    };
-  };
   services.transmission = {
     enable = true;
     package = pkgs.transmission_4;
@@ -108,7 +95,7 @@
       watch-dir-enabled = true;
       rpc-port = 9091;
       rpc-bind-address = "0.0.0.0";
-      rpc-host-whitelist = "torr.niro.lan";
+      rpc-host-whitelist = "torr.${domain}";
       rpc-whitelist = "127.0.0.1,192.168.1.*";
       peer-port = 51413;
       umask = 2;
@@ -120,10 +107,10 @@
   services.homepage-dashboard = {
     enable = true;
     listenPort = 8082;
-    allowedHosts = "niro.lan,home.niro.lan,localhost:8082";
+    allowedHosts = "${domain},home.${domain},localhost:8082";
     settings = {
       title = "niro";
-      startUrl = "https://home.niro.lan";
+      startUrl = "https://home.${domain}";
       background = {
         image = "https://images.unsplash.com/photo-1506905925346-21bda4d32df4";
         blur = "sm";

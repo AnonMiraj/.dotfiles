@@ -12,7 +12,7 @@ in {
           };
           domain = mkOption {
             type = types.str;
-            description = "Subdomain under niro.lan";
+            description = "Subdomain under the lan.domain zone";
           };
           proxyTarget = mkOption {
             type = types.nullOr types.str;
@@ -131,15 +131,27 @@ in {
       };
     };
     lan = {
+      domain = mkOption {
+        type = types.str;
+        default = "niro.lan";
+        description = "Internal DNS zone: services get <domain>.<lan.domain>.";
+      };
       address = mkOption {
         type = types.str;
         default = "192.168.1.6";
-        description = "LAN IP of this host, advertised by dnsmasq for niro.lan.";
+        description = "LAN IP of this host, advertised by dnsmasq for <lan.domain>.";
       };
       interface = mkOption {
         type = types.str;
         default = "enp43s0";
         description = "LAN interface dnsmasq binds to (in addition to lo).";
+      };
+    };
+    vps = {
+      address = mkOption {
+        type = types.str;
+        default = "152.53.81.54";
+        description = "Public IPv4 of the almiraj VPS (frp server and backup target).";
       };
     };
   };

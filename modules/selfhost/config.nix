@@ -1,4 +1,13 @@
-{config, ...}: {
+# Local name resolution for *.niro.lan: Avahi, dnsmasq and /etc/hosts.
+{
+  config,
+  lib,
+  ...
+}: let
+  h = import ../../lib/selfhost.nix {inherit lib config;};
+  inherit (lib) mapAttrsToList;
+  inherit (h) domain domainOf;
+in {
   networking.firewall.allowedTCPPorts = [53 80 443 6767 6768 8880];
   networking.firewall.allowedUDPPorts = [53];
 
@@ -13,10 +22,10 @@
   services.dnsmasq = {
     enable = true;
     settings = {
-      domain = "niro.lan";
-      local = "/niro.lan/";
+      domain = domain;
+      local = "/${domain}/";
       address = [
-        "/niro.lan/${config.my.lan.address}"
+        "/${domain}/${config.my.lan.address}"
       ];
       # Bind only to loopback + LAN iface, not 0.0.0.0:53. Leaves
       # 10.42.0.1:53 free for NetworkManager's hotspot (shared) dnsmasq.
@@ -39,6 +48,10 @@
     after = ["network-online.target"];
     wants = ["network-online.target"];
   };
-  # bind-dynamic above frees 0.0.0.0:53 for
-  # NM hotspot dnsmasq (see modules/selfhost/hotspot.nix).
+
+  # Resolve every generated vhost to this host, so *.niro.lan works without
+  # going through dnsmasq for names the browser already knows about.
+  networking.hosts."127.0.0.1" =
+    (mapAttrsToList (_: svc: domainOf svc) config.my.services)
+    ++ (builtins.attrNames config.my.caddy.extraVhosts);
 }

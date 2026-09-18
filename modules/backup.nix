@@ -4,7 +4,7 @@
   pkgs,
   ...
 }: let
-  vps = "admin@152.53.81.54";
+  vps = "admin@${config.my.vps.address}";
   dest = "/mnt/media/backups/almiraj";
   sshOpts = [
     "-o"

@@ -25,17 +25,35 @@ NixOS configuration for host `niro`, managed with `flake-parts`, `flake-file`, a
 - **`nix/hosts.nix`**: Shared host config builders (`self.lib.configs.*`).
 - **`nix/hosts/niro/`**: Host definition for `niro` using `flake.aspects`.
 - **`nix/`**: Main module tree auto-imported by `import-tree`.
-- **`modules/`**: NixOS modules imported by the host config.
-  - `core.nix` — base system (network, users, docker, ssh, nix)
-  - `desktop.nix` — display server, pipewire, portals
-  - `pkgs.nix` — system packages (grouped)
+- **`modules/`**: NixOS modules imported by the host config. Everything here
+  except `shared.nix` and `server/` is desktop-only, because `niro` imports the
+  whole tree while `almiraj` imports `modules/shared.nix` plus `modules/server/`.
+  - `shared.nix` — genuinely cross-host base (locale, nix settings, docker, ssh)
+  - `system.nix` — niro host identity, users, networking, hardware, base services
+  - `boot.nix` — grub + EFI (niro)
+  - `nvidia.nix` — GPU, kernel parameters and PRIME offload (niro)
+  - `desktop.nix` — display server, pipewire, portals, compositors
+  - `fonts.nix` — fonts and fontconfig
+  - `programs.nix` — `programs.*` blocks (fish, steam, obs-studio, ...)
+  - `overlays.nix` — `nixpkgs.overlays` and `permittedInsecurePackages`
+  - `packages/` — desktop package lists, one file per concern
+  - `backup.nix`, `battery-suspend.nix` — host services
   - `selfhost/` — all exposed services:
-    - `options.nix` — `my.services` option (port, domain, homepage, gatus, frp)
+    - `options.nix` — `my.*` options (`my.services`, `my.lan`, `my.vps`, `my.caddy`, `my.pushStatus`)
     - `metadata.nix` — service data (add a service = add one block)
-    - `generators.nix` — auto-generates Caddy vhosts, Homepage, FRP, Gatus, push-status
+    - `caddy.nix` — Caddy vhosts
+    - `homepage.nix` — Homepage dashboard entries
+    - `gatus.nix` — local Gatus web config + generated endpoints
+    - `frp.nix` — FRP client tunnels
+    - `push-status.nix` — pushes local health to the VPS Gatus
+    - `config.nix` — Avahi, dnsmasq, `/etc/hosts` entries
+    - `containers.nix` — docker containers
+    - `hotspot.nix` — NetworkManager hotspot profile
     - `services.nix` — NixOS service enablement
-    - `config.nix` — Avahi + Dnsmasq
-    - `gatus.nix` — local Gatus web config
+  - `server/` — VPS-only modules (`my.server.*`), see the VPS notes below
+- **`lib/selfhost.nix`**: Shared derivations used by `modules/selfhost/*`
+  (`domainOf`, `displayName`, `tlsBlock`, ...). Not a module, so `import-tree`
+  ignores it; import it explicitly with `import ../../lib/selfhost.nix`.
 - **`users/nir/`**: Home-manager configuration (import-tree auto-imports).
   - `pi/default.nix` — pi agent settings, packages, extensions, skills, keybindings
 - **`secrets/secrets.yaml`**: Encrypted secrets (sops + SSH key).
