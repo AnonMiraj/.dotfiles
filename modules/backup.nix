@@ -36,7 +36,7 @@
 in {
   # Off-box backup: pull critical almiraj VPS data to niro /mnt/media.
   # This module is imported by the niro host only (VPS imports just
-  # base.nix + modules/server/*), so it runs on the desktop pulling FROM the box.
+  # shared.nix + modules/server/*), so it runs on the desktop pulling FROM the box.
 
   systemd.services.almiraj-vps-backup = {
     description = "Off-box rsync backup of almiraj VPS to /mnt/media";

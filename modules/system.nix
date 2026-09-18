@@ -1,3 +1,7 @@
+# Niro system-level configuration: host identity, users, networking, hardware
+# and base services. This module is desktop-only — `nix/hosts/niro/default.nix`
+# imports the whole modules/ tree, while almiraj imports only modules/shared.nix
+# and modules/server/.
 {
   config,
   pkgs,
@@ -50,6 +54,7 @@
   hardware.nvidia-container-toolkit.enable = true;
   hardware.i2c.enable = true;
   hardware.enableRedistributableFirmware = true;
+  hardware.bluetooth.enable = true;
 
   # Samsung download mode (heimdall) — systemd uaccess grants to local console users
   services.udev.extraRules = ''

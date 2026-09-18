@@ -15,7 +15,7 @@
       }: {
         imports = [
           ../../../cachix.nix
-          ../../../modules/base.nix
+          ../../../modules/shared.nix
           (inputs.import-tree.filterNot (path: lib.hasSuffix "default.nix" path) ../../../modules/server)
           inputs.sops-nix.nixosModules.sops
           inputs.disko.nixosModules.disko

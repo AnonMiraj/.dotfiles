@@ -4,7 +4,7 @@
   pkgs,
   ...
 }: {
-  # VPS-only packages (almiraj). GLOBAL set lives in modules/base.nix;
+  # VPS-only packages (almiraj). GLOBAL set lives in modules/shared.nix;
   # PC-only (desktop niro) set lives in modules/packages/*.
   environment.systemPackages = with pkgs; [
     vim # quick edit on the server

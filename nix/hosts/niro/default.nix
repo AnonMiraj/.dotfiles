@@ -45,11 +45,6 @@
           }
         ];
 
-        boot.loader.grub.enable = true;
-        boot.loader.grub.efiSupport = true;
-        boot.loader.grub.device = "nodev";
-        boot.loader.efi.canTouchEfiVariables = true;
-
         fileSystems."/mnt/media" = {
           device = "/dev/disk/by-uuid/1baa8f80-394b-42ac-ae3d-8afea4740ae4";
           fsType = "ext4";
@@ -76,33 +71,6 @@
             };
           };
         };
-
-        # Nvidia driver
-        services.xserver.videoDrivers = ["nvidia"];
-        boot.kernelParams = [
-          "acpi_backlight=native"
-          "nvidia.NVreg_RegistryDwords=EnableBrightnessControl=1"
-          "nvidia_drm.fbdev=1"
-          "nvidia-drm.modeset=1"
-        ];
-        hardware.graphics = {
-          enable = true;
-        };
-        hardware.nvidia = {
-          modesetting.enable = true;
-          powerManagement.enable = true;
-          powerManagement.finegrained = false;
-          open = true;
-          nvidiaSettings = true;
-          package = config.boot.kernelPackages.nvidiaPackages.stable;
-          prime = {
-            sync.enable = true;
-            intelBusId = "PCI:0:2:0";
-            nvidiaBusId = "PCI:1:0:0";
-          };
-        };
-
-        hardware.bluetooth.enable = true;
       };
       homeManager = {};
     };

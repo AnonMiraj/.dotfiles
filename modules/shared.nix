@@ -5,8 +5,10 @@
   ...
 }: {
   # Shared NixOS base — imported by every host (desktop `niro` + VPS `almiraj`).
-  # Keep only genuinely cross-host settings here; host-specific things live in
-  # each host's default.nix or per-host modules (e.g. modules/server/*).
+  #
+  # Everything else under modules/ is desktop-only: `nix/hosts/niro/default.nix`
+  # imports the whole tree except modules/server/, while `almiraj` imports this
+  # file plus modules/server/ only. Keep only genuinely cross-host settings here.
   time.timeZone = "Africa/Cairo";
 
   # Select internationalisation properties.
