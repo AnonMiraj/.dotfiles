@@ -1,5 +1,11 @@
-{ lib, stdenv, fetchurl, unzip, autoPatchelfHook, libusb1 }:
-
+{
+  lib,
+  stdenv,
+  fetchurl,
+  unzip,
+  autoPatchelfHook,
+  libusb1,
+}:
 stdenv.mkDerivation rec {
   pname = "odin4";
   version = "1.2.1";
@@ -9,9 +15,9 @@ stdenv.mkDerivation rec {
     hash = "sha256-2RjxMrCy7ly+7yf7Yfau7jc0zbICstyOOEWpVTAwAsU=";
   };
 
-  nativeBuildInputs = [ unzip autoPatchelfHook ];
+  nativeBuildInputs = [unzip autoPatchelfHook];
 
-  buildInputs = [ libusb1 ];
+  buildInputs = [libusb1];
 
   sourceRoot = ".";
 
