@@ -168,7 +168,66 @@ in {
       hl.dispatch(hl.dsp.focus({ workspace = tostring(ids[next_index]) }))
     end
 
+    -- Workspaces of one monitor, ascending.
+    local function monitor_ids(monitor)
+      local ids = {}
+      for _, id in ipairs(live_ids()) do
+        local ws = hl.get_workspace(id)
+        if ws ~= nil and ws.monitor ~= nil and ws.monitor.name == monitor.name then
+          table.insert(ids, id)
+        end
+      end
+      return ids
+    end
 
+    -- The monitor the keys act on is the FOCUSED one. Using the monitor under the
+    -- cursor instead makes every key follow the pointer, so SUPER + 2 with the
+    -- pointer parked on the other screen goes to the wrong monitor.
+    local function keyed_monitor()
+      return hl.get_active_monitor()
+    end
+
+    -- Absolute keys address the n-th workspace that EXISTS on that monitor, not
+    -- the raw id n. Asking for an id that does not exist makes Hyprland create it
+    -- on the spot, which the bar paints for a frame before normalize() renumbers
+    -- it away - that is the "goes to 5 then to 3" flicker. Past the end of the
+    -- strip the key creates the NEXT workspace instead of id n: with two open,
+    -- SUPER + 4 lands on a fresh 3, so there is no gap for normalize() to close.
+    local function slot_id(n)
+      local monitor = keyed_monitor()
+      if monitor == nil then
+        return nil
+      end
+
+      local ids = monitor_ids(monitor)
+      if n <= #ids then
+        return ids[n]
+      end
+      if #ids == 0 then
+        return nil
+      end
+      return ids[#ids] + 1
+    end
+
+    ws_focus = function(n)
+      local id = slot_id(n)
+      if id ~= nil then
+        hl.dispatch(hl.dsp.focus({ workspace = tostring(id) }))
+      end
+    end
+
+    ws_move = function(n, follow)
+      local id = slot_id(n)
+      local window = hl.get_active_window()
+      if id == nil or window == nil then
+        return
+      end
+      hl.dispatch(hl.dsp.window.move({
+        window = window,
+        workspace = tostring(id),
+        follow = follow == true,
+      }))
+    end
   '';
 
   # Label the reserved ids with kanji numerals so the workspace indicator reads

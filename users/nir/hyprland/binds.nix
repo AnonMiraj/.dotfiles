@@ -26,27 +26,43 @@
   focusDir = keys: dir: mkb keys "hl.dsp.focus({ direction = ${builtins.toJSON dir} })";
   moveToMonitor = keys: dir: mkb keys "hl.dsp.window.move({ monitor = ${builtins.toJSON dir} })";
   focusMonitor = keys: dir: mkb keys "hl.dsp.focus({ monitor = ${builtins.toJSON dir} })";
-  # Workspace dispatchers come from hyprsplit (see hyprsplit.nix), not from
-  # hl.dsp. Hyprland's own hl.dsp.focus({workspace=...}) targets the single
-  # global workspace pool, which is what made switching jump monitors.
-  # hs.dsp.focus/move resolve the workspace on the CURRENT monitor at dispatch
-  # time. `hs` is a global set by the hyprsplit extraLuaFiles entry, which Home
-  # Manager emits before these binds.
+  # Relative workspace moves go through hyprsplit's hs.dsp (see hyprsplit.nix).
+  # Hyprland's own hl.dsp.focus({workspace=...}) targets the single global
+  # workspace pool, which is what made switching jump monitors. hs.dsp.focus/move
+  # resolve the workspace on the CURRENT monitor at dispatch time. `hs` is a
+  # global set by the hyprsplit extraLuaFiles entry, which Home Manager emits
+  # before these binds.
   #
   # Relative forms hyprsplit understands:
   #   "+1"/"-1" no looping, "r+1"/"r-1" looping, "e±1"/"m±1" excluding empty
-  # The old on_current_monitor workaround is gone: hyprsplit owns the
-  # per-monitor numbering directly.
-  focusWs = keys: ws: mkb keys "hs.dsp.focus({ workspace = ${builtins.toJSON ws} })";
+  #
+  # Absolute keys do not use hs.dsp; they call ws_focus/ws_move, defined in
+  # hyprsplit.nix, which resolve the slot first and then dispatch the plain id.
   moveToWs = keys: ws: mkb keys "hs.dsp.window.move({ workspace = ${builtins.toJSON ws}, follow = false })";
 
   # Workspace 1..10 per monitor. Key 10 is `0`, matching upstream's example.
+  # The keys go through ws_focus / ws_move (hyprsplit.nix): n resolves to the
+  # n-th existing workspace on the focused monitor, and past the end it creates
+  # the next workspace (SUPER + 4 with two open lands on a fresh 3) rather than
+  # asking for raw id 4. Wrapped in a function so the lookup runs on keypress.
   wsKey = n:
     if n == 10
     then "0"
     else toString n;
-  wsFocus = map (n: focusWs "SUPER + ${wsKey n}" (toString n)) (lib.range 1 10);
-  wsMove = map (n: moveToWs "SUPER + SHIFT + ${wsKey n}" (toString n)) (lib.range 1 10);
+  wsFocus = map (n:
+    mkb "SUPER + ${wsKey n}" ''
+      function()
+        ws_focus(${toString n})
+      end
+    '')
+  (lib.range 1 10);
+  wsMove = map (n:
+    mkb "SUPER + SHIFT + ${wsKey n}" ''
+      function()
+        ws_move(${toString n}, false)
+      end
+    '')
+  (lib.range 1 10);
 in {
   wayland.windowManager.hyprland.settings.bind =
     [
@@ -103,11 +119,13 @@ in {
       (noctalia "Print" "screenshot-fullscreen")
 
       # ── Overview ─────────────────────────────────────────
-      (mkb "SUPER + Tab" ''
+      # submap_universal: the scrolloverview submap swallows normal binds while
+      # it is active, so this one is marked to stay live and close the overview.
+      (mkbFlag "SUPER + Tab" ''
         function()
           hl.plugin.scrolloverview.overview("toggle all")
         end
-      '')
+      '' {submap_universal = true;})
       (mkb "SUPER + SHIFT + Tab" "hl.dsp.focus({ last = true })")
       (mkb "SUPER + CTRL + Tab" ''
         function()

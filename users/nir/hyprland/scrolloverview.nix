@@ -141,15 +141,18 @@ in {
         lastWorkspaceScrollBind = hl.bind("mouse_down", create_workspace_at_end)
         lastWorkspaceScrollBind:set_enabled(false)
 
-        -- same action on SUPER + wheel down, for when the pointer is not over
-        -- the overview (input.follow_mouse is on, so the bare wheel bind can
-        -- lose the workspace it was aimed at)
+        -- SUPER + wheel moves to the next/previous workspace, matching the
+        -- global SUPER + wheel binds outside the overview. Past the last
+        -- workspace it creates a new one (same as the bare mouse_down bind).
         hl.bind("SUPER + mouse_down", function()
-          local isLastWorkspace = last_workspace_state()
-          if not isLastWorkspace then
-            return { ok = false }
+          if last_workspace_state() then
+            create_workspace_at_end()
+            return
           end
-          create_workspace_at_end()
+          ws_cycle(1)
+        end, { auto_consuming = true })
+        hl.bind("SUPER + mouse_up", function()
+          ws_cycle(-1)
         end, { auto_consuming = true })
       end)
 

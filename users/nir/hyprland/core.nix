@@ -140,6 +140,12 @@
         focus_on_activate = true;
         enable_swallow = true;
         swallow_regex = "^(kitty)$";
+        # Only swallow when the shell itself launched the window. Hyprland picks
+        # the terminal by walking the process tree, so an opener started by a TUI
+        # (yazi) would hide the very terminal showing the TUI. The one supported
+        # lever is the terminal title; yazi sets it to "Yazi: <cwd>" and kitty's
+        # shell titles ("π - <dir>") do not match, so shell launches still swallow.
+        swallow_exception_regex = ".*Yazi.*";
         animate_manual_resizes = false;
         animate_mouse_windowdragging = false;
         mouse_move_enables_dpms = true;
