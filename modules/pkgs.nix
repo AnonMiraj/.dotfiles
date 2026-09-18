@@ -4,7 +4,7 @@
   inputs,
   ...
 }: {
-nixpkgs.config = {
+  nixpkgs.config = {
     permittedInsecurePackages = [
       "pnpm-10.29.2"
       "electron-39.8.10"
@@ -13,18 +13,16 @@ nixpkgs.config = {
 
   nixpkgs.overlays = [
     (final: prev: {
-      fish = prev.fish.overrideAttrs (old: { doCheck = false; });
+      fish = prev.fish.overrideAttrs (old: {doCheck = false;});
       kitty = prev.kitty.overrideAttrs (old: {
         doCheck = false;
         doInstallCheck = false;
       });
       v2raya = prev.v2raya.overrideAttrs (old: {
-        tags = [ "with_gvisor" ];
+        tags = ["with_gvisor"];
       });
     })
   ];
-
-
 
   # ── Shell & CLI tools ──────────────────────────────────────────
   environment.systemPackages = with pkgs; [
@@ -118,13 +116,13 @@ nixpkgs.config = {
     mediainfo
     yt-dlp
     ffsubsync
-    (import ../pkgs/alass { inherit (pkgs) lib stdenv fetchurl autoPatchelfHook; })
+    (import ../pkgs/alass {inherit (pkgs) lib stdenv fetchurl autoPatchelfHook;})
     cava
     newsboat
     nsxiv
     readest
-		epub-thumbnailer
-		calibre
+    epub-thumbnailer
+    calibre
     imagemagick
     ghostscript
     zathura
@@ -165,8 +163,8 @@ nixpkgs.config = {
     heimdall
     android-tools
     better-adb-sync
-    (import ../pkgs/odin4 { inherit (pkgs) lib stdenv fetchurl unzip autoPatchelfHook libusb1; })
-    (import ../pkgs/hiddify { inherit (pkgs) lib appimageTools fetchurl; })
+    (import ../pkgs/odin4 {inherit (pkgs) lib stdenv fetchurl unzip autoPatchelfHook libusb1;})
+    (import ../pkgs/hiddify {inherit (pkgs) lib appimageTools fetchurl;})
 
     # System
     cachix
@@ -179,8 +177,11 @@ nixpkgs.config = {
     inputs.antigravity-nix.packages.${pkgs.stdenv.hostPlatform.system}.google-antigravity-cli
     trash-cli
     presenterm
-    wl-clipboard
-    wtype
+    # Speech-to-text dictation. hyprwhspr-rs is enough here: it never reads
+    # /dev/input, so the compositor bind drives it, and the Noctalia widget is
+    # served by the tray-script shim in users/nir/hyprwhspr.nix. The Python
+    # implementation this replaced needed no less than a full Python environment
+    # to provide that same script.
     hyprwhspr-rs
     whisper-cpp
     libnotify

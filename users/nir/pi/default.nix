@@ -1,5 +1,6 @@
 {
   config,
+  lib,
   pkgs,
   inputs,
   ...
@@ -30,6 +31,33 @@
       runHook postInstall
     '';
   };
+
+  # Seed values for ~/.pi/agent/{settings,keybindings}.json. Pi owns these
+  # files at runtime, so they are only written when missing (see activation).
+  piSettings = builtins.toJSON {
+    defaultProvider = "oc-sdk-go";
+    defaultModel = "deepseek-v4.1-flash";
+    hideThinkingBlock = false;
+    defaultThinkingLevel = "low";
+    steeringMode = "all";
+    followUpMode = "all";
+    enableInstallTelemetry = false;
+    packages = [
+      "npm:pi-opencode-bridge@0.2.1"
+      "npm:@llblab/pi-telegram@0.44.0"
+      "npm:@ff-labs/pi-fff@0.10.6"
+      "git:github.com/AnonMiraj/pi-ask"
+      "npm:@tintinweb/pi-tasks@0.9.0"
+      "npm:@trevonistrevon/pi-loop@0.7.14"
+      "npm:pi-web-access@0.28.0"
+    ];
+  };
+
+  piKeybindings = builtins.toJSON {
+    "tui.editor.cursorLeft" = ["left"];
+    "tui.input.newLine" = ["shift+enter"];
+    "app.models.clearAll" = ["ctrl+shift+x"];
+  };
 in {
   imports = [inputs.skills-flake.homeModules.default];
 
@@ -38,33 +66,26 @@ in {
     inputs.llm-agents.packages.${pkgs.system}.skills
   ];
 
-  home.file.".pi/agent/settings.json" = {
-    force = true;
-    text = builtins.toJSON {
-      defaultProvider = "oc-sdk-go";
-      defaultModel = "deepseek-v4.1-flash";
-      hideThinkingBlock = false;
-      defaultThinkingLevel = "low";
-      steeringMode = "all";
-      followUpMode = "all";
-      enableInstallTelemetry = false;
-      packages = [
-        "npm:pi-opencode-bridge@0.2.1"
-        "npm:@llblab/pi-telegram@0.19.3"
-        "npm:@ff-labs/pi-fff@0.9.6"
-        "npm:pi-ask-user@0.11.2"
-        "npm:@tintinweb/pi-tasks@0.7.1"
-        "npm:@trevonistrevon/pi-loop@0.6.0"
-        "npm:pi-web-access@0.13.0"
-      ];
-    };
-  };
+  # Pi writes these atomically on /settings, Ctrl+S, and `pi install`. Do not
+  # force-symlink them into the read-only store: every write then fails and
+  # leaves settings.json.tmp.* litter. Seed once, then let pi own the files.
+  home.activation.piConfig = lib.hm.dag.entryAfter ["writeBoundary"] ''
+    pi_seed() {
+      target="$1"
+      default="$2"
+      mkdir -p "$(dirname "$target")"
+      # Replace any stale home-manager store symlink with a writable copy.
+      if [ -L "$target" ]; then
+        rm -f "$target"
+      fi
+      if [ ! -e "$target" ]; then
+        printf '%s\n' "$default" > "$target"
+      fi
+    }
 
-  home.file.".pi/agent/keybindings.json".text = builtins.toJSON {
-    "tui.editor.cursorLeft" = ["left"];
-    "tui.input.newLine" = ["shift+enter"];
-    "app.models.clearAll" = ["ctrl+shift+x"];
-  };
+    pi_seed "$HOME/.pi/agent/settings.json" ${lib.escapeShellArg piSettings}
+    pi_seed "$HOME/.pi/agent/keybindings.json" ${lib.escapeShellArg piKeybindings}
+  '';
 
   home.file.".pi/agent/extensions" = {
     source = ./extensions;

@@ -28,4 +28,9 @@
       playlist_directory "~/.config/mpd/playlists"
     '';
   };
+
+  # MPRIS bridge, previously started as `sleep 5 && mpd-mpris` from the
+  # compositor's startup hook to work around it racing mpd. As a unit it can
+  # just declare the dependency.
+  services.mpd-mpris.enable = true;
 }

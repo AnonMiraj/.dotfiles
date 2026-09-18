@@ -22,13 +22,30 @@
     pulse.enable = true;
   };
 
-  # Desktop: Niri + Ly (TUI DM)
+  # Desktop: Hyprland + Niri (rollback) + Ly (TUI DM)
   services.desktopManager.cosmic.enable = true;
   services.displayManager.ly.enable = true;
+
+  programs.hyprland = {
+    enable = true;
+    # No UWSM: Hyprland >= 0.5x starts hyprland-session.target and
+    # graphical-session.target natively, and the wiki now says to drop
+    # manual systemctl target juggling. noctalia (WantedBy=
+    # graphical-session.target) therefore starts on its own.
+  };
+
+  # Kept until Hyprland parity is confirmed; drop once it is.
   programs.niri.enable = true;
   programs.niri.package = pkgs.niri;
 
-  # Speech-to-text dictation
+  # Speech-to-text dictation, via hyprwhspr-rs (a single nixpkgs binary). The
+  # Noctalia bar widget goodroot/noctwhspr is kept working on top of it by the
+  # tray-script shim in users/nir/hyprwhspr.nix; upstream only ships that script
+  # inside the heavier Python implementation, which this host does not run.
+  #
+  # hyprwhspr-rs never reads /dev/input, so unlike the Python implementation it
+  # has no hotkey of its own - the compositor binding in
+  # users/nir/hyprland/binds.nix is the only thing that starts a recording.
   services.hyprwhspr-rs.enable = true;
 
   # Ly TUI display manager config
@@ -52,18 +69,19 @@
   };
 
   # Portals
+  # Hyprland ships its own portal, so xdg-desktop-portal-wlr is not needed
+  # (the NixOS module also sets enableWlrPortal = false).
   xdg.portal = {
     enable = true;
     extraPortals = with pkgs; [
       xdg-desktop-portal-gnome
       xdg-desktop-portal-gtk
       xdg-desktop-portal-termfilechooser
-      xdg-desktop-portal-wlr
     ];
-    config.niri = {
-      default = pkgs.lib.mkForce ["gtk" "gnome" "*"];
-      "org.freedesktop.impl.portal.ScreenCast" = pkgs.lib.mkForce ["gnome"];
-      "org.freedesktop.impl.portal.Screenshot" = pkgs.lib.mkForce ["gnome"];
+    config.hyprland = {
+      default = pkgs.lib.mkForce ["gtk" "hyprland" "*"];
+      "org.freedesktop.impl.portal.ScreenCast" = pkgs.lib.mkForce ["hyprland"];
+      "org.freedesktop.impl.portal.Screenshot" = pkgs.lib.mkForce ["hyprland"];
       "org.freedesktop.impl.portal.FileChooser" = pkgs.lib.mkForce ["termfilechooser"];
     };
     config.common = {

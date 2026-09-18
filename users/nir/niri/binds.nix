@@ -1,4 +1,8 @@
-{pkgs, inputs, ...}: let
+{
+  pkgs,
+  inputs,
+  ...
+}: let
   niri-zoomctl = "${inputs.niri-zoom.packages.${pkgs.stdenv.hostPlatform.system}.default}/bin/niri-zoomctl";
 in {
   programs.niri.settings.binds = {
@@ -160,6 +164,9 @@ in {
       action.spawn = ["vicinae" "vicinae://launch/@anonmiraj/vicinae-extension-jellyfin-browser-0/jellyfin-browser"];
       repeat = false;
     };
+    # hyprwhspr-rs has no hotkey of its own (no evdev/grab references in the
+    # binary), so this binding is what starts a recording. Under niri too, since
+    # the daemon is compositor-independent and only listens on its socket.
     "Super+Alt+D" = {
       action.spawn = ["hyprwhspr-rs" "record" "toggle"];
       repeat = false;

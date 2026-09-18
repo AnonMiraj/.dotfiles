@@ -87,6 +87,7 @@
     inputs.noctalia.homeModules.default
     inputs.nvf.homeManagerModules.default
     (inputs.import-tree.filterNot (path: lib.hasSuffix "home.nix" path) ./.)
+    ./hyprland
     ./niri
   ];
 
