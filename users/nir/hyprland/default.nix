@@ -21,8 +21,8 @@
     # handled automatically, but that is `main`-only: the 0.56.2 binary only
     # knows HYPRLAND_NO_SD_NOTIFY / NO_SD_VARS, never starts
     # graphical-session.target. Without this, noctalia / vicinae /
-    # jellyfin-mpv-shim / stasis never start (their WantedBy target stays
-    # inactive) and you get an empty desktop with no bar.
+    # jellyfin-mpv-shim never start (their WantedBy target stays inactive) and
+    # you get an empty desktop with no bar.
     #
     # This installs hyprland-session.target (BindsTo=graphical-session.target)
     # and emits `systemctl --user start hyprland-session.target`; the BindsTo

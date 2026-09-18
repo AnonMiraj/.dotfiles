@@ -20,9 +20,6 @@
     ethtool
     netselect
 
-    # System monitoring (sysstat and btop are in the GLOBAL set)
-    iotop
-
     # Misc ops
     pv
     yq

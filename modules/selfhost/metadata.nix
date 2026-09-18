@@ -96,7 +96,10 @@
       homepage.name = "Kokoro TTS";
       homepage.icon = "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@main/png/kokoro.png";
       homepage.description = "TTS engine";
-      gatus.checkPath = "/health";
+      # Kokoro is started on demand (see modules/selfhost/containers.nix).
+      # Any periodic probe would start it again before it could idle out, so
+      # this also keeps push-status from probing it.
+      gatus.enable = false;
       frp.enable = true;
       frp.remotePort = 8881;
     };
@@ -107,16 +110,6 @@
       homepage.group = "core";
       homepage.name = "Homepage";
       gatus.enable = true;
-    };
-    v2raya = {
-      port = 2017;
-      domain = "vpn";
-      homepage.group = "System";
-      homepage.name = "v2rayA";
-      homepage.icon = "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@main/png/v2ray.png";
-      homepage.description = "V2Ray / Xray Web Client";
-      gatus.enable = false;
-      frp.enable = false;
     };
     aria = {
       port = 6800;

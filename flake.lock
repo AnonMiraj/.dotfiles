@@ -321,24 +321,6 @@
         "type": "github"
       }
     },
-    "flake-parts_2": {
-      "inputs": {
-        "nixpkgs-lib": "nixpkgs-lib"
-      },
-      "locked": {
-        "lastModified": 1788450739,
-        "narHash": "sha256-glZLQlzIn1fXH6PazR2iUmTo7kzzyYSshrWhLS9TqCU=",
-        "owner": "hercules-ci",
-        "repo": "flake-parts",
-        "rev": "31729ca8cbdb4fa927b34e5f4353e6a83f39e993",
-        "type": "github"
-      },
-      "original": {
-        "owner": "hercules-ci",
-        "repo": "flake-parts",
-        "type": "github"
-      }
-    },
     "flake-utils": {
       "inputs": {
         "systems": "systems"
@@ -669,21 +651,6 @@
         "type": "github"
       }
     },
-    "nixpkgs-lib": {
-      "locked": {
-        "lastModified": 1788057806,
-        "narHash": "sha256-DTQSMxzDWmT0zhguthvegnVkn7CFqGCv4IHCzk5ZUpM=",
-        "owner": "nix-community",
-        "repo": "nixpkgs.lib",
-        "rev": "596e2e3940e09b2abbeb03f75fa1828c57fcd72c",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nix-community",
-        "repo": "nixpkgs.lib",
-        "type": "github"
-      }
-    },
     "nixpkgs-libxml2": {
       "locked": {
         "lastModified": 1751274312,
@@ -853,7 +820,6 @@
         "paseo": "paseo",
         "skills-flake": "skills-flake",
         "sops-nix": "sops-nix",
-        "stasis": "stasis",
         "treefmt-nix": "treefmt-nix",
         "vicinae": "vicinae",
         "vicinae-extensions": "vicinae-extensions",
@@ -979,27 +945,6 @@
       "original": {
         "owner": "vicinaehq",
         "repo": "soulver-cpp",
-        "type": "github"
-      }
-    },
-    "stasis": {
-      "inputs": {
-        "flake-parts": "flake-parts_2",
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1788916692,
-        "narHash": "sha256-OaSFE6pyFbzJF/wiOCe3IDGoPIxwdygGuavMFbFOXCY=",
-        "owner": "saltnpepper97",
-        "repo": "stasis",
-        "rev": "fed0c329c59350939eb359704a5912ea2645bed6",
-        "type": "github"
-      },
-      "original": {
-        "owner": "saltnpepper97",
-        "repo": "stasis",
         "type": "github"
       }
     },

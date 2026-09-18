@@ -8,8 +8,6 @@
     vulkan-tools
     mesa-demos
     xrandr
-    xwayland-satellite
-    inputs.niri-zoom.packages.${pkgs.stdenv.hostPlatform.system}.default
     xdotool
     xwininfo
 
@@ -23,7 +21,6 @@
 
     # Shells / bars / wallpaper
     inputs.awww.packages.${pkgs.stdenv.hostPlatform.system}.default
-    inputs.stasis.packages.${pkgs.stdenv.hostPlatform.system}.stasis
     vicinae
 
     # Dictation

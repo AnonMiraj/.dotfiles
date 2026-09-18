@@ -13,14 +13,5 @@
   fonts.fontconfig = {
     enable = true;
     defaultFonts.monospace = ["FiraCode Nerd Font"];
-    # Disable subpixel rendering (rgba=none) — ported from old dotfiles.
-    hinting = {
-      enable = true;
-      autohint = false;
-    };
-    subpixel = {
-      rgba = "none";
-      lcdfilter = "none";
-    };
   };
 }

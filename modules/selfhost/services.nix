@@ -172,14 +172,6 @@ in {
     openFirewall = true;
   };
 
-  # v2rayA Web GUI & Service
-  services.v2raya = {
-    enable = true;
-  };
-  systemd.services.v2raya.serviceConfig = {
-    TimeoutStopSec = "3s";
-  };
-
   sops.secrets."aria2-rpc-secret" = {};
 
   # Aria2 Daemon

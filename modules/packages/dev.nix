@@ -13,7 +13,6 @@
     opencode
     tuicr
     claude-code
-    code-cursor-fhs
     inputs.antigravity-nix.packages.${pkgs.stdenv.hostPlatform.system}.google-antigravity-cli
 
     # Languages & toolchains

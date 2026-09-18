@@ -22,7 +22,11 @@
 
   programs.fish = {
     enable = true;
-    generateCompletions = false; # fish 4.8.0 removed create_manpage_completions.py
+    # Generates a completion file for every package in systemPackages that
+    # ships man pages. Upstream nixpkgs now extracts fish's embedded
+    # generator script itself, so this no longer needs the fish override that
+    # used to live in overlays/fish-compat.nix.
+    generateCompletions = true;
   };
 
   programs.bash = {

@@ -56,18 +56,10 @@
   hardware.enableRedistributableFirmware = true;
   hardware.bluetooth.enable = true;
 
-  # Samsung download mode (heimdall) — systemd uaccess grants to local console users
-  services.udev.extraRules = ''
-    SUBSYSTEM=="usb", ATTR{idVendor}=="04e8", ATTR{idProduct}=="685d", MODE="0666", TAG+="uaccess"
-  '';
-
   # Open ports in the firewall.
   networking.firewall.allowedTCPPorts = [22 5000 8000 9999];
 
   nix.settings = {
     trusted-users = ["root" "nir"];
   };
-
-  # ── AppImage support ────────────────────────────────────────
-  programs.appimage.enable = true;
 }

@@ -107,11 +107,6 @@
         inputs.nixpkgs.follows = "nixpkgs";
       };
 
-      stasis = {
-        url = "github:saltnpepper97/stasis";
-        inputs.nixpkgs.follows = "nixpkgs";
-      };
-
       paseo = {
         url = "github:getpaseo/paseo/c5442ef0a24af06d32b35a21f7ac8d257917f8dd";
         inputs.nixpkgs.follows = "nixpkgs";

@@ -7,10 +7,6 @@
 }: {
   home.username = "nir";
   home.homeDirectory = "/home/nir";
-  # Kept in step with system.stateVersion. Between 23.11 and 25.11 the only
-  # state-version-gated changes are `programs.git.signing.format` (explicitly
-  # "ssh" below, so unaffected) and `programs.password-store.settings`
-  # (unused), so bumping is behaviour-preserving here.
   home.stateVersion = "25.11";
 
   programs.home-manager.enable = true;

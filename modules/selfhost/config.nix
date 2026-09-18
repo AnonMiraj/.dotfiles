@@ -8,7 +8,9 @@
   inherit (lib) mapAttrsToList;
   inherit (h) domain domainOf;
 in {
-  networking.firewall.allowedTCPPorts = [53 80 443 6767 6768 8880];
+  # 8880 is gone: Kokoro now listens on loopback behind its wake socket, so
+  # only Caddy (local) and frpc reach it.
+  networking.firewall.allowedTCPPorts = [53 80 443 6767 6768];
   networking.firewall.allowedUDPPorts = [53];
 
   services.avahi = {
