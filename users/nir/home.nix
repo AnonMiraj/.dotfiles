@@ -92,11 +92,9 @@
         in
           lib.hasSuffix "home.nix" p
           || lib.hasInfix "/hyprland/" p
-          || lib.hasInfix "/niri/" p
       )
       ./.)
     ./hyprland
-    ./niri
   ];
 
   # Jellyfin MPV Shim

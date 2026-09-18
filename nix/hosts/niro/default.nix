@@ -28,8 +28,6 @@
           inputs.paseo.nixosModules.paseo
           inputs.sops-nix.nixosModules.sops
 
-          inputs.niri.nixosModules.niri
-
           inputs.home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;

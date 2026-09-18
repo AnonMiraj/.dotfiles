@@ -10,8 +10,6 @@
     variant = "";
   };
 
-  programs.xwayland.enable = true;
-
   # Sound (PipeWire)
   services.pulseaudio.enable = false;
   security.rtkit.enable = true;
@@ -22,7 +20,11 @@
     pulse.enable = true;
   };
 
-  # Desktop: Hyprland + Niri (rollback) + Ly (TUI DM)
+  # Desktop: Hyprland (primary) + COSMIC (backup) + Ly (TUI DM).
+  #
+  # Each of them brings its own XWayland (programs.hyprland.xwayland
+  # and services.desktopManager.cosmic.xwayland both default to true), so
+  # programs.xwayland is not needed here.
   services.desktopManager.cosmic.enable = true;
   services.displayManager.ly.enable = true;
 
@@ -33,10 +35,6 @@
     # manual systemctl target juggling. noctalia (WantedBy=
     # graphical-session.target) therefore starts on its own.
   };
-
-  # Kept until Hyprland parity is confirmed; drop once it is.
-  programs.niri.enable = true;
-  programs.niri.package = pkgs.niri;
 
   # Speech-to-text dictation, via hyprwhspr-rs (a single nixpkgs binary). The
   # Noctalia bar widget goodroot/noctwhspr is kept working on top of it by the
