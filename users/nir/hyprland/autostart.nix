@@ -29,6 +29,7 @@
   wayland.windowManager.hyprland.extraConfig = ''
     hl.on("hyprland.start", function()
       hl.exec_cmd("trash-empty 30")
+      hl.exec_cmd("hyprctl setcursor Bibata_Ghost 37")
     end)
   '';
 }

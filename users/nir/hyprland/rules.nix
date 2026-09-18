@@ -5,7 +5,66 @@
 {...}: {
   wayland.windowManager.hyprland.settings = {
     window_rule = [
-      # ── Telegram ─────────────────────────────────────────
+      {
+        match.class = ".*";
+        opacity = "0.89 override 0.89 override";
+      }
+      {
+        match.xwayland = true;
+        no_blur = true;
+      }
+      {
+        match.float = false;
+        no_shadow = true;
+      }
+      {
+        match.class = "^zen-beta$";
+        suppress_event = "maximize";
+      }
+      {
+        match.class = ".*";
+        idle_inhibit = "fullscreen";
+      }
+      {
+        match.title = ".*\\.exe";
+        immediate = true;
+      }
+      {
+        match.class = "^steam_app";
+        immediate = true;
+      }
+      {
+        match.class = "^(blueberry\\.py|guifetch|steam)$";
+        float = true;
+      }
+      {
+        match.class = "^(pavucontrol|org\\.pulseaudio\\.pavucontrol|nm-connection-editor)$";
+        float = true;
+        center = true;
+        size = [
+          "monitor_w * 0.45"
+          "monitor_h * 0.45"
+        ];
+      }
+      {
+        match.title = "^([Oo]pen [Ff]ile|[Ss]elect a [Ff]ile|[Cc]hoose wallpaper|[Oo]pen [Ff]older|[Ss]ave [Aa]s|[Ll]ibrary|[Ff]ile [Uu]pload)(.*)$";
+        float = true;
+        center = true;
+      }
+      {
+        match.title = "^([Pp]icture[-\\s]?[Ii]n[-\\s]?[Pp]icture)(.*)$";
+        float = true;
+        keep_aspect_ratio = true;
+        pin = true;
+        size = [
+          "monitor_w * 0.25"
+          "monitor_h * 0.28"
+        ];
+        move = [
+          "monitor_w * 0.73"
+          "monitor_h * 0.72"
+        ];
+      }
       {
         match.class = "^org\\.telegram\\.desktop$";
         rounding = 6;
@@ -70,7 +129,7 @@
         float = true;
       }
 
-      # ── Global opacity is 0.95, these stay fully opaque ──
+      # ── Global opacity is 0.89, these stay fully opaque ──
       {
         match.class = "^kitty$";
         opacity = "1.0 override 1.0 override 1.0 override";
@@ -119,6 +178,14 @@
       }
     ];
 
+    # Scratchpad gets an extra outer gap.
+    workspace_rule = [
+      {
+        workspace = "special:scratchpad";
+        gaps_out = 30;
+      }
+    ];
+
     layer_rule = [
       # Noctalia's own recommended rule: blur its surfaces and keep Hyprland
       # from fighting its animations. Replaces niri's quickshell
@@ -142,23 +209,28 @@
         blur = true;
         blur_popups = true;
       }
+
+      {
+        match.namespace = ".*";
+        xray = true;
+      }
+
+      {
+        match.namespace = "^(walker|selection|overview|anyrun|hyprpicker|indicator.*|osk|noanim)$";
+        no_anim = true;
+      }
     ];
   };
 
-  # Static window rules are evaluated once, at map time, against the *initial*
-  # class/title — so a rule keyed on a title the app sets later never fires.
-  # That is exactly the case for Telegram's media viewer and Zen's
-  # picture-in-picture window, so re-apply the float on the title event. This
-  # is the pattern upstream documents for static rules that depend on a title
-  # change.
-  #
-  # `action = "enable"` rather than toggle: the event can fire more than once
-  # for the same window, and the intent is idempotent.
+  # Re-apply float/pin when the title lands after the window mapped.
   wayland.windowManager.hyprland.extraConfig = ''
     hl.on("window.title", function(w)
       if w == nil then return end
-      if w.title == "Media viewer" or w.title:match("^Picture%-in%-Picture$") then
+      if w.title == "Media viewer" then
         hl.dispatch(hl.dsp.window.float({ window = w, action = "enable" }))
+      elseif w.title:match("^Picture%-in%-Picture$") then
+        hl.dispatch(hl.dsp.window.float({ window = w, action = "enable" }))
+        hl.dispatch(hl.dsp.window.pin({ window = w, action = "enable" }))
       end
     end)
   '';

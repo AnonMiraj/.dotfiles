@@ -48,10 +48,8 @@ in {
 
     hs.config({
       num_workspaces = 10,
-      -- True so all ten workspaces exist on each monitor. Without it workspaces
-      -- only appear once used, so the bar would show just the ones in use rather
-      -- than 一..十 on both monitors. This is what makes the labels visible.
-      persistent_workspaces = true,
+      -- false: emptied workspaces are destroyed, normalize() renumbers the rest
+      persistent_workspaces = false,
     })
 
     -- Order matters: the first monitor gets the lowest block. This hands
@@ -76,6 +74,101 @@ in {
     end
     hl.on("config.reloaded", label_workspaces)
     label_workspaces()
+
+    -- niri-style dynamic workspaces: normalize() closes a hole by moving each
+    -- workspace down to its rank position, with hl.dsp.workspace.change_id so
+    -- the workspace keeps its windows and layout.
+    local NUM_WORKSPACES = 10 -- must match hs.config num_workspaces
+    local normalizing = false
+
+    local function live_ids()
+      local ids = {}
+      for _, w in ipairs(hl.get_workspaces()) do
+        -- special workspaces have negative ids and never take part in this
+        if w ~= nil and w.id ~= nil and w.id >= 1 then
+          table.insert(ids, w.id)
+        end
+      end
+      table.sort(ids)
+      return ids
+    end
+
+    local function normalize()
+      if normalizing then
+        return
+      end
+      normalizing = true
+
+      local rank = {}
+      local changed = false
+      for _, id in ipairs(live_ids()) do
+        local base = math.floor((id - 1) / NUM_WORKSPACES)
+        rank[base] = (rank[base] or 0) + 1
+        local target = base * NUM_WORKSPACES + rank[base]
+        if id ~= target then
+          hl.dispatch(hl.dsp.workspace.change_id({ workspace = tostring(id), id = target }))
+          changed = true
+        end
+      end
+
+      if changed then
+        label_workspaces()
+      end
+
+      normalizing = false
+    end
+
+
+    -- debounced: workspace.created fires before the workspace is queryable
+    local pending_normalize = nil
+    local function schedule_normalize()
+      if pending_normalize ~= nil then
+        return
+      end
+      pending_normalize = hl.timer(function()
+        pending_normalize = nil
+        normalize()
+      end, { timeout = 150, type = "oneshot" })
+    end
+
+    hl.on("config.reloaded", normalize)
+    hl.on("workspace.created", schedule_normalize)
+    hl.on("workspace.removed", schedule_normalize)
+    hl.on("monitor.focused", schedule_normalize)
+    hl.on("window.open", schedule_normalize)
+    hl.on("window.move_to_workspace", schedule_normalize)
+    hl.on("window.close", schedule_normalize)
+
+    ws_cycle = function(step)
+      local monitor = hl.get_active_monitor()
+      if monitor == nil then
+        return
+      end
+
+      local ids = {}
+      for _, id in ipairs(live_ids()) do
+        local ws = hl.get_workspace(id)
+        if ws ~= nil and ws.monitor ~= nil and ws.monitor.name == monitor.name then
+          table.insert(ids, id)
+        end
+      end
+      if #ids == 0 then
+        return
+      end
+
+      local active = monitor.active_workspace and monitor.active_workspace.id
+      local index = nil
+      for i, id in ipairs(ids) do
+        if id == active then
+          index = i
+        end
+      end
+
+      local next_index = index ~= nil and ((index - 1 + step) % #ids) + 1 or (step > 0 and 1 or #ids)
+      hl.dispatch(hl.dsp.focus({ workspace = tostring(ids[next_index]) }))
+    end
+
+
   '';
 
   # Label the reserved ids with kanji numerals so the workspace indicator reads

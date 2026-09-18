@@ -13,6 +13,9 @@
   # keys -> raw Lua dispatcher expression
   mkb = keys: expr: {_args = [keys (lua expr)];};
 
+  # Same, plus bind flags: mouse drag/resize needs `{ mouse = true }`.
+  mkbFlag = keys: expr: flags: {_args = [keys (lua expr) flags];};
+
   # keys -> command string, run through `sh -c`
   exec = keys: cmd: mkb keys "hl.dsp.exec_cmd(${builtins.toJSON cmd})";
 
@@ -37,17 +40,13 @@
   focusWs = keys: ws: mkb keys "hs.dsp.focus({ workspace = ${builtins.toJSON ws} })";
   moveToWs = keys: ws: mkb keys "hs.dsp.window.move({ workspace = ${builtins.toJSON ws}, follow = false })";
 
-  # Workspace range 1..10 per monitor. Key 10 is `0`, matching upstream's
-  # example (i % 10). Move uses SUPER+SHIFT, as upstream suggests and as the
-  # move-to-workspace wheel binds already do.
-  wsKeys = map (n:
+  # Workspace 1..10 per monitor. Key 10 is `0`, matching upstream's example.
+  wsKey = n:
     if n == 10
     then "0"
-    else toString n) (lib.range 1 10);
-  wsFocus = map (n: focusWs "SUPER + ${n}" "${n}") wsKeys;
-  # Windows move to workspace N on the current monitor (follow = false keeps
-  # focus where it is, as niri's move-column-to-workspace did).
-  wsMove = map (n: moveToWs "SUPER + SHIFT + ${n}" "${n}") wsKeys;
+    else toString n;
+  wsFocus = map (n: focusWs "SUPER + ${wsKey n}" (toString n)) (lib.range 1 10);
+  wsMove = map (n: moveToWs "SUPER + SHIFT + ${wsKey n}" (toString n)) (lib.range 1 10);
 in {
   wayland.windowManager.hyprland.settings.bind =
     [
@@ -63,7 +62,8 @@ in {
       (noctalia "XF86AudioNext" "media next")
       (noctalia "XF86AudioPrev" "media previous")
       (noctalia "XF86AudioStop" "media stop")
-
+      (noctalia "SUPER + U" "brightness-up current 5")
+      (noctalia "SUPER + SHIFT + U" "brightness-down current 5")
       # ── Clipboard & tools ────────────────────────────────
       # niri had both `Mod+V` (vicinae) and `Super+V` (noctalia) on the same
       # key; they are split here so no bind is shadowed.
@@ -77,7 +77,9 @@ in {
       (mkb "SUPER + SHIFT + F" "hl.dsp.window.fullscreen()")
       (mkb "SUPER + S" "hl.dsp.window.float()")
       (mkb "SUPER + Q" "hl.dsp.window.close()")
-
+      (exec "SUPER + CTRL + Q" "hyprctl kill")
+      (mkbFlag "SUPER + mouse:272" "hl.dsp.window.drag()" {mouse = true;})
+      (mkbFlag "SUPER + mouse:273" "hl.dsp.window.resize()" {mouse = true;})
       # ── Apps ─────────────────────────────────────────────
       (exec "SHIFT + SUPER + R" "kitty -e btop")
       (exec "SUPER + Return" "kitty")
@@ -104,6 +106,12 @@ in {
       (mkb "SUPER + Tab" ''
         function()
           hl.plugin.scrolloverview.overview("toggle all")
+        end
+      '')
+      (mkb "SUPER + SHIFT + Tab" "hl.dsp.focus({ last = true })")
+      (mkb "SUPER + CTRL + Tab" ''
+        function()
+          hl.dispatch(hl.dsp.window.move({ monitor = "+1", follow = true }))
         end
       '')
 
@@ -184,8 +192,17 @@ in {
     ++ wsMove
     ++ [
       # ── Mouse wheel — workspace / column navigation ──────
-      (focusWs "SUPER + mouse_down" "r+1")
-      (focusWs "SUPER + mouse_up" "r-1")
+      # ws_cycle walks only the workspaces that exist on the active monitor.
+      (mkb "SUPER + mouse_down" ''
+        function()
+          ws_cycle(1)
+        end
+      '')
+      (mkb "SUPER + mouse_up" ''
+        function()
+          ws_cycle(-1)
+        end
+      '')
       (moveToWs "SUPER + SHIFT + mouse_down" "r+1")
       (moveToWs "SUPER + SHIFT + mouse_up" "r-1")
       (mkb "SUPER + mouse_left" "hl.dsp.focus({ direction = \"l\" })")

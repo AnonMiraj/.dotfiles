@@ -17,6 +17,9 @@
         # borders, so the border carries the focus-ring look.
         border_size = 2;
         resize_on_border = true;
+        no_focus_fallback = true;
+        gaps_workspaces = 50;
+        allow_tearing = true;
         col = {
           active_border = "#707070ff";
           inactive_border = "#d0d0d0ff";
@@ -42,9 +45,8 @@
       decoration = {
         rounding = 12;
         rounding_power = 2.0;
-        # niri window rule `opacity = 0.95` applied globally.
-        active_opacity = 0.95;
-        inactive_opacity = 0.95;
+        active_opacity = 0.89;
+        inactive_opacity = 0.89;
 
         blur = {
           enabled = true;
@@ -106,6 +108,21 @@
         workspace_back_and_forth = true;
         # niri used cooldown-ms = 150 on wheel binds.
         scroll_event_delay = 150;
+        pass_mouse_when_bound = false;
+        allow_workspace_cycles = true;
+        # Swiping away from the scratchpad should hide it, like every other
+        # scratchpad implementation. Hyprland's default leaves it showing.
+        hide_special_on_workspace_change = true;
+        # niri exits fullscreen when you move focus off a fullscreen window;
+        # the default makes movefocus a no-op while fullscreen instead.
+        movefocus_cycles_fullscreen = true;
+      };
+
+      # ── Cursor ───────────────────────────────────────────
+      cursor = {
+        no_hardware_cursors = 1;
+        enable_hyprcursor = true;
+        warp_on_change_workspace = 1;
       };
 
       # ── Misc ─────────────────────────────────────────────
@@ -121,19 +138,17 @@
         # kitty, for example) is not raised. niri honoured those requests, so
         # this restores that behaviour.
         focus_on_activate = true;
+        enable_swallow = true;
+        swallow_regex = "^(kitty)$";
+        animate_manual_resizes = false;
+        animate_mouse_windowdragging = false;
+        mouse_move_enables_dpms = true;
+        allow_session_lock_restore = true;
+        initial_workspace_tracking = 0;
       };
 
       xwayland = {
         enabled = true;
-      };
-
-      binds = {
-        # Swiping away from the scratchpad should hide it, like every other
-        # scratchpad implementation. Hyprland's default leaves it showing.
-        hide_special_on_workspace_change = true;
-        # niri exits fullscreen when you move focus off a fullscreen window;
-        # the default makes movefocus a no-op while fullscreen instead.
-        movefocus_cycles_fullscreen = true;
       };
     };
 

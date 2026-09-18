@@ -25,6 +25,15 @@
         source = "builtin";
         builtin = "Catppuccin";
       };
+
+      # Clipboard panel: `auto` makes selecting a history entry paste it into
+      # the previously focused window (text via Ctrl+Shift+V, images via
+      # Ctrl+V). That path needs `wtype` on PATH - see modules/packages/desktop.nix.
+      shell = {
+        clipboard_enabled = true;
+        clipboard_auto_paste = "auto";
+        clipboard_keep_from_closed_apps = true;
+      };
     };
   };
 
