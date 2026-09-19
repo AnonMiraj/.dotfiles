@@ -49,6 +49,12 @@
           options = ["nofail"];
         };
 
+        # Wi-Fi is the LAN uplink (ethernet being removed); both NICs are
+        # still allowed so a rebuild during the transition keeps working.
+        my.lan = {
+          interfaces = ["enp43s0" "wlp0s20f3"];
+        };
+
         system.stateVersion = "25.11";
 
         sops = {
@@ -59,9 +65,6 @@
             gatus-push-tokens = {
               path = "/var/lib/secrets/gatus-push.tokens";
               owner = "nir";
-            };
-            hotspot-env = {
-              path = "/var/lib/secrets/hotspot.env";
             };
             brave-api-key = {
               path = "${config.users.users.nir.home}/.pi/web-search.json";

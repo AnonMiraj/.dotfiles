@@ -10,8 +10,15 @@
 in {
   # 8880 is gone: Kokoro publishes on loopback only, so Caddy reaches it
   # without needing a firewall hole.
-  networking.firewall.allowedTCPPorts = [53 80 443 6767 6768];
-  networking.firewall.allowedUDPPorts = [53];
+  networking.firewall.allowedTCPPorts = [80 443 6767 6768];
+  # DNS (53) is not global: only the home subnet and the tailnet may
+  # query dnsmasq, so a foreign Wi-Fi cannot use this box as a resolver.
+  networking.firewall.extraInputRules = ''
+    ip saddr ${config.my.lan.subnet} tcp dport 53 accept
+    ip saddr ${config.my.lan.subnet} udp dport 53 accept
+    iifname "tailscale0" tcp dport 53 accept
+    iifname "tailscale0" udp dport 53 accept
+  '';
 
   services.avahi = {
     enable = true;
@@ -40,12 +47,12 @@ in {
         "/_acme-challenge.${domain}/1.1.1.1"
         "/_acme-challenge.${domain}/8.8.8.8"
       ];
-      # Bind only to loopback + LAN iface, not 0.0.0.0:53. Leaves
-      # 10.42.0.1:53 free for NetworkManager's hotspot (shared) dnsmasq.
-      interface = [
-        "lo"
-        config.my.lan.interface
-      ];
+      # Bind only to loopback + the LAN interfaces, not 0.0.0.0:53.
+      interface =
+        [
+          "lo"
+        ]
+        ++ config.my.lan.interfaces;
       # bind-dynamic (not bind-interfaces): tolerates the iface not
       # existing yet at boot (eth0 → enp43s0 udev rename race) and
       # tracks address changes via netlink. bind-interfaces crashes

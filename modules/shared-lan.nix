@@ -18,11 +18,10 @@
       default = "192.168.1.6";
       description = "LAN IP of the home host, advertised by dnsmasq for <lan.domain>.";
     };
-
-    interface = lib.mkOption {
-      type = lib.types.str;
-      default = "enp43s0";
-      description = "LAN interface dnsmasq binds to (in addition to lo).";
+    interfaces = lib.mkOption {
+      type = lib.types.listOf lib.types.str;
+      default = ["enp43s0"];
+      description = "LAN interfaces dnsmasq binds to (in addition to lo) and that the tailnet may forward to.";
     };
 
     subnet = lib.mkOption {

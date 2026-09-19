@@ -51,7 +51,6 @@ NixOS configuration for host `niro`, managed with `flake-parts`, `flake-file`, a
     - `config.nix` — Avahi, dnsmasq, `/etc/hosts` split-brain entries
     - `headscale-client.nix` — Tailscale client + `my.lan.subnet` subnet router
     - `containers.nix` — docker containers
-    - `hotspot.nix` — NetworkManager hotspot profile
     - `services.nix` — NixOS service enablement
   - `server/` — VPS-only modules (`my.server.*`), see the VPS notes below
 - **`lib/selfhost.nix`**: Shared derivations used by `modules/selfhost/*`
