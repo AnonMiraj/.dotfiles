@@ -28,7 +28,13 @@
 
   # Enable networking
   networking.networkmanager.enable = true;
-  networking.networkmanager.wifi.macAddress = "random";
+  # Intel AX1650i (iwlwifi, so-a0-hr-b0-89.ucode): firmware asserts when it
+  # joins the 5 GHz BSSID of SSID Sigma and dies until the driver is
+  # reloaded. The Sigma profile is therefore pinned to 2.4 GHz, and
+  # modules/iwlwifi-recovery.nix reloads the driver when it wedges anyway.
+  networking.networkmanager.wifi.macAddress = "preserve";
+  networking.networkmanager.wifi.scanRandMacAddress = false;
+  networking.networkmanager.wifi.powersave = false;
 
   swapDevices = [
     {
@@ -62,4 +68,7 @@
   nix.settings = {
     trusted-users = ["root" "nir"];
   };
+
+  # Journal was volatile, so iwlwifi crash history died on reboot.
+  services.journald.settings.Journal.Storage = "persistent";
 }

@@ -52,6 +52,7 @@
         # Wi-Fi is the LAN uplink (ethernet being removed); both NICs are
         # still allowed so a rebuild during the transition keeps working.
         my.lan = {
+          address = "192.168.1.6";
           interfaces = ["enp43s0" "wlp0s20f3"];
         };
 
