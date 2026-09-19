@@ -1,5 +1,6 @@
 check:
-	nix flake check
+	nix flake check --no-build
+	nixos-rebuild build --flake .#niro
 
 fmt:
 	nix fmt
@@ -23,5 +24,8 @@ deploy-almiraj:
 		--target-host {{vps-admin}}@{{vps-host}} \
 		--elevate=sudo
 
+# Plan the aarch64 closure (evaluate + dry build). The x86_64 desktop
+# cannot build aarch64 and we do not want the closure copied back; the
+# real build happens in deploy-almiraj on the VPS.
 build-almiraj:
-	nix build .#nixosConfigurations.almiraj.config.system.build.toplevel --no-link
+	nixos-rebuild dry-build --flake .#almiraj

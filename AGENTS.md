@@ -131,7 +131,16 @@ Must match the values in `modules/server/gatus.nix` on the VPS.
 - Cloudflare DNS-only A records for every `*.lab.almiraj.xyz` name point to
   `192.168.1.6`, so phone browsers that use public/DoH DNS still reach Niro on
   the home LAN. Without Tailscale off-LAN those names resolve to a private IP
+- Cloudflare DNS-only A records for every `*.lab.almiraj.xyz` name point to
+  `192.168.1.6`, so phone browsers that use public/DoH DNS still reach Niro on
+  the home LAN. Without Tailscale off-LAN those names resolve to a private IP
   and time out, which is intended.
+- ACL policy: `modules/server/headscale.nix` writes
+  `/etc/headscale/policy.hujson` (grants: own devices plus
+  `192.168.1.0/24` on 22/53/80/443/ICMP). Reload with
+  `sudo systemctl reload headscale`; the unit restarts when the file changes.
+- Embedded DERP is enabled on the VPS (region 999, STUN UDP 3478); TLS is
+  terminated by Caddy on 443.
 - VPS CLI: `sudo headscale users list`, `nodes list`, `nodes list-routes`,
   `nodes approve-routes -i 1 -r 192.168.1.0/24`.
 - New key: `sudo headscale preauthkeys create --user 1 --reusable --expiration 24h`.
