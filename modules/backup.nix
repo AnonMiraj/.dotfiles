@@ -19,7 +19,7 @@
     set -euo pipefail
 
     # (dest src) pairs — trailing source slash copies contents not the dir
-    targets="nixos:/etc/nixos 3x-ui:/var/lib/3x-ui caddy:/var/lib/caddy gatus:/var/lib/gatus"
+    targets="nixos:/etc/nixos 3x-ui:/var/lib/3x-ui caddy:/var/lib/caddy gatus:/var/lib/gatus headscale:/var/lib/headscale"
 
     for t in $targets; do
       name="''${t%%:*}"
