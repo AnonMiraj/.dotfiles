@@ -128,6 +128,10 @@ Must match the values in `modules/server/gatus.nix` on the VPS.
   Rotate by generating a new key and updating sops before it is needed again.
 - Headscale pushes split DNS `lab.almiraj.xyz -> 192.168.1.6`.
 - FRP and the VPS `home` SSH hop were removed; tailnet access replaces them.
+- Cloudflare DNS-only A records for every `*.lab.almiraj.xyz` name point to
+  `192.168.1.6`, so phone browsers that use public/DoH DNS still reach Niro on
+  the home LAN. Without Tailscale off-LAN those names resolve to a private IP
+  and time out, which is intended.
 - VPS CLI: `sudo headscale users list`, `nodes list`, `nodes list-routes`,
   `nodes approve-routes -i 1 -r 192.168.1.0/24`.
 - New key: `sudo headscale preauthkeys create --user 1 --reusable --expiration 24h`.
