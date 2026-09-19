@@ -207,4 +207,6 @@ in {
   systemd.services.aria2.after = ["mnt-media.mount"];
   systemd.services.aria2.wants = ["mnt-media.mount"];
   users.users.aria2.extraGroups = ["users"];
+
+  # Vaultwarden moved to modules/selfhost/vaultwarden.nix.
 }

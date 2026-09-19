@@ -113,5 +113,17 @@
       homepage.description = "Download manager";
       gatus.enable = false;
     };
+
+    vaultwarden = {
+      port = 8222;
+      domain = "vault";
+      homepage.group = "System";
+      homepage.name = "Vaultwarden";
+      homepage.description = "Password manager";
+      homepage.icon = "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@main/png/vaultwarden.png";
+      # LAN + tailnet only: push-status probes loopback, and the VPS status
+      # page has no external-endpoint token for it. See AGENTS.md.
+      gatus.enable = false;
+    };
   };
 }
