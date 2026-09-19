@@ -1,7 +1,7 @@
 # Service metadata template:
 # servicename = {
 #   port = 1234;                        # required — local port
-#   domain = "sub";                     # required — subdomain.niro.lan
+#   domain = "sub";                     # required — subdomain.lab.almiraj.xyz
 #   proxyTarget = "localhost:1234";     # optional — override proxy target
 #   homepage.group = "Media";           # optional — Media / Dev / System
 #   homepage.name = "My Service";       # optional — display name (default: capitalized attr name)
@@ -94,7 +94,7 @@
       domain = "kokoro";
       homepage.group = "Dev";
       homepage.name = "Kokoro TTS";
-      homepage.icon = "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@main/png/kokoro.png";
+      homepage.icon = "https://cdn.jsdelivr.net/npm/@mdi/svg@latest/svg/microphone.svg";
       homepage.description = "TTS engine";
       # VRAM is freed by the container's own idle unload, not by stopping it,
       # so probing it is safe: health checks are not inference and neither
@@ -116,7 +116,7 @@
       domain = "aria";
       homepage.group = "Media";
       homepage.name = "Aria2";
-      homepage.icon = "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@main/png/aria2.png";
+      homepage.icon = "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@main/png/ariang.png";
       homepage.description = "Download manager";
       gatus.enable = false;
     };

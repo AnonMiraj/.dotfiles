@@ -1,4 +1,4 @@
-# Local name resolution for *.niro.lan: Avahi, dnsmasq and /etc/hosts.
+# Local name resolution for the split-brain LAN zone: Avahi, dnsmasq, /etc/hosts.
 {
   config,
   lib,
@@ -29,6 +29,17 @@ in {
       address = [
         "/${domain}/${config.my.lan.address}"
       ];
+      # Do not let /etc/hosts influence dnsmasq answers. The local 127.0.0.1
+      # entries below are for Niro itself; LAN clients must get the address=
+      # answer (192.168.1.6), not loopback.
+      no-hosts = true;
+      # DNS-01 lives under the same zone, so dnsmasq would otherwise answer
+      # the ACME challenge lookups itself (NXDOMAIN). Forward just that
+      # name to public resolvers so lego can see the TXT record it created.
+      server = [
+        "/_acme-challenge.${domain}/1.1.1.1"
+        "/_acme-challenge.${domain}/8.8.8.8"
+      ];
       # Bind only to loopback + LAN iface, not 0.0.0.0:53. Leaves
       # 10.42.0.1:53 free for NetworkManager's hotspot (shared) dnsmasq.
       interface = [
@@ -51,8 +62,8 @@ in {
     wants = ["network-online.target"];
   };
 
-  # Resolve every generated vhost to this host, so *.niro.lan works without
-  # going through dnsmasq for names the browser already knows about.
+  # Local-only loopback entries for Niro; dnsmasq ignores /etc/hosts
+  # (no-hosts) and serves the address= answer above to everyone else.
   networking.hosts."127.0.0.1" =
     (mapAttrsToList (_: svc: domainOf svc) config.my.services)
     ++ (builtins.attrNames config.my.caddy.extraVhosts);

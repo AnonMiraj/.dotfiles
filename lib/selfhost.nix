@@ -10,12 +10,12 @@
 }: let
   inherit (lib) substring toUpper replaceStrings;
   domain = config.my.lan.domain;
-  cert = "${config.my.caddy.certDir}/${config.my.caddy.certFile}";
-  key = "${config.my.caddy.certDir}/${config.my.caddy.keyFile}";
 in rec {
   inherit domain;
 
-  tlsBlock = "tls ${cert} ${key}";
+  # Name of the security.acme certificate that Caddy should use for every
+  # *.domain vhost. The cert itself is declared in modules/selfhost/acme.nix.
+  acmeHost = domain;
 
   capFirst = s: (substring 0 1 (toUpper s)) + (substring 1 (-1) s);
 

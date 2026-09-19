@@ -84,6 +84,14 @@
             client = {insecure = true;};
           }
           {
+            name = "headscale";
+            group = "system";
+            url = "https://headscale.almiraj.xyz/health";
+            interval = "1m";
+            conditions = ["[STATUS] == 200"];
+            client = {insecure = true;};
+          }
+          {
             name = "cashflow";
             group = "games";
             url = "https://cashflow.almiraj.xyz/api/health";

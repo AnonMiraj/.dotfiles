@@ -26,9 +26,11 @@ NixOS configuration for host `niro`, managed with `flake-parts`, `flake-file`, a
 - **`nix/hosts/niro/`**: Host definition for `niro` using `flake.aspects`.
 - **`nix/`**: Main module tree auto-imported by `import-tree`.
 - **`modules/`**: NixOS modules imported by the host config. Everything here
-  except `shared.nix` and `server/` is desktop-only, because `niro` imports the
-  whole tree while `almiraj` imports `modules/shared.nix` plus `modules/server/`.
+  except `shared.nix`, `public-services.nix`, and `server/` is desktop-only,
+  because `niro` imports the whole tree while `almiraj` imports
+  `modules/shared.nix`, `modules/public-services.nix`, plus `modules/server/`.
   - `shared.nix` — genuinely cross-host base (locale, nix settings, docker, ssh)
+  - `public-services.nix` — shared public service registry + Homepage VPS list
   - `system.nix` — niro host identity, users, networking, hardware, base services
   - `boot.nix` — grub + EFI (niro)
   - `nvidia.nix` — GPU, kernel parameters and PRIME offload (niro)
@@ -46,13 +48,15 @@ NixOS configuration for host `niro`, managed with `flake-parts`, `flake-file`, a
     - `gatus.nix` — local Gatus web config + generated endpoints
     - `frp.nix` — FRP client tunnels
     - `push-status.nix` — pushes local health to the VPS Gatus
-    - `config.nix` — Avahi, dnsmasq, `/etc/hosts` entries
+    - `acme.nix` — Let's Encrypt wildcard cert via Cloudflare DNS-01
+    - `config.nix` — Avahi, dnsmasq, `/etc/hosts` split-brain entries
+    - `headscale-client.nix` — Tailscale client + 192.168.1.0/24 subnet router
     - `containers.nix` — docker containers
     - `hotspot.nix` — NetworkManager hotspot profile
     - `services.nix` — NixOS service enablement
   - `server/` — VPS-only modules (`my.server.*`), see the VPS notes below
 - **`lib/selfhost.nix`**: Shared derivations used by `modules/selfhost/*`
-  (`domainOf`, `displayName`, `tlsBlock`, ...). Not a module, so `import-tree`
+  (`domainOf`, `displayName`, `acmeHost`, ...). Not a module, so `import-tree`
   ignores it; import it explicitly with `import ../../lib/selfhost.nix`.
 - **`users/nir/`**: Home-manager configuration (import-tree auto-imports).
   - `pi/default.nix` — pi agent settings, packages, extensions, skills, keybindings
@@ -67,7 +71,7 @@ NixOS configuration for host `niro`, managed with `flake-parts`, `flake-file`, a
    ```
 2. Optionally add NixOS config in `modules/selfhost/services.nix`.
 3. Caddy vhost, Homepage entry, FRP proxy, and Gatus check are auto-generated.
-
+   The Let's Encrypt wildcard cert covers `*.<my.lan.domain>` automatically.
 ## Development Workflow
 
 1. Edit module in `nix/`, `modules/`, or `users/nir/`.
@@ -88,6 +92,12 @@ NixOS configuration for host `niro`, managed with `flake-parts`, `flake-file`, a
   pi auto-installs them via npm on startup.
 - **Brave API key** (pi-web-access): stored in `secrets/secrets.yaml` as `brave-api-key`.
   sops writes it to `~/.pi/web-search.json` (symlink to `/run/secrets/brave-api-key`).
+- **Split-brain DNS / ACME**: `my.lan.domain` (`lab.almiraj.xyz`) is served on the
+  LAN by dnsmasq and publicly only for the DNS-01 TXT challenge. Caddy uses the
+  wildcard cert from `modules/selfhost/acme.nix`. The Cloudflare token lives in
+  `secrets/secrets.yaml` as `cloudflare-dns-api-token` (Zone:DNS:Edit on
+  `almiraj.xyz`). Replace the placeholder before rebuilding.
+
 ## VPS Status Page (status.niro.almiraj.xyz)
 
 Gatus on the VPS (`almiraj`) receives pushed status from all home services with
@@ -109,6 +119,21 @@ Gatus on the VPS (`almiraj`) receives pushed status from all home services with
 **Tokens** (home side): in `secrets/secrets.yaml` under `gatus-push-tokens`.
 Edit with `SOPS_AGE_KEY_FILE=$HOME/.age/key.txt sops secrets/secrets.yaml`.
 Must match the values in `modules/server/gatus.nix` on the VPS.
+
+## Headscale (tailnet)
+
+- Control server: `https://headscale.almiraj.xyz` (VPS, `modules/server/headscale.nix`).
+- Home node: `niro` (`modules/selfhost/headscale-client.nix`) advertises `192.168.1.0/24`.
+- Preauth key: `secrets/secrets.yaml` as `headscale-auth-key`. It has a limited
+  lifetime (24h in the example); the registered node itself does not expire.
+  Rotate by generating a new key and updating sops before it is needed again.
+- Headscale pushes split DNS `lab.almiraj.xyz -> 192.168.1.6`.
+- VPS CLI: `sudo headscale users list`, `nodes list`, `nodes list-routes`,
+  `nodes approve-routes -i 1 -r 192.168.1.0/24`.
+- New key: `sudo headscale preauthkeys create --user 1 --reusable --expiration 24h`.
+- Android: Tailscale -> alternate server `https://headscale.almiraj.xyz`, then
+  use an auth key or web login + `headscale auth register --auth-id <id> --user anonmiraj`.
+
 
 ## VPS (almiraj) two-host notes
 

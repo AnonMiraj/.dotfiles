@@ -7,7 +7,6 @@
     brave
 
     # Remote access / tunnels
-    mkcert
     (pkgs.callPackage ../../pkgs/hiddify {})
 
     # Media casting

@@ -1,4 +1,8 @@
 # Caddy vhosts, generated from my.services plus the fixed my.caddy.extraVhosts.
+#
+# Every vhost uses the shared `*.${domain}` certificate declared in
+# modules/selfhost/acme.nix (Let's Encrypt DNS-01 via Cloudflare). Caddy reads
+# the cert straight out of /var/lib/acme, so the old mkcert files are unused.
 {
   config,
   lib,
@@ -7,7 +11,7 @@
 }: let
   h = import ../../lib/selfhost.nix {inherit lib config;};
   inherit (lib) mapAttrsToList nameValuePair;
-  inherit (h) domain domainOf tlsBlock;
+  inherit (h) domain domainOf acmeHost;
 
   statusHost = "status.${domain}";
   homeHost = "home.${domain}";
@@ -16,9 +20,8 @@
 
   mkVhost = name: vh:
     nameValuePair name {
-      serverAliases = vh.serverAliases;
+      useACMEHost = acmeHost;
       extraConfig = ''
-        ${tlsBlock}
         reverse_proxy ${vh.proxyTarget}
       '';
     };
@@ -29,9 +32,8 @@
     (mkVhost homeHost config.my.caddy.extraVhosts.${homeHost})
     # Paseo — custom path routing
     (nameValuePair paseoHost {
-      serverAliases = config.my.caddy.extraVhosts.${paseoHost}.serverAliases;
+      useACMEHost = acmeHost;
       extraConfig = ''
-        ${tlsBlock}
         handle /ws* { reverse_proxy localhost:6767 }
         handle /api* { reverse_proxy localhost:6767 }
         handle /mcp* { reverse_proxy localhost:6767 }
@@ -45,9 +47,8 @@
     })
     # Aria2 / AriaNg — custom static web + RPC routing
     (nameValuePair ariaHost {
-      serverAliases = ["*.${ariaHost}"];
+      useACMEHost = acmeHost;
       extraConfig = ''
-        ${tlsBlock}
         handle /jsonrpc* {
           reverse_proxy localhost:6800
         }
@@ -61,9 +62,8 @@
 
   generated = mapAttrsToList (name: svc:
     nameValuePair (domainOf svc) {
-      serverAliases = ["*.${domainOf svc}"];
+      useACMEHost = acmeHost;
       extraConfig = ''
-        ${tlsBlock}
         reverse_proxy ${
           if svc.proxyTarget != null
           then svc.proxyTarget

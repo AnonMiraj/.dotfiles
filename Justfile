@@ -20,7 +20,8 @@ deploy-almiraj:
 	@test -n "$(command -v nixos-rebuild)" || { echo 'need nixos-rebuild'; exit 1; }
 	nixos-rebuild switch --flake .#almiraj \
 		--build-host {{vps-admin}}@{{vps-host}} \
-		--target-host {{vps-admin}}@{{vps-host}}
+		--target-host {{vps-admin}}@{{vps-host}} \
+		--elevate=sudo
 
 build-almiraj:
 	nix build .#nixosConfigurations.almiraj.config.system.build.toplevel --no-link

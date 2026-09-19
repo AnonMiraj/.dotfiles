@@ -16,6 +16,7 @@
         imports = [
           ../../../cachix.nix
           ../../../modules/shared.nix
+          ../../../modules/public-services.nix
           (inputs.import-tree.filterNot (path: lib.hasSuffix "default.nix" path) ../../../modules/server)
           inputs.sops-nix.nixosModules.sops
           inputs.disko.nixosModules.disko
@@ -54,6 +55,7 @@
         my.server.bosla.enable = true;
         my.server.runner.enable = true;
         my.server."3x-ui".enable = true;
+        my.server.headscale.enable = true;
         my.server.cashflow.enable = true;
         my.server.qbittorrent = {
           enable = true;

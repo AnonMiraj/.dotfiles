@@ -110,7 +110,7 @@ in {
     allowedHosts = "${domain},home.${domain},localhost:8082";
     settings = {
       title = "niro";
-      startUrl = "https://home.${domain}";
+      startUrl = "https://${domain}";
       background = {
         image = "https://images.unsplash.com/photo-1506905925346-21bda4d32df4";
         blur = "sm";
@@ -136,6 +136,12 @@ in {
             columns = 4;
           };
         }
+        {
+          "VPS" = {
+            style = "row";
+            columns = 4;
+          };
+        }
       ];
     };
     widgets = [
@@ -154,6 +160,12 @@ in {
       }
     ];
   };
+
+  # Homepage does not watch the generated YAML, so restart when it changes.
+  systemd.services.homepage-dashboard.restartTriggers = [
+    config.environment.etc."homepage-dashboard/services.yaml".source
+    config.environment.etc."homepage-dashboard/settings.yaml".source
+  ];
 
   # Jellyfin
   services.jellyfin = {

@@ -72,44 +72,21 @@ in {
     };
 
     caddy = {
-      certDir = mkOption {
-        type = types.str;
-        default = "/var/lib/caddy/certs";
-        description = "Directory containing TLS cert files";
-      };
-      certFile = mkOption {
-        type = types.str;
-        default = "niro-lan.pem";
-      };
-      keyFile = mkOption {
-        type = types.str;
-        default = "niro-lan-key.pem";
-      };
       extraVhosts = mkOption {
-        description = "Extra Caddy vhosts not tied to a service (e.g. niro.lan → homepage)";
+        description = "Extra Caddy vhosts not tied to a service (e.g. lab.almiraj.xyz -> homepage)";
         type = types.attrsOf (types.submodule {
           options = {
             proxyTarget = mkOption {
               type = types.str;
               description = "Reverse proxy target (e.g. localhost:8082)";
             };
-            serverAliases = mkOption {
-              type = types.listOf types.str;
-              default = [];
-            };
           };
         });
         default = {
-          "niro.lan".proxyTarget = "localhost:8082";
-          "status.niro.lan".proxyTarget = "localhost:8099";
-          "home.niro.lan" = {
-            proxyTarget = "localhost:8082";
-            serverAliases = ["*.home.niro.lan"];
-          };
-          "paseo.niro.lan" = {
-            proxyTarget = "custom";
-            serverAliases = ["*.paseo.niro.lan"];
-          };
+          "lab.almiraj.xyz".proxyTarget = "localhost:8082";
+          "status.lab.almiraj.xyz".proxyTarget = "localhost:8099";
+          "home.lab.almiraj.xyz".proxyTarget = "localhost:8082";
+          "paseo.lab.almiraj.xyz".proxyTarget = "custom";
         };
       };
     };
@@ -133,8 +110,8 @@ in {
     lan = {
       domain = mkOption {
         type = types.str;
-        default = "niro.lan";
-        description = "Internal DNS zone: services get <domain>.<lan.domain>.";
+        default = "lab.almiraj.xyz";
+        description = "Internal split-brain DNS zone. Services get <name>.<lan.domain>; the same names resolve to my.lan.address on the LAN and are covered by the Let's Encrypt wildcard cert from modules/selfhost/acme.nix.";
       };
       address = mkOption {
         type = types.str;
@@ -145,6 +122,13 @@ in {
         type = types.str;
         default = "enp43s0";
         description = "LAN interface dnsmasq binds to (in addition to lo).";
+      };
+      headscale = {
+        enable = mkOption {
+          type = types.bool;
+          default = true;
+          description = "Join the Headscale tailnet and advertise 192.168.1.0/24.";
+        };
       };
     };
     vps = {

@@ -23,6 +23,9 @@ in {
     gatus = {
       enable = mkEnableOption "gatus uptime monitor";
     };
+    headscale = {
+      enable = mkEnableOption "Headscale control server for Tailscale clients";
+    };
     runner = {
       enable = mkEnableOption "GitHub self-hosted runner (Bosla-Ai)";
     };
@@ -46,53 +49,5 @@ in {
         description = "Loopback port tinyauth listens on; used for forward_auth upstreams.";
       };
     };
-  };
-
-  # ── VPS public service registry (parallel to niro's modules/selfhost
-  #    `my.services` LAN registry). Each entry becomes a Caddy vhost on the
-  #    almiraj site; generation is gated per entry by the my.server.<x>.enable
-  #    flags below, not by presence alone.
-  options.my.publicServices = mkOption {
-    description = "Public services exposed on the VPS (almiraj) via Caddy + Let's Encrypt.";
-    type = types.attrsOf (types.submodule ({...}: {
-      options = {
-        domain = mkOption {
-          type = types.str;
-          description = "Full public FQDN, e.g. bosla.almiraj.xyz.";
-        };
-        port = mkOption {
-          type = types.port;
-          description = "Local upstream port on the VPS.";
-        };
-        proxyTarget = mkOption {
-          type = types.nullOr types.str;
-          default = null;
-          description = "Override upstream target (default: localhost:<port>).";
-        };
-        stack = mkOption {
-          type = types.str;
-          description = "my.server.<stack>.enable flag that gates this public service.";
-        };
-        checkPath = mkOption {
-          type = types.str;
-          default = "/";
-          description = "Gatus health path on this service.";
-        };
-        group = mkOption {
-          type = types.nullOr types.str;
-          default = null;
-          description = "Gatus group label.";
-        };
-        auth = mkOption {
-          type = types.bool;
-          default = false;
-          description = ''
-            Gate this vhost behind tinyauth (forward_auth). Path exceptions are
-            declared per app in modules/server/tinyauth.nix.
-          '';
-        };
-      };
-    }));
-    default = {};
   };
 }
