@@ -128,13 +128,13 @@ Must match the values in `modules/server/gatus.nix` on the VPS.
   Rotate by generating a new key and updating sops before it is needed again.
 - Headscale pushes split DNS `lab.almiraj.xyz -> 192.168.1.6`.
 - FRP and the VPS `home` SSH hop were removed; tailnet access replaces them.
-- Cloudflare DNS-only A records for every `*.lab.almiraj.xyz` name point to
-  `192.168.1.6`, so phone browsers that use public/DoH DNS still reach Niro on
-  the home LAN. Without Tailscale off-LAN those names resolve to a private IP
-- Cloudflare DNS-only A records for every `*.lab.almiraj.xyz` name point to
-  `192.168.1.6`, so phone browsers that use public/DoH DNS still reach Niro on
-  the home LAN. Without Tailscale off-LAN those names resolve to a private IP
-  and time out, which is intended.
+- Cloudflare DNS-only A records for every Niro Caddy vhost name
+  (`*.lab.almiraj.xyz`) point to `192.168.1.6`, so phone browsers that use
+  public/DoH DNS still reach Niro on the home LAN. Without Tailscale off-LAN
+  those names resolve to a private IP and time out, which is intended.
+  Synced by dnscontrol (`modules/selfhost/dnscontrol.nix`) on every rebuild;
+  the record list comes from the Niro Caddy vhosts and NO_PURGE leaves
+  every other record alone. Preview with `just dns-preview`.
 - ACL policy: `modules/server/headscale.nix` writes
   `/etc/headscale/policy.hujson` (grants: own devices plus
   `192.168.1.0/24` on 22/53/80/443/ICMP). Reload with

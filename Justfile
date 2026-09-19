@@ -11,6 +11,11 @@ update:
 write-flake:
 	nix run .#write-flake
 
+# Preview the lab DNS diff. dnscontrol reads the generated config and the
+# sops-rendered Cloudflare creds; root is needed for the creds file.
+dns-preview:
+	sudo dnscontrol preview --config /etc/dnscontrol/dnsconfig.js --creds /run/secrets/rendered/cloudflare-dns-creds.json
+
 # VPS (almiraj) — second host in this flake (aarch64)
 vps-host := "ssh.almiraj.xyz"
 vps-admin := "admin"
