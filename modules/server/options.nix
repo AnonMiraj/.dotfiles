@@ -17,9 +17,6 @@ in {
     "3x-ui" = {
       enable = mkEnableOption "3x-ui VPN/panel container";
     };
-    frps = {
-      enable = mkEnableOption "frp server (terminates home niro tunnels)";
-    };
     gatus = {
       enable = mkEnableOption "gatus uptime monitor";
     };

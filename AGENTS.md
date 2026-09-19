@@ -46,7 +46,6 @@ NixOS configuration for host `niro`, managed with `flake-parts`, `flake-file`, a
     - `caddy.nix` — Caddy vhosts
     - `homepage.nix` — Homepage dashboard entries
     - `gatus.nix` — local Gatus web config + generated endpoints
-    - `frp.nix` — FRP client tunnels
     - `push-status.nix` — pushes local health to the VPS Gatus
     - `acme.nix` — Let's Encrypt wildcard cert via Cloudflare DNS-01
     - `config.nix` — Avahi, dnsmasq, `/etc/hosts` split-brain entries
@@ -70,7 +69,7 @@ NixOS configuration for host `niro`, managed with `flake-parts`, `flake-file`, a
    myservice = { port = 1234; domain = "sub"; homepage.group = "Media"; };
    ```
 2. Optionally add NixOS config in `modules/selfhost/services.nix`.
-3. Caddy vhost, Homepage entry, FRP proxy, and Gatus check are auto-generated.
+3. Caddy vhost, Homepage entry, and Gatus check are auto-generated.
    The Let's Encrypt wildcard cert covers `*.<my.lan.domain>` automatically.
 ## Development Workflow
 
@@ -128,6 +127,7 @@ Must match the values in `modules/server/gatus.nix` on the VPS.
   lifetime (24h in the example); the registered node itself does not expire.
   Rotate by generating a new key and updating sops before it is needed again.
 - Headscale pushes split DNS `lab.almiraj.xyz -> 192.168.1.6`.
+- FRP and the VPS `home` SSH hop were removed; tailnet access replaces them.
 - VPS CLI: `sudo headscale users list`, `nodes list`, `nodes list-routes`,
   `nodes approve-routes -i 1 -r 192.168.1.0/24`.
 - New key: `sudo headscale preauthkeys create --user 1 --reusable --expiration 24h`.

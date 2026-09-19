@@ -8,7 +8,7 @@
   inherit (lib) mapAttrsToList;
   inherit (h) domain domainOf;
 in {
-  # 8880 is gone: Kokoro publishes on loopback only, so Caddy and frpc reach it
+  # 8880 is gone: Kokoro publishes on loopback only, so Caddy reaches it
   # without needing a firewall hole.
   networking.firewall.allowedTCPPorts = [53 80 443 6767 6768];
   networking.firewall.allowedUDPPorts = [53];

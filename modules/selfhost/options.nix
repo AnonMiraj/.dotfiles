@@ -3,7 +3,7 @@
 in {
   options.my = {
     services = mkOption {
-      description = "Self-hosted service metadata for generating Caddy, Homepage, FRP, Gatus";
+      description = "Self-hosted service metadata for generating Caddy, Homepage, Gatus";
       type = types.attrsOf (types.submodule ({...}: {
         options = {
           port = mkOption {
@@ -54,17 +54,6 @@ in {
             conditions = mkOption {
               type = types.listOf types.str;
               default = ["[STATUS] == 200"];
-            };
-          };
-          frp = {
-            enable = mkOption {
-              type = types.bool;
-              default = false;
-            };
-            remotePort = mkOption {
-              type = types.nullOr types.port;
-              default = null;
-              description = "Override remote port (default: same as local port)";
             };
           };
         };
@@ -135,7 +124,7 @@ in {
       address = mkOption {
         type = types.str;
         default = "152.53.81.54";
-        description = "Public IPv4 of the almiraj VPS (frp server and backup target).";
+        description = "Public IPv4 of the almiraj VPS (backup target).";
       };
     };
   };

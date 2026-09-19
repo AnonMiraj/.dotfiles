@@ -41,11 +41,6 @@ in rec {
     then svc.homepage.icon
     else "";
 
-  remotePortOf = svc:
-    if svc.frp.remotePort != null
-    then svc.frp.remotePort
-    else svc.port;
-
   # Gatus external-endpoint keys are "<group>_<name>", with anything awkward
   # inside a URL path or a `grep` pattern replaced by a dash.
   cleanKeyPart = s:

@@ -10,7 +10,7 @@ in {
       # The cached `:latest` here was v0.2.4 from June 2025, so the model sat
       # in VRAM forever and the container never released it.
       image = "ghcr.io/remsky/kokoro-fastapi-gpu:v0.9.0";
-      # Loopback only: Caddy and frpc reach it, nothing else, so 8880 needs no
+      # Loopback only: Caddy reaches it, nothing else, so 8880 needs no
       # firewall hole.
       ports = ["127.0.0.1:${toString kokoroPort}:8880"];
       extraOptions = [

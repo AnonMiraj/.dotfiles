@@ -44,13 +44,11 @@
         my.server.public = true;
 
         # Services enabled now (mail + github-runner deferred):
-        # - frps: frp tunnel terminus for home (sops frps-toml)
         # - gatus: status page behind Caddy
         # - bosla: docker app stack (images must exist for the containers to start)
         # - 3x-ui: containerized VPN panel
         # - stats: GoAccess HTML reports built from the Caddy access logs
         # - cashflow: nix-built game server behind Caddy (see modules/server/cashflow.nix)
-        my.server.frps.enable = true;
         my.server.gatus.enable = true;
         my.server.bosla.enable = true;
         my.server.runner.enable = true;

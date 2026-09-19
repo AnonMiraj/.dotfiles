@@ -9,8 +9,6 @@
 #   homepage.icon = "https://...";      # optional — icon URL
 #   gatus.enable = true;                # optional — default true
 #   gatus.checkPath = "/health";        # optional — default "/"
-#   frp.enable = true;                  # optional — expose via FRP
-#   frp.remotePort = 8881;              # optional — default same as port
 # };
 {...}: {
   my.services = {
@@ -19,8 +17,6 @@
       domain = "ssh";
       homepage.enable = false;
       gatus.enable = false;
-      frp.enable = true;
-      frp.remotePort = 2222;
     };
     jellyfin = {
       port = 8096;
@@ -35,7 +31,6 @@
       homepage.icon = "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@main/png/code-server.png";
       homepage.description = "AI coding agent orchestration";
       gatus.checkPath = "/api/health";
-      frp.enable = true;
     };
     transmission = {
       port = 9091;
@@ -100,8 +95,6 @@
       # so probing it is safe: health checks are not inference and neither
       # delay the unload nor reload the model.
       gatus.checkPath = "/health";
-      frp.enable = true;
-      frp.remotePort = 8881;
     };
     homepage-dashboard = {
       port = 8082;
