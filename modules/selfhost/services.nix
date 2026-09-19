@@ -96,7 +96,7 @@ in {
       rpc-port = 9091;
       rpc-bind-address = "0.0.0.0";
       rpc-host-whitelist = "torr.${domain}";
-      rpc-whitelist = "127.0.0.1,192.168.1.*";
+      rpc-whitelist = "127.0.0.1,${config.my.lan.subnet}";
       peer-port = 51413;
       umask = 2;
     };

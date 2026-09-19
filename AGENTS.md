@@ -49,7 +49,7 @@ NixOS configuration for host `niro`, managed with `flake-parts`, `flake-file`, a
     - `push-status.nix` — pushes local health to the VPS Gatus
     - `acme.nix` — Let's Encrypt wildcard cert via Cloudflare DNS-01
     - `config.nix` — Avahi, dnsmasq, `/etc/hosts` split-brain entries
-    - `headscale-client.nix` — Tailscale client + 192.168.1.0/24 subnet router
+    - `headscale-client.nix` — Tailscale client + `my.lan.subnet` subnet router
     - `containers.nix` — docker containers
     - `hotspot.nix` — NetworkManager hotspot profile
     - `services.nix` — NixOS service enablement
@@ -122,11 +122,11 @@ Must match the values in `modules/server/gatus.nix` on the VPS.
 ## Headscale (tailnet)
 
 - Control server: `https://headscale.almiraj.xyz` (VPS, `modules/server/headscale.nix`).
-- Home node: `niro` (`modules/selfhost/headscale-client.nix`) advertises `192.168.1.0/24`.
+- Home node: `niro` (`modules/selfhost/headscale-client.nix`) advertises `my.lan.subnet`.
 - Preauth key: `secrets/secrets.yaml` as `headscale-auth-key`. It has a limited
   lifetime (24h in the example); the registered node itself does not expire.
   Rotate by generating a new key and updating sops before it is needed again.
-- Headscale pushes split DNS `lab.almiraj.xyz -> 192.168.1.6`.
+- Headscale pushes split DNS `my.lan.domain -> my.lan.address`.
 - FRP and the VPS `home` SSH hop were removed; tailnet access replaces them.
 - Cloudflare DNS-only A records for every Niro Caddy vhost name
   (`*.lab.almiraj.xyz`) point to `192.168.1.6`, so phone browsers that use
@@ -137,7 +137,7 @@ Must match the values in `modules/server/gatus.nix` on the VPS.
   every other record alone. Preview with `just dns-preview`.
 - ACL policy: `modules/server/headscale.nix` writes
   `/etc/headscale/policy.hujson` (grants: own devices plus
-  `192.168.1.0/24` on 22/53/80/443/ICMP). Reload with
+  `my.lan.subnet` on 22/53/80/443/ICMP). Reload with
   `sudo systemctl reload headscale`; the unit restarts when the file changes.
 - Embedded DERP is enabled on the VPS (region 999, STUN UDP 3478); TLS is
   terminated by Caddy on 443.

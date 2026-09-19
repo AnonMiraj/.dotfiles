@@ -32,11 +32,11 @@
           override_local_dns = true;
           nameservers = {
             global = ["1.1.1.1" "1.0.0.1"];
-            # Split DNS: tailnet clients send *.lab.almiraj.xyz to Niro's
-            # dnsmasq through the approved 192.168.1.0/24 subnet route.
-            split."lab.almiraj.xyz" = ["192.168.1.6"];
+            # Split DNS: tailnet clients send *.${config.my.lan.domain} to the
+            # home resolver through the approved my.lan.subnet route.
+            split."${config.my.lan.domain}" = [config.my.lan.address];
           };
-          search_domains = ["lab.almiraj.xyz"];
+          search_domains = [config.my.lan.domain];
         };
         policy = {
           mode = "file";
@@ -73,7 +73,7 @@
           },
           {
             "src": ["autogroup:member"],
-            "dst": ["192.168.1.0/24"],
+            "dst": ["${config.my.lan.subnet}"],
             "ip": ["22", "53", "80", "443", "icmp:*"]
           }
         ]

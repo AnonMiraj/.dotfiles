@@ -1,7 +1,7 @@
 # Tailscale client on niro, joined to the self-hosted Headscale server.
 #
-# niro advertises 192.168.1.0/24, so tailnet devices can reach the split-brain
-# `*.lab.almiraj.xyz` names (and the rest of the home LAN) while away from
+# niro advertises my.lan.subnet, so tailnet devices can reach the split-brain
+# `*.${config.my.lan.domain}` names (and the rest of the home LAN) while away
 # home. Headscale hands out the auth key; store it in sops.
 {
   config,
@@ -19,12 +19,12 @@
       extraUpFlags = [
         "--login-server"
         "https://headscale.almiraj.xyz"
-        "--advertise-routes=192.168.1.0/24"
+        "--advertise-routes=${config.my.lan.subnet}"
       ];
     };
 
     # NixOS' default nftables rules drop forwarded packets; allow the
-    # tailnet -> LAN direction for the advertised 192.168.1.0/24 route.
+    # tailnet -> LAN direction for the advertised my.lan.subnet route.
     networking.firewall.extraForwardRules = ''
       iifname "tailscale0" oifname "${config.my.lan.interface}" accept
     '';

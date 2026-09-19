@@ -4,6 +4,8 @@
   pkgs,
   ...
 }: {
+  imports = [./shared-lan.nix];
+
   # Shared NixOS base — imported by every host (desktop `niro` + VPS `almiraj`).
   #
   # Everything else under modules/ is desktop-only: `nix/hosts/niro/default.nix`

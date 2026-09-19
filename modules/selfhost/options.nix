@@ -96,30 +96,6 @@ in {
         description = "Timer interval (e.g. 2m, 5m)";
       };
     };
-    lan = {
-      domain = mkOption {
-        type = types.str;
-        default = "lab.almiraj.xyz";
-        description = "Internal split-brain DNS zone. Services get <name>.<lan.domain>; the same names resolve to my.lan.address on the LAN and are covered by the Let's Encrypt wildcard cert from modules/selfhost/acme.nix.";
-      };
-      address = mkOption {
-        type = types.str;
-        default = "192.168.1.6";
-        description = "LAN IP of this host, advertised by dnsmasq for <lan.domain>.";
-      };
-      interface = mkOption {
-        type = types.str;
-        default = "enp43s0";
-        description = "LAN interface dnsmasq binds to (in addition to lo).";
-      };
-      headscale = {
-        enable = mkOption {
-          type = types.bool;
-          default = true;
-          description = "Join the Headscale tailnet and advertise 192.168.1.0/24.";
-        };
-      };
-    };
     vps = {
       address = mkOption {
         type = types.str;
