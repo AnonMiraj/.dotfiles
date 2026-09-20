@@ -37,6 +37,18 @@
         mkdir -p "$XDG_CONFIG_HOME/hypr" "$XDG_RUNTIME_DIR"
         cp -rL ${hyprDir}/. "$XDG_CONFIG_HOME/hypr/"
 
+        # `--verify-config` parses the config and exits without ever starting
+        # the event loop, but the Lua config manager destroys its timers on the
+        # way out (CConfigManager::cleanTimers -> CEventLoopManager::
+        # removeTimer) and dereferences that unstarted loop as soon as the
+        # config registered one: exit 139 with no parsing result at all.
+        # Scrolloverview's repeating timer does that, so stub the constructor
+        # out before the config runs. Timing cannot be checked here anyway, and
+        # every other hl.* call still goes through the real parser.
+        printf '%s\n' 'hl.timer = function() return {} end' > hyprland.lua.stub
+        cat "$XDG_CONFIG_HOME/hypr/hyprland.lua" >> hyprland.lua.stub
+        mv hyprland.lua.stub "$XDG_CONFIG_HOME/hypr/hyprland.lua"
+
         export HYPRLAND_CONFIG=$XDG_CONFIG_HOME/hypr/hyprland.lua
         export LUA_PATH="$XDG_CONFIG_HOME/hypr/?.lua;$XDG_CONFIG_HOME/hypr/?/init.lua;;"
 
