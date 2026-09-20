@@ -15,8 +15,11 @@
 
     address = lib.mkOption {
       type = lib.types.str;
+      # Must match the desktop's LAN address: the VPS has no other source
+      # for it and pushes it to every tailnet client as the split-DNS
+      # resolver for <lan.domain>.
       default = "192.168.1.6";
-      description = "LAN IP of the home host, advertised by dnsmasq for <lan.domain>.";
+      description = "LAN IP of the home host, advertised by dnsmasq for <lan.domain> and used as the Headscale split-DNS nameserver.";
     };
     interfaces = lib.mkOption {
       type = lib.types.listOf lib.types.str;

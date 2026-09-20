@@ -47,10 +47,20 @@ in {
         "/_acme-challenge.${domain}/1.1.1.1"
         "/_acme-challenge.${domain}/8.8.8.8"
       ];
-      # Bind only to loopback + the LAN interfaces, not 0.0.0.0:53.
+      # Bind only to loopback, the LAN interfaces and the tailnet, not
+      # 0.0.0.0:53.
+      #
+      # `tailscale0` is required for the Headscale split DNS: dnsmasq drops
+      # UDP queries that arrive on an interface it is not configured for
+      # (it matches the *arriving* interface name; only bind-dynamic alias
+      # labels get the address fallback). Tunnel queries for 192.168.1.6
+      # arrive on tailscale0, so without it every tailnet device resolves
+      # *.${domain} through a resolver that never answers (TCP still works,
+      # UDP times out, which is what breaks browsers).
       interface =
         [
           "lo"
+          "tailscale0"
         ]
         ++ config.my.lan.interfaces;
       # bind-dynamic (not bind-interfaces): tolerates the iface not
