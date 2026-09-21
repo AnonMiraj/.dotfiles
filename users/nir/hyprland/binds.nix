@@ -246,7 +246,8 @@ in {
     ++ wsMove
     ++ [
       # ── Mouse wheel — workspace / column navigation ──────
-      # ws_cycle walks only the workspaces that exist on the active monitor.
+      # ws_cycle walks the occupied workspaces on the active monitor plus one
+      # empty workspace past the last of them, then wraps.
       (mkb "SUPER + mouse_down" ''
         function()
           ws_cycle(1)

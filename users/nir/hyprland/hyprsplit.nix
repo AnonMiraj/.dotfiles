@@ -139,33 +139,55 @@ in {
     hl.on("window.move_to_workspace", schedule_normalize)
     hl.on("window.close", schedule_normalize)
 
+    -- ws_cycle walks what the wheel is meant to reach: the workspaces that hold
+    -- windows, plus one empty slot past the last of them, then wraps. With 1 and
+    -- 2 open, down goes 1 -> 2 -> 3 (fresh and empty) -> 1. Empty workspaces
+    -- left behind are skipped again once they are no longer the trailing slot.
     ws_cycle = function(step)
       local monitor = hl.get_active_monitor()
       if monitor == nil then
         return
       end
 
-      local ids = {}
+      local occupied, existing = {}, {}
       for _, id in ipairs(live_ids()) do
         local ws = hl.get_workspace(id)
         if ws ~= nil and ws.monitor ~= nil and ws.monitor.name == monitor.name then
-          table.insert(ids, id)
+          table.insert(existing, id)
+          if ws.windows ~= nil and ws.windows > 0 then
+            table.insert(occupied, id)
+          end
         end
       end
-      if #ids == 0 then
+
+      -- Nothing holds a window: fall back to plain cycling over what exists.
+      local ring = occupied
+      if #occupied == 0 then
+        ring = existing
+      else
+        -- The empty slot past the last occupied workspace, unless that id would
+        -- land in the next monitor's block (hyprsplit reserves NUM_WORKSPACES
+        -- ids per monitor, see hs.config above).
+        local last = occupied[#occupied]
+        local limit = (math.floor((last - 1) / NUM_WORKSPACES) + 1) * NUM_WORKSPACES
+        if last < limit then
+          table.insert(ring, last + 1)
+        end
+      end
+      if #ring == 0 then
         return
       end
 
       local active = monitor.active_workspace and monitor.active_workspace.id
       local index = nil
-      for i, id in ipairs(ids) do
+      for i, id in ipairs(ring) do
         if id == active then
           index = i
         end
       end
 
-      local next_index = index ~= nil and ((index - 1 + step) % #ids) + 1 or (step > 0 and 1 or #ids)
-      hl.dispatch(hl.dsp.focus({ workspace = tostring(ids[next_index]) }))
+      local next_index = index ~= nil and ((index - 1 + step) % #ring) + 1 or (step > 0 and 1 or #ring)
+      hl.dispatch(hl.dsp.focus({ workspace = tostring(ring[next_index]) }))
     end
 
     -- Workspaces of one monitor, ascending.
