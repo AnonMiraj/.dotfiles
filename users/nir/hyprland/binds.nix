@@ -16,11 +16,19 @@
   # Same, plus bind flags: mouse drag/resize needs `{ mouse = true }`.
   mkbFlag = keys: expr: flags: {_args = [keys (lua expr) flags];};
 
+  # Holding the key repeats the dispatcher. Hyprland's flag is spelled
+  # `repeating` in `hl.bind` opts, and the combo is rejected alongside
+  # `long_press`/`release`, so it gets its own helper.
+  mkbRepeat = keys: expr: {_args = [keys (lua expr) {repeating = true;}];};
+
   # keys -> command string, run through `sh -c`
   exec = keys: cmd: mkb keys "hl.dsp.exec_cmd(${builtins.toJSON cmd})";
 
   # noctalia IPC helper
   noctalia = keys: args: exec keys "noctalia msg ${args}";
+
+  # Same, for continuous controls: volume and brightness ramp while held.
+  noctaliaRepeat = keys: args: mkbRepeat keys "hl.dsp.exec_cmd(${builtins.toJSON "noctalia msg ${args}"})";
 
   # direction helpers
   focusDir = keys: dir: mkb keys "hl.dsp.focus({ direction = ${builtins.toJSON dir} })";
@@ -67,19 +75,21 @@ in {
   wayland.windowManager.hyprland.settings.bind =
     [
       # ── Media keys ───────────────────────────────────────
-      (noctalia "XF86AudioRaiseVolume" "volume-up 3")
-      (noctalia "XF86AudioLowerVolume" "volume-down 3")
+      # Sliders repeat while held; toggles (mute/mic/transport) must not, or
+      # holding the key would spam them.
+      (noctaliaRepeat "XF86AudioRaiseVolume" "volume-up 3")
+      (noctaliaRepeat "XF86AudioLowerVolume" "volume-down 3")
       (noctalia "XF86AudioMute" "volume-mute")
       (noctalia "XF86AudioMicMute" "mic-mute")
-      (noctalia "XF86MonBrightnessUp" "brightness-up current 5")
-      (noctalia "XF86MonBrightnessDown" "brightness-down current 5")
+      (noctaliaRepeat "XF86MonBrightnessUp" "brightness-up current 5")
+      (noctaliaRepeat "XF86MonBrightnessDown" "brightness-down current 5")
       (noctalia "XF86AudioPlay" "media toggle")
       (noctalia "XF86AudioPause" "media toggle")
       (noctalia "XF86AudioNext" "media next")
       (noctalia "XF86AudioPrev" "media previous")
       (noctalia "XF86AudioStop" "media stop")
-      (noctalia "SUPER + U" "brightness-up current 5")
-      (noctalia "SUPER + SHIFT + U" "brightness-down current 5")
+      (noctaliaRepeat "SUPER + U" "brightness-up current 5")
+      (noctaliaRepeat "SUPER + SHIFT + U" "brightness-down current 5")
       # ── Clipboard & tools ────────────────────────────────
       # niri had both `Mod+V` (vicinae) and `Super+V` (noctalia) on the same
       # key; they are split here so no bind is shadowed.
@@ -91,7 +101,33 @@ in {
       # ── Window management ────────────────────────────────
       (mkb "SUPER + F" "hl.dsp.window.fullscreen({ mode = \"maximized\" })")
       (mkb "SUPER + SHIFT + F" "hl.dsp.window.fullscreen()")
-      (mkb "SUPER + S" "hl.dsp.window.float()")
+      # Sticky float: SUPER + S floats, pins and raises the active window, and
+      # pressing it again drops both. `pin` alone is ignored on tiled windows
+      # (window-rule docs: "pinning is ignored for non-floating windows"), and it
+      # is also refused on fullscreen ones -- ConfigActions::pinWindow returns
+      # "Window does not qualify to be pinned" -- so float has to come first and
+      # the window must not be fullscreen yet.
+      #
+      # `bring_to_top` (CA::alterZOrder("top")) is the only always-on-top
+      # Hyprland has; pinned floats already render above unpinned ones.
+      #
+      # Key must stay unique: duplicate binds are not deduplicated
+      # (MatchResolver puts every full match in `immediate`, Manager invokes them
+      # all), and SUPER + SHIFT + S below is the region screenshot.
+      (mkb "SUPER + S" ''
+        function()
+          local w = hl.get_active_window()
+          if w == nil then return end
+          if w.pinned then
+            hl.dispatch(hl.dsp.window.pin({ window = w, action = "disable" }))
+            hl.dispatch(hl.dsp.window.float({ window = w, action = "disable" }))
+          else
+            hl.dispatch(hl.dsp.window.float({ window = w, action = "enable" }))
+            hl.dispatch(hl.dsp.window.pin({ window = w, action = "enable" }))
+            hl.dispatch(hl.dsp.window.bring_to_top())
+          end
+        end
+      '')
       (mkb "SUPER + Q" "hl.dsp.window.close()")
       (exec "SUPER + CTRL + Q" "hyprctl kill")
       (mkbFlag "SUPER + mouse:272" "hl.dsp.window.drag()" {mouse = true;})
