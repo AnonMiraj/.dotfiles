@@ -164,8 +164,8 @@
       # ── Zen browser — browser workspace, maximized ───────
       {
         match.class = "^zen-beta$";
-        # browser is workspace 1 of eDP-1 (underlying id 1 under hyprsplit).
-        workspace = "1";
+        # # browser is workspace 1 of eDP-1 (underlying id 1 under hyprsplit).
+        # workspace = "1";
         maximize = true;
         scrolling_width = 0.5;
       }
@@ -175,6 +175,7 @@
           title = "^Picture-in-Picture$";
         };
         float = true;
+        maximize = false;
       }
     ];
 
