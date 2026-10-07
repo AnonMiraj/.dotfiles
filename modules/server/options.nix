@@ -35,6 +35,9 @@ in {
     gsoc = {
       enable = mkEnableOption "GSoC organizations mirror (gsoc.almiraj.xyz → www.gsocorganizations.dev)";
     };
+    scribe = {
+      enable = mkEnableOption "Scribe waitlist site (scribe.mko.software)";
+    };
     stats = {
       enable = mkEnableOption "GoAccess access-log reports (stats.almiraj.xyz)";
     };

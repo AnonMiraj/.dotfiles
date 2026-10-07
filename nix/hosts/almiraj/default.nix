@@ -25,6 +25,7 @@
         my.server.aldebaran.enable = true;
         my.server.goatcounter.enable = true;
         my.server.gsoc.enable = true;
+        my.server.scribe.enable = true;
         my.server.stats = {
           enable = true;
           anonymizeIp = false; # report sits behind tinyauth
